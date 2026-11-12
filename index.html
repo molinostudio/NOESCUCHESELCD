@@ -6,6 +6,8 @@
     <title>No escuches el CD</title>
     <!-- Tipografía recta estilo marcador (correspondiente a la Opción 1) y fuente de reproductor -->
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Itim&family=Patrick+Hand&family=Shantell+Sans:wght@600&display=swap" rel="stylesheet">
+    <!-- Librería Tone.js para sintetizar sonidos mecánicos del Discman (Play / Motor / Eject) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     
     <style>
         * {
@@ -70,7 +72,7 @@
             position: absolute;
             inset: 1.5%;
             border-radius: 50%;
-            background-image: url('noescuches_2.webp');
+            background-image: url('assets/images/noescuches.webp');
             background-size: 112% auto;
             background-position: 50% 45%;
             background-repeat: no-repeat;
@@ -311,6 +313,39 @@
             color: #000000;
             border-color: #f5f5f2;
         }
+
+        /* Barra inferior sutil para control de audio y prueba de imagen local en Preview */
+        #utility-bar {
+            position: fixed;
+            bottom: 14px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            z-index: 40;
+            pointer-events: none;
+        }
+
+        .util-btn {
+            pointer-events: auto;
+            background: rgba(12, 12, 12, 0.82);
+            color: #9a9a9a;
+            border: 1px solid #2b2b2b;
+            padding: 6px 12px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .util-btn:hover {
+            color: #ffffff;
+            border-color: #666666;
+        }
     </style>
 </head>
 <body>
@@ -408,6 +443,15 @@
         </div>
     </div>
 
+    <!-- Controles discretos: prueba de imagen local para el Preview y silenciador de audio -->
+    <div id="utility-bar">
+        <label class="util-btn" for="local-img-input" title="Carga tu imagen local para verla en esta vista previa">
+            + PROBAR IMAGEN LOCAL
+            <input type="file" id="local-img-input" accept="image/*" style="display: none;">
+        </label>
+        <button id="audio-toggle-btn" class="util-btn" onclick="toggleAudio()">🔊 SONIDO: ON</button>
+    </div>
+
     <!-- Pantalla de contenido al abrir un track -->
     <div id="content-screen">
         <p id="playing-status">▶ TRACK EN REPRODUCCIÓN</p>
@@ -422,18 +466,188 @@
         const lid = document.getElementById('discman-lid');
         const contentScreen = document.getElementById('content-screen');
         const playingTitle = document.getElementById('playing-title');
+        const audioToggleBtn = document.getElementById('audio-toggle-btn');
+        const localImgInput = document.getElementById('local-img-input');
         let isTransitioning = false;
+        let audioMuted = false;
 
-        // Respaldo automático de imagen por si el archivo local tiene otro nombre
+        // ==========================================
+        // SINTETIZADOR DE SONIDOS DEL DISCMAN (Tone.js)
+        // ==========================================
+        const DiscmanAudio = {
+            initialized: false,
+
+            async init() {
+                if (this.initialized || typeof Tone === 'undefined') return;
+                try {
+                    await Tone.start();
+                    this.initialized = true;
+                } catch (e) {
+                    // El navegador puede requerir interacción directa antes de iniciar audio
+                }
+            },
+
+            // Sonido al presionar Play: clic mecánico + aceleración de motor + lectura láser + cierre de tapa
+            async playSequence() {
+                if (audioMuted || typeof Tone === 'undefined') return;
+                await this.init();
+                const now = Tone.now();
+
+                // 1. Clic físico del botón Play
+                const clickNoise = new Tone.NoiseSynth({
+                    noise: { type: 'white' },
+                    envelope: { attack: 0.001, decay: 0.025, sustain: 0, release: 0.01 }
+                }).toDestination();
+                clickNoise.volume.value = -10;
+                clickNoise.triggerAttackRelease('32n', now);
+
+                const buttonThud = new Tone.MembraneSynth({
+                    pitchDecay: 0.02,
+                    octaves: 3,
+                    envelope: { attack: 0.001, decay: 0.06, sustain: 0, release: 0.02 }
+                }).toDestination();
+                buttonThud.volume.value = -12;
+                buttonThud.triggerAttackRelease('C2', '32n', now);
+
+                // 2. Motor girando y tomando velocidad (barrido ascendente)
+                const motorFilter = new Tone.Filter(320, 'lowpass').toDestination();
+                const motorGain = new Tone.Gain(0.001).connect(motorFilter);
+                const motorOsc = new Tone.Oscillator({
+                    type: 'sawtooth',
+                    frequency: 85
+                }).connect(motorGain);
+
+                motorOsc.start(now + 0.06);
+                motorGain.gain.exponentialRampToValueAtTime(0.08, now + 0.35);
+                motorOsc.frequency.exponentialRampToValueAtTime(390, now + 1.45);
+                motorGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.9);
+                motorOsc.stop(now + 1.95);
+
+                // 3. Pulsos sutiles del lente láser leyendo la pista del CD
+                const laserFilter = new Tone.Filter(2400, 'bandpass').toDestination();
+                const laserPulse = new Tone.NoiseSynth({
+                    noise: { type: 'pink' },
+                    envelope: { attack: 0.005, decay: 0.035, sustain: 0, release: 0.01 }
+                }).connect(laserFilter);
+                laserPulse.volume.value = -18;
+                laserPulse.triggerAttackRelease('32n', now + 0.35);
+                laserPulse.triggerAttackRelease('32n', now + 0.52);
+                laserPulse.triggerAttackRelease('32n', now + 0.78);
+
+                // 4. Golpe seco de la tapa acrílica al cerrarse
+                const lidSnap = new Tone.NoiseSynth({
+                    noise: { type: 'brown' },
+                    envelope: { attack: 0.002, decay: 0.07, sustain: 0, release: 0.02 }
+                }).toDestination();
+                lidSnap.volume.value = -8;
+                lidSnap.triggerAttackRelease('16n', now + 1.35);
+
+                // Limpieza de nodos tras finalizar
+                setTimeout(() => {
+                    clickNoise.dispose();
+                    buttonThud.dispose();
+                    motorOsc.dispose();
+                    motorGain.dispose();
+                    motorFilter.dispose();
+                    laserPulse.dispose();
+                    laserFilter.dispose();
+                    lidSnap.dispose();
+                }, 2200);
+            },
+
+            // Sonido al presionar Eject: traba mecánica + frenado del disco + apertura de tapa
+            async ejectSequence() {
+                if (audioMuted || typeof Tone === 'undefined') return;
+                await this.init();
+                const now = Tone.now();
+
+                // 1. Liberación metálica del botón Eject
+                const latchClick = new Tone.NoiseSynth({
+                    noise: { type: 'white' },
+                    envelope: { attack: 0.001, decay: 0.04, sustain: 0, release: 0.01 }
+                }).toDestination();
+                latchClick.volume.value = -9;
+                latchClick.triggerAttackRelease('32n', now);
+
+                // 2. Motor frenando (barrido descendente)
+                const brakeFilter = new Tone.Filter(280, 'lowpass').toDestination();
+                const brakeGain = new Tone.Gain(0.07).connect(brakeFilter);
+                const brakeOsc = new Tone.Oscillator({
+                    type: 'triangle',
+                    frequency: 340
+                }).connect(brakeGain);
+
+                brakeOsc.start(now + 0.03);
+                brakeOsc.frequency.exponentialRampToValueAtTime(52, now + 0.95);
+                brakeGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
+                brakeOsc.stop(now + 1.05);
+
+                // 3. Resorte de apertura de la tapa
+                const lidPop = new Tone.MembraneSynth({
+                    pitchDecay: 0.04,
+                    octaves: 2,
+                    envelope: { attack: 0.002, decay: 0.09, sustain: 0, release: 0.03 }
+                }).toDestination();
+                lidPop.volume.value = -11;
+                lidPop.triggerAttackRelease('G2', '16n', now + 0.55);
+
+                setTimeout(() => {
+                    latchClick.dispose();
+                    brakeOsc.dispose();
+                    brakeGain.dispose();
+                    brakeFilter.dispose();
+                    lidPop.dispose();
+                }, 1400);
+            }
+        };
+
+        function toggleAudio() {
+            audioMuted = !audioMuted;
+            audioToggleBtn.innerText = audioMuted ? '🔇 SONIDO: OFF' : '🔊 SONIDO: ON';
+            if (!audioMuted) {
+                DiscmanAudio.init();
+            }
+        }
+
+        // Permite cargar una imagen local directamente en el Preview
+        localImgInput.addEventListener('change', (event) => {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            const objectUrl = URL.createObjectURL(file);
+            cdArtwork.innerHTML = '';
+            cdArtwork.style.backgroundImage = `url('${objectUrl}')`;
+        });
+
+        // Busca la imagen en la carpeta assets/images/ (ideal para GitHub) y usa un halo guía si aún no está subida
         (function ensureArtworkLoads() {
-            const candidates = ['noescuches_2.webp', 'noescuches.webp', 'image_0caa4e.png', 'image_0e6296.png'];
+            const candidates = [
+                'assets/images/noescuches.webp',
+                'assets/images/noescuches_2.webp',
+                'img/noescuches.webp',
+                'noescuches_2.webp',
+                'noescuches.webp'
+            ];
             let index = 0;
 
+            function showSandboxFallback() {
+                cdArtwork.style.backgroundImage = 'none';
+                cdArtwork.innerHTML = `
+                    <svg viewBox="0 0 500 500" width="100%" height="100%" aria-hidden="true">
+                        <circle cx="250" cy="215" r="105" fill="#e6e6e2" opacity="0.88" />
+                        <circle cx="250" cy="215" r="105" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.4" />
+                    </svg>
+                `;
+            }
+
             function tryNext() {
-                if (index >= candidates.length) return;
+                if (index >= candidates.length) {
+                    showSandboxFallback();
+                    return;
+                }
                 const img = new Image();
                 const currentSrc = candidates[index++];
                 img.onload = () => {
+                    cdArtwork.innerHTML = '';
                     cdArtwork.style.backgroundImage = `url('${currentSrc}')`;
                 };
                 img.onerror = tryNext;
@@ -458,6 +672,9 @@
             if (isTransitioning) return;
             isTransitioning = true;
 
+            // Dispara el sonido mecánico de Play + motor + cierre de tapa
+            DiscmanAudio.playSequence();
+
             // 1. El CD comienza a girar
             cd.classList.add('spinning');
 
@@ -478,6 +695,9 @@
         function stopDisc() {
             if (isTransitioning) return;
             isTransitioning = true;
+
+            // Dispara el sonido mecánico de Eject + frenado del disco
+            DiscmanAudio.ejectSequence();
 
             contentScreen.classList.remove('show-content');
 
