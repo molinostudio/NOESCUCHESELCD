@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No escuches el CD — Molino Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <title>No escuches el CD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,7 +14,7 @@
         body {
             background-color: #050505;
             color: #fff;
-            font-family: sans-serif;
+            font-family: 'Space Mono', monospace;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,44 +26,147 @@
             --body-shadow: #4d0026;
         }
 
-        /* --- CUSTOMIZADOR DE COLOR --- */
-        #theme-customizer {
+        /* --- BARRA SUPERIOR IZQUIERDA (Arcoíris + Sharpie + Stickers + Descarga) --- */
+        #top-tools {
             position: absolute;
             top: 25px; left: 25px;
-            display: flex; align-items: center; gap: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
             z-index: 100;
-            background: rgba(20,20,20,0.8);
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        #theme-customizer label {
-            font-size: 12px;
-            letter-spacing: 1px;
-            color: #ccc;
-            text-transform: uppercase;
         }
 
-        /* Estilizar el input type="color" para que parezca un botón redondo */
+        /* --- CUSTOMIZADOR DE COLOR (Solo arcoíris, sin círculo contenedor) --- */
+        #theme-customizer {
+            position: relative;
+            width: 45px; height: 33px;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.15s ease;
+        }
+
+        #theme-customizer:hover {
+            transform: scale(1.08);
+        }
+
         #colorPicker {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            width: 32px; height: 32px;
-            background-color: transparent;
-            border: none;
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
             cursor: pointer;
+            z-index: 2;
         }
-        #colorPicker::-webkit-color-swatch {
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.8);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+
+        .tool-icon-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.78);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.15s ease, color 0.15s ease, filter 0.15s ease;
+            outline: none;
         }
-        #colorPicker::-moz-color-swatch {
+
+        .tool-icon-btn:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .tool-icon-btn.active {
+            color: var(--body-light);
+            filter: drop-shadow(0 0 6px var(--body-base));
+            transform: scale(1.1);
+        }
+
+        /* Sub-paneles flotantes minimalistas para Sharpie y Stickers */
+        .tool-popover {
+            position: absolute;
+            top: 72px;
+            left: 25px;
+            background: rgba(14, 14, 17, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 105;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .tool-popover.open {
+            display: flex;
+        }
+
+        .ink-swatch {
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.8);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: transform 0.12s ease, border-color 0.12s ease;
+        }
+
+        .ink-swatch:hover, .ink-swatch.selected {
+            transform: scale(1.15);
+            border-color: var(--body-light);
+        }
+
+        .mini-action-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #eee;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .mini-action-btn:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: var(--body-light);
+        }
+
+        #sticker-popover {
+            flex-wrap: wrap;
+            max-width: 320px;
+            gap: 8px;
+        }
+
+        .sticker-choice {
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.12s ease, background 0.12s ease;
+        }
+
+        .sticker-choice:hover {
+            transform: scale(1.12);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        #sticker-controls-bar {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* --- LAYOUT PRINCIPAL --- */
@@ -81,16 +186,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1600px; /* Profundidad de cámara */
+            perspective: 1600px;
         }
 
         #discman-device {
             position: relative;
             width: min(86vw, 440px);
             aspect-ratio: 440 / 484;
-            /* Inclinación isométrica general del aparato */
             transform: rotateX(15deg) translateY(-10px);
-            transform-style: preserve-3d; /* Permite que la tapa gire en 3D respecto a la base */
+            transform-style: preserve-3d;
             filter: drop-shadow(0 35px 45px rgba(0, 0, 0, 0.95));
         }
 
@@ -111,41 +215,63 @@
             z-index: 5;
         }
 
+        /* --- CD PLATEADO IRIDISCENTE --- */
         #cd-disc {
             position: absolute; inset: 2%; border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, #161616 0%, #0c0c0c 72%, #181818 98%, #3a3a3a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.16); z-index: 6;
+            background:
+                conic-gradient(
+                    from 25deg at 50% 50%,
+                    rgba(215, 218, 224, 0.95) 0deg,
+                    rgba(255, 255, 255, 0.98) 28deg,
+                    rgba(135, 228, 255, 0.88) 52deg,
+                    rgba(182, 148, 255, 0.85) 74deg,
+                    rgba(255, 140, 210, 0.85) 95deg,
+                    rgba(255, 218, 128, 0.9) 115deg,
+                    rgba(225, 228, 232, 0.96) 142deg,
+                    rgba(185, 190, 196, 0.95) 180deg,
+                    rgba(250, 252, 255, 0.98) 212deg,
+                    rgba(130, 238, 212, 0.86) 238deg,
+                    rgba(138, 175, 255, 0.88) 262deg,
+                    rgba(245, 150, 235, 0.85) 286deg,
+                    rgba(255, 238, 150, 0.9) 308deg,
+                    rgba(205, 208, 214, 0.95) 336deg,
+                    rgba(215, 218, 224, 0.95) 360deg
+                );
+            border: 2px solid rgba(155, 160, 168, 0.85);
+            box-shadow:
+                inset 0 0 14px rgba(0, 0, 0, 0.35),
+                inset 0 0 3px rgba(255, 255, 255, 0.8),
+                0 2px 8px rgba(0, 0, 0, 0.8);
+            z-index: 6;
         }
 
-        #cd-artwork {
-            position: absolute; inset: 0; border-radius: 50%;
-            background-image: url('assets/images/noescuches_2_2.webp');
-            background-size: 86% auto; background-position: 50% 55%; background-repeat: no-repeat;
-            filter: grayscale(100%) contrast(132%) brightness(94%); mix-blend-mode: lighten;
-            -webkit-mask-image: radial-gradient(ellipse 42% 23% at 50% 55%, #000 72%, rgba(0,0,0,0.5) 88%, transparent 100%);
-            mask-image: radial-gradient(ellipse 42% 23% at 50% 55%, #000 72%, rgba(0,0,0,0.5) 88%, transparent 100%); z-index: 7;
-        }
-
+        /* Aro central claro del CD */
         #cd-hub {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 27%; height: 27%; border-radius: 50%;
-            background: radial-gradient(circle, rgba(0,0,0,0.75) 0%, rgba(20,20,20,0.52) 68%, rgba(255,255,255,0.14) 72%, rgba(0,0,0,0.7) 100%);
-            border: 1.5px solid rgba(255,255,255,0.16); z-index: 10; pointer-events: none;
+            width: 28%; height: 28%; border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(232, 232, 230, 0.94) 0%,
+                rgba(222, 222, 220, 0.9) 62%,
+                rgba(165, 168, 172, 0.92) 66%,
+                rgba(236, 236, 235, 0.88) 70%,
+                rgba(195, 198, 202, 0.85) 94%,
+                rgba(120, 124, 130, 0.9) 100%
+            );
+            border: 1.5px solid rgba(140, 144, 150, 0.8);
+            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.7);
+            z-index: 10; pointer-events: none;
         }
 
+        /* Agujero central */
         #cd-hole {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 11.5%; height: 11.5%; border-radius: 50%; background: #050505;
-            border: 3px solid rgba(255,255,255,0.2); z-index: 12; pointer-events: none;
+            width: 11.5%; height: 11.5%; border-radius: 50%;
+            background: #141416;
+            border: 2.5px solid rgba(190, 192, 196, 0.9);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.95);
+            z-index: 12; pointer-events: none;
         }
-
-        #cd-disc svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 15; }
-        .track-text {
-            font-family: 'Patrick Hand', cursive; font-size: 24px;
-            fill: #f2f2f2; stroke: #080808; stroke-width: 4px; paint-order: stroke fill;
-            cursor: pointer; transition: fill 0.2s ease;
-        }
-        .track-text:hover, .track-text.active { fill: var(--body-light); }
 
         .spinning { animation: spinCD 0.8s linear infinite; }
         @keyframes spinCD { 100% { transform: rotate(360deg); } }
@@ -154,9 +280,9 @@
         #discman-lid {
             position: absolute;
             inset: 0; width: 100%; height: 100%;
-            transform-origin: 50% 2%; /* Bisagra superior */
-            transform-style: preserve-3d; /* Permite caras frontales y traseras */
-            transform: rotateX(110deg); /* Arranca abierta */
+            transform-origin: 50% 2%;
+            transform-style: preserve-3d;
+            transform: rotateX(102deg);
             transition: transform 1.2s cubic-bezier(0.3, 0, 0.1, 1);
             pointer-events: none;
             z-index: 20;
@@ -164,60 +290,45 @@
 
         .lid-closed { transform: rotateX(0deg) !important; }
 
-        /* Cara EXTERIOR de la tapa (La que ves cuando está cerrada) */
+        /* Cara EXTERIOR de la tapa (Cerrada) */
         .lid-face-outer {
             position: absolute; inset: 0;
-            backface-visibility: hidden; /* Se oculta si la miras por detrás */
-            transform: translateZ(2px); /* Ligeramente hacia arriba para dar grosor */
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(3px);
         }
 
-        /* Cara INTERIOR de la tapa (La que ves al abrirla, sólida y moldeada) */
+        /* Cara INTERIOR de la tapa (Abierta: sólida, sin letras ni transparencia) */
         .lid-face-inner {
             position: absolute; inset: 0;
             backface-visibility: hidden;
-            transform: rotateX(180deg) translateZ(2px); /* Invertida para mirar hacia adentro */
+            -webkit-backface-visibility: hidden;
+            transform: rotateX(180deg) translateZ(1px);
         }
 
-        /* SVGs de las caras */
         .lid-svg-outer, .lid-svg-inner { position: absolute; inset: 0; width: 100%; height: 100%; }
-        
-        .lid-svg-outer { filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6)); }
-        
-        /* La cara interna no proyecta sombra externa, usa el color base oscurecido */
-        .lid-svg-inner { opacity: 0.95; }
+        .lid-svg-outer { filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.65)); }
 
-        .lid-branding {
-            position: absolute; inset: 0;
-            display: flex; flex-direction: column; align-items: center; padding-top: 11.5%;
+        /* Interacción de Sharpie y Stickers dentro de la tapa */
+        #sharpie-hit-surface {
+            pointer-events: none;
+            cursor: crosshair;
         }
-
-        .brand-studio {
-            padding: 4px 15px; border-radius: 999px;
-            border: 1.5px solid rgba(255, 255, 255, 0.6); background: rgba(0, 0, 0, 0.16);
-            font-family: sans-serif; font-weight: 800; font-size: clamp(10px, 1.9vw, 12.5px);
-            letter-spacing: 3px; color: rgba(255, 255, 255, 0.94); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+        #discman-lid.lid-closed.sharpie-active #sharpie-hit-surface {
+            pointer-events: all;
         }
-
-        .brand-project {
-            margin-top: 13.5%; font-family: sans-serif; font-weight: 900; font-style: italic;
-            font-size: clamp(13px, 2.5vw, 17px); letter-spacing: 2.2px; color: rgba(255, 255, 255, 0.92);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.65);
+        #discman-lid.lid-closed .lid-sticker-item {
+            pointer-events: all;
+            cursor: grab;
         }
-
-        /* Marco del visor transparente */
-        .lid-visor-rim {
-            position: absolute;
-            left: 147px; top: 322px; width: 140px; height: 42px;
-            border-radius: 50%;
-            border: 3px solid #141416;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.8), 0 1px 3px rgba(255,255,255,0.15);
-            background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent);
+        #discman-lid.lid-closed .lid-sticker-item:active {
+            cursor: grabbing;
         }
 
         /* --- BISEL INFERIOR --- */
         #control-deck {
             position: absolute; inset: 0; pointer-events: none; z-index: 25;
-            transform: translateZ(5px); /* Un poco más alto por la perspectiva */
+            transform: translateZ(5px);
         }
         #bezel-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
@@ -226,26 +337,50 @@
             height: 24px; padding: 0 14px; border-radius: 999px;
             background: radial-gradient(circle at 50% 25%, #f5f5f7 0%, #c4c4ca 62%, #8e8e95 100%);
             border: 1px solid #161618;
+            outline: none;
             box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 3px 6px rgba(0, 0, 0, 0.95), 0 0 0 2.5px #09090b;
             color: #141416; font-family: Arial, sans-serif; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;
+            font-variant-emoji: text;
             display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.15s ease;
         }
-        .hw-btn:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 0 2.5px #09090b; transform: scale(0.95); }
+        .hw-btn:hover { filter: brightness(1.08); }
+        .hw-btn:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 0 2.5px #09090b; }
 
         #btn-stop { left: 26.5%; bottom: 12.2%; transform: translateX(-50%) rotate(25deg); }
         #btn-play { left: 50%; bottom: 5.8%; transform: translateX(-50%); padding: 0 18px; }
         #btn-next { left: 73.5%; bottom: 12.2%; transform: translateX(-50%) rotate(-25deg); }
 
-        /* --- ÁREA DE CONTENIDO (DERECHA) --- */
+        /* --- ÁREA DE CONTENIDO (DERECHA CON LÍNEA NEÓN DEL COLOR DEL DISCMAN) --- */
         #module-section {
             flex: 1; max-width: 600px; height: 80vh;
-            background: rgba(15, 15, 15, 0.92); border: 1px solid #333; border-radius: 10px;
+            background: rgba(10, 10, 12, 0.92);
+            border: 2px solid var(--body-light);
+            border-radius: 10px;
             padding: 40px; display: flex; flex-direction: column; opacity: 0; pointer-events: none;
-            transition: opacity 0.9s ease 0.4s; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+            transition: opacity 0.9s ease 0.4s, border-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow:
+                0 0 10px var(--body-base),
+                0 0 26px var(--body-base),
+                inset 0 0 14px var(--body-base);
         }
         #module-section.active { opacity: 1; pointer-events: auto; }
-        #module-title { font-family: 'Patrick Hand', cursive; font-size: 45px; color: var(--body-light); border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
-        #module-content { font-family: monospace; color: #aaa; line-height: 1.6; overflow-y: auto; }
+        #module-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--body-light);
+            text-shadow: 0 0 10px var(--body-base);
+            border-bottom: 1px solid var(--body-base);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        #module-content {
+            font-family: 'Space Mono', monospace;
+            color: #e5e5e5;
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-y: auto;
+        }
 
         @media (max-width: 900px) {
             #app-layout { flex-direction: column; gap: 20px; padding-top: 70px; }
@@ -256,22 +391,120 @@
 </head>
 <body>
 
-    <!-- Selector de Color Dinámico -->
-    <div id="theme-customizer">
-        <label for="colorPicker">Color:</label>
-        <input type="color" id="colorPicker" value="#ff4da6">
+    <!-- Barra minimalista superior izquierda -->
+    <div id="top-tools">
+        <!-- 1. Arcoíris selector de color -->
+        <div id="theme-customizer" title="Cambiar color del Discman">
+            <input type="color" id="colorPicker" value="#ff4da6">
+            <svg viewBox="0 0 64 46" width="45" height="33" style="pointer-events: none;">
+                <path d="M 6,38 A 26,26 0 0,1 58,38" fill="none" stroke="#ff3b5c" stroke-width="3.6" stroke-linecap="round" />
+                <path d="M 9.5,38 A 22.5,22.5 0 0,1 54.5,38" fill="none" stroke="#ff9500" stroke-width="3.6" stroke-linecap="round" />
+                <path d="M 13,38 A 19,19 0 0,1 51,38" fill="none" stroke="#ffd60a" stroke-width="3.6" stroke-linecap="round" />
+                <path d="M 16.5,38 A 15.5,15.5 0 0,1 47.5,38" fill="none" stroke="#34c759" stroke-width="3.6" stroke-linecap="round" />
+                <path d="M 20,38 A 12,12 0 0,1 44,38" fill="none" stroke="#32ade6" stroke-width="3.6" stroke-linecap="round" />
+                <path d="M 23.5,38 A 8.5,8.5 0 0,1 40.5,38" fill="none" stroke="#af52de" stroke-width="3.6" stroke-linecap="round" />
+            </svg>
+        </div>
+
+        <!-- 2. Marcador Sharpie -->
+        <button class="tool-icon-btn" id="btn-sharpie-tool" title="Rayar con Sharpie" onclick="toggleToolPanel('sharpie')">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                <path d="m15 5 4 4"/>
+            </svg>
+        </button>
+
+        <!-- 3. Stickers -->
+        <button class="tool-icon-btn" id="btn-sticker-tool" title="Pegar stickers" onclick="toggleToolPanel('sticker')">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/>
+                <path d="M14 3v4a2 2 0 0 0 2 2h4"/>
+                <path d="M8 13h.01"/><path d="M16 13h.01"/><path d="M10 16s.8 1 2 1c1.3 0 2-1 2-1"/>
+            </svg>
+        </button>
+
+        <!-- 4. Captura / Descarga del Discman como PNG -->
+        <button class="tool-icon-btn" id="btn-download-discman" title="Descargar imagen del Discman" onclick="downloadDiscmanImage()">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                <circle cx="12" cy="13" r="3"/>
+            </svg>
+        </button>
     </div>
 
-    <!-- Máscara SVG para recortar el visor -->
-    <svg width="0" height="0" style="position:absolute;">
-        <defs>
-            <mask id="lidVisorCutout" maskContentUnits="objectBoundingBox">
-                <rect x="0" y="0" width="1" height="1" fill="white" />
-                <!-- Perforación curva -->
-                <path d="M 0.34,0.67 Q 0.5,0.69 0.66,0.67 L 0.64,0.74 Q 0.5,0.76 0.36,0.74 Z" fill="black" />
-            </mask>
-        </defs>
-    </svg>
+    <!-- Popover Sharpie -->
+    <div class="tool-popover" id="sharpie-popover">
+        <button class="ink-swatch selected" style="background:#111113;" data-ink="#111113" title="Sharpie Negro" onclick="selectSharpieInk(this)"></button>
+        <button class="ink-swatch" style="background:#e6e9ef;" data-ink="#e6e9ef" title="Sharpie Plateado" onclick="selectSharpieInk(this)"></button>
+        <button class="ink-swatch" style="background:#ffffff;" data-ink="#ffffff" title="Sharpie Blanco" onclick="selectSharpieInk(this)"></button>
+        <button class="mini-action-btn" onclick="clearSharpie()">Borrar trazos</button>
+    </div>
+
+    <!-- Popover Stickers -->
+    <div class="tool-popover" id="sticker-popover">
+        <div class="sticker-choice" title="Estrella Cromada" onclick="addPresetSticker('star')">
+            <svg viewBox="0 0 60 60" width="28" height="28">
+                <path d="M30 6 L36 24 L54 30 L36 36 L30 54 L24 36 L6 30 L24 24 Z" fill="#fff" stroke="#fff" stroke-width="7" stroke-linejoin="round"/>
+                <path d="M30 6 L36 24 L54 30 L36 36 L30 54 L24 36 L6 30 L24 24 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="sticker-choice" title="Rayo" onclick="addPresetSticker('bolt')">
+            <svg viewBox="0 0 60 60" width="28" height="28">
+                <polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#fff" stroke="#fff" stroke-width="7" stroke-linejoin="round"/>
+                <polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#facc15" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="sticker-choice" title="Curita" onclick="addPresetSticker('bandaid')">
+            <svg viewBox="0 0 60 60" width="28" height="28">
+                <g transform="rotate(-35 30 30)">
+                    <rect x="8" y="20" width="44" height="20" rx="10" fill="#fff" stroke="#fff" stroke-width="6"/>
+                    <rect x="8" y="20" width="44" height="20" rx="10" fill="#e2b48a" stroke="#5c3a21" stroke-width="1.8"/>
+                    <rect x="23" y="21" width="14" height="18" fill="#f3d5b5"/>
+                    <circle cx="27" cy="26" r="1.2" fill="#8c5a3c"/><circle cx="33" cy="26" r="1.2" fill="#8c5a3c"/>
+                    <circle cx="27" cy="34" r="1.2" fill="#8c5a3c"/><circle cx="33" cy="34" r="1.2" fill="#8c5a3c"/>
+                </g>
+            </svg>
+        </div>
+        <div class="sticker-choice" title="Smiley 90s" onclick="addPresetSticker('smiley')">
+            <svg viewBox="0 0 60 60" width="28" height="28">
+                <circle cx="30" cy="30" r="22" fill="#fff"/>
+                <circle cx="30" cy="30" r="18" fill="#fde047" stroke="#111" stroke-width="2"/>
+                <ellipse cx="24" cy="25" rx="2" ry="3.5" fill="#111"/>
+                <ellipse cx="36" cy="25" rx="2" ry="3.5" fill="#111"/>
+                <path d="M21 33 Q30 42 39 33" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="sticker-choice" title="Mini CD" onclick="addPresetSticker('disc')">
+            <svg viewBox="0 0 60 60" width="28" height="28">
+                <circle cx="30" cy="30" r="22" fill="#fff"/>
+                <circle cx="30" cy="30" r="18" fill="#c084fc" stroke="#111" stroke-width="1.8"/>
+                <path d="M30 12 A18 18 0 0 1 48 30 L30 30 Z" fill="#67e8f9" opacity="0.8"/>
+                <circle cx="30" cy="30" r="5" fill="#fff" stroke="#111" stroke-width="1.5"/>
+            </svg>
+        </div>
+        <div class="sticker-choice" title="Corazón Punk" onclick="addPresetSticker('heart')">
+            <svg viewBox="0 0 60 60" width="28" height="28">
+                <path d="M30 49 C12 37 8 24 16 16 C22 10 28 14 30 19 C32 14 38 10 44 16 C52 24 48 37 30 49 Z" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
+                <path d="M30 49 C12 37 8 24 16 16 C22 10 28 14 30 19 C32 14 38 10 44 16 C52 24 48 37 30 49 Z" fill="#f43f5e" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="sticker-choice" title="Etiqueta Explicit" onclick="addPresetSticker('tag')">
+            <svg viewBox="0 0 60 60" width="28" height="28">
+                <rect x="6" y="17" width="48" height="26" rx="4" fill="#fff"/>
+                <rect x="9" y="20" width="42" height="20" rx="2" fill="#111"/>
+                <text x="30" y="33" text-anchor="middle" fill="#fff" font-family="monospace" font-size="8.5" font-weight="bold">NO CD</text>
+            </svg>
+        </div>
+        <label class="mini-action-btn" style="cursor:pointer;">
+            + Subir imagen
+            <input type="file" id="stickerUploadInput" accept="image/*" style="display:none;">
+        </label>
+        <div id="sticker-controls-bar">
+            <button class="mini-action-btn" onclick="rotateSelectedSticker()">↻ Rotar</button>
+            <button class="mini-action-btn" onclick="deleteSelectedSticker()">✕ Quitar</button>
+            <button class="mini-action-btn" onclick="clearAllStickers()">Limpiar</button>
+        </div>
+    </div>
 
     <div id="app-layout">
         
@@ -297,68 +530,74 @@
 
                 <div id="cd-chamber">
                     <div id="cd-disc">
-                        <div id="cd-artwork"></div>
                         <div id="cd-hub"></div>
                         <div id="cd-hole"></div>
-                        <svg viewBox="0 0 500 500">
-                            <defs>
-                                <path id="arc-top" d="M 38, 250 A 212,212 0 1,1 462,250" />
-                                <path id="arc-bottom" d="M 38, 250 A 212,212 0 0,0 462,250" />
-                            </defs>
-                            <text>
-                                <textPath class="track-text" id="trk-0" href="#arc-top" startOffset="16%" text-anchor="middle" onclick="selectTrack(0)">Peter Pank</textPath>
-                                <textPath class="track-text" id="trk-1" href="#arc-top" startOffset="50%" text-anchor="middle" onclick="selectTrack(1)">Teaser</textPath>
-                                <textPath class="track-text" id="trk-2" href="#arc-top" startOffset="84%" text-anchor="middle" onclick="selectTrack(2)">Literatura</textPath>
-                                <textPath class="track-text" id="trk-3" href="#arc-bottom" startOffset="15%" text-anchor="middle" onclick="selectTrack(3)">Fanzines</textPath>
-                                <textPath class="track-text" id="trk-4" href="#arc-bottom" startOffset="50%" text-anchor="middle" onclick="selectTrack(4)">No escuches el CD</textPath>
-                                <textPath class="track-text" id="trk-5" href="#arc-bottom" startOffset="85%" text-anchor="middle" onclick="selectTrack(5)">Música</textPath>
-                            </text>
-                        </svg>
                     </div>
                 </div>
 
                 <!-- TAPA 3D (Cara Externa + Cara Interna Sólida) -->
                 <div id="discman-lid">
                     
-                    <!-- CARA EXTERNA (Visible cerrada, con logo y perforación) -->
+                    <!-- CARA EXTERIOR (Visible cerrada, sin textos, con nervaduras, mirilla, Sharpie y Stickers) -->
                     <div class="lid-face-outer">
-                        <svg class="lid-svg-outer" viewBox="0 0 440 484">
+                        <svg class="lid-svg-outer" id="lid-svg-outer" viewBox="0 0 440 484">
                             <defs>
                                 <radialGradient id="lidGrad" cx="50%" cy="30%" r="70%">
                                     <stop offset="0%" stop-color="var(--body-light)" />
                                     <stop offset="70%" stop-color="var(--body-base)" />
                                     <stop offset="100%" stop-color="var(--body-dark)" />
                                 </radialGradient>
+                                <mask id="lidVisorCutout">
+                                    <rect x="0" y="0" width="440" height="484" fill="white" />
+                                    <path d="M 152,326 Q 220,334 288,326 L 281,360 Q 220,369 159,360 Z" fill="black" />
+                                </mask>
+                                <!-- Máscara estricta a la superficie plástica de la tapa (evita salir del borde o tapar la mirilla) -->
+                                <mask id="lidCustomSurfaceMask">
+                                    <rect x="0" y="0" width="440" height="484" fill="black" />
+                                    <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z" fill="white" />
+                                    <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z" fill="black" />
+                                </mask>
                             </defs>
+
                             <g mask="url(#lidVisorCutout)">
                                 <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z"
                                       fill="url(#lidGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
-                                <path d="M 78,22 C 44,112 42,216 74,302" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
-                                <path d="M 362,22 C 396,112 398,216 366,302" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
+                                <path d="M 78,22 C 44,112 42,216 74,302" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2" stroke-linecap="round" />
+                                <path d="M 362,22 C 396,112 398,216 366,302" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2" stroke-linecap="round" />
                             </g>
+
+                            <!-- Capa de tinta Sharpie y Stickers troquelados sobre la tapa -->
+                            <g mask="url(#lidCustomSurfaceMask)">
+                                <image id="sharpie-svg-image" x="0" y="0" width="440" height="484" href="" />
+                                <!-- Área invisible para capturar trazos del Sharpie -->
+                                <path id="sharpie-hit-surface" d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z" fill="rgba(0,0,0,0)" />
+                                <!-- Contenedor de Stickers -->
+                                <g id="stickers-layer"></g>
+                            </g>
+
+                            <!-- Bisel hundido y cristal del visor trapezoidal -->
+                            <path d="M 145,319 Q 220,328 295,319 L 286,366 Q 220,377 154,366 Z"
+                                  fill="none" stroke="rgba(0,0,0,0.45)" stroke-width="3.5" style="pointer-events:none;" />
+                            <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z"
+                                  fill="rgba(255,255,255,0.06)" stroke="#121214" stroke-width="2.5" style="pointer-events:none;" />
+                            <path d="M 154,328 Q 220,336 286,328"
+                                  fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" style="pointer-events:none;" />
                         </svg>
-                        <div class="lid-branding">
-                            <div class="brand-studio">MOLINO STUDIO</div>
-                            <div class="brand-project">NO ESCUCHES EL CD</div>
-                        </div>
-                        <div class="lid-visor-rim"></div>
                     </div>
 
-                    <!-- CARA INTERNA (Sólida, visible solo al abrir, sin letras ni perforación transparente) -->
+                    <!-- CARA INTERIOR (Sólida en plástico oscuro, visible solo al abrir, sin letras ni transparencia) -->
                     <div class="lid-face-inner">
                         <svg class="lid-svg-inner" viewBox="0 0 440 484">
-                            <defs>
-                                <radialGradient id="innerGrad" cx="50%" cy="50%" r="70%">
-                                    <stop offset="0%" stop-color="var(--body-dark)" />
-                                    <stop offset="100%" stop-color="var(--body-shadow)" />
-                                </radialGradient>
-                            </defs>
-                            <!-- La forma base reflejada horizontalmente, opaca -->
                             <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z"
-                                  fill="url(#innerGrad)" stroke="#111" stroke-width="2" />
-                            <!-- Moldeado de plástico interno (estructura sólida) -->
-                            <circle cx="220" cy="210" r="100" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="4" />
-                            <circle cx="220" cy="210" r="30" fill="rgba(0,0,0,0.6)" />
+                                  fill="#141417" stroke="var(--body-dark)" stroke-width="5" />
+                            <!-- Moldeado estructural interno -->
+                            <circle cx="220" cy="210" r="142" fill="none" stroke="#1f1f24" stroke-width="5" />
+                            <circle cx="220" cy="210" r="46" fill="none" stroke="#222228" stroke-width="4" />
+                            <line x1="88" y1="210" x2="352" y2="210" stroke="#1c1c20" stroke-width="3" />
+                            <line x1="220" y1="78" x2="220" y2="342" stroke="#1c1c20" stroke-width="3" />
+                            <!-- Tapa trasera opaca de la mirilla -->
+                            <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z"
+                                  fill="#0b0b0d" stroke="#242429" stroke-width="2" />
                         </svg>
                     </div>
 
@@ -368,7 +607,9 @@
                 <div id="control-deck">
                     <svg id="bezel-svg" viewBox="0 0 440 484">
                         <path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z"
-                              fill="#1c1c1f" stroke="rgba(255,255,255,0.15)" stroke-width="1.2" />
+                              fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
+                        <path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268"
+                              fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" />
                     </svg>
 
                     <button class="hw-btn" id="btn-stop" onclick="stopDisc()">■</button>
@@ -396,35 +637,23 @@
         const moduleSection = document.getElementById('module-section');
         const moduleTitle = document.getElementById('module-title');
         const moduleContent = document.getElementById('module-content');
-        
-        // Lógica del Color Picker
         const colorPicker = document.getElementById('colorPicker');
 
-        // Función para aclarar u oscurecer un color HEX (para generar la paleta automática)
         function adjustColor(color, amount) {
-            return '#' + color.replace(/^#/, '').replace(/../g, color => ('0'+Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
+            return '#' + color.replace(/^#/, '').replace(/../g, c => ('0'+Math.min(255, Math.max(0, parseInt(c, 16) + amount)).toString(16)).substr(-2));
         }
 
         colorPicker.addEventListener('input', (e) => {
             const hex = e.target.value;
-            // Genera la paleta de volumen basándose en el color elegido
             document.body.style.setProperty('--body-base', hex);
-            document.body.style.setProperty('--body-light', adjustColor(hex, 50)); // Más claro
-            document.body.style.setProperty('--body-dark', adjustColor(hex, -60)); // Más oscuro
-            document.body.style.setProperty('--body-shadow', adjustColor(hex, -120)); // Sombra profunda
+            document.body.style.setProperty('--body-light', adjustColor(hex, 50));
+            document.body.style.setProperty('--body-dark', adjustColor(hex, -60));
+            document.body.style.setProperty('--body-shadow', adjustColor(hex, -120));
         });
-
-        // Interacción del CD
-        function highlightTrack(index) {
-            document.querySelectorAll('.track-text').forEach(el => el.classList.remove('active'));
-            const activeEl = document.getElementById(`trk-${index}`);
-            if (activeEl) activeEl.classList.add('active');
-        }
 
         function selectTrack(index) {
             currentTrackIndex = index;
             isPlaying = true;
-            highlightTrack(currentTrackIndex);
 
             cd.classList.add('spinning');
             lid.classList.add('lid-closed');
@@ -442,10 +671,402 @@
         function stopDisc() {
             isPlaying = false;
             moduleSection.classList.remove('active');
+            closeAllToolPanels();
             setTimeout(() => {
                 lid.classList.remove('lid-closed');
                 setTimeout(() => { if (!isPlaying) cd.classList.remove('spinning'); }, 800);
             }, 450);
+        }
+
+        /* =========================================================
+           HERRAMIENTAS DE INTERACCIÓN: SHARPIE, STICKERS Y CAPTURA
+           ========================================================= */
+        const lidSvgOuter = document.getElementById('lid-svg-outer');
+        const sharpieHitSurface = document.getElementById('sharpie-hit-surface');
+        const sharpieSvgImage = document.getElementById('sharpie-svg-image');
+        const stickersLayer = document.getElementById('stickers-layer');
+
+        let activeTool = null;
+
+        function toggleToolPanel(tool) {
+            const sharpiePop = document.getElementById('sharpie-popover');
+            const stickerPop = document.getElementById('sticker-popover');
+            const btnSharpie = document.getElementById('btn-sharpie-tool');
+            const btnSticker = document.getElementById('btn-sticker-tool');
+
+            if (activeTool === tool) {
+                closeAllToolPanels();
+                return;
+            }
+
+            closeAllToolPanels();
+            activeTool = tool;
+            // Cierra la tapa automáticamente para dibujar o pegar sobre ella
+            lid.classList.add('lid-closed');
+
+            if (tool === 'sharpie') {
+                sharpiePop.classList.add('open');
+                btnSharpie.classList.add('active');
+                lid.classList.add('sharpie-active');
+            } else if (tool === 'sticker') {
+                stickerPop.classList.add('open');
+                btnSticker.classList.add('active');
+            }
+        }
+
+        function closeAllToolPanels() {
+            activeTool = null;
+            document.getElementById('sharpie-popover').classList.remove('open');
+            document.getElementById('sticker-popover').classList.remove('open');
+            document.getElementById('btn-sharpie-tool').classList.remove('active');
+            document.getElementById('btn-sticker-tool').classList.remove('active');
+            lid.classList.remove('sharpie-active');
+            selectStickerElement(null);
+        }
+
+        // Conversión exacta de coordenadas de pantalla a viewBox 440x484 (compensa el rotateX 3D)
+        function clientToSvgPoint(clientX, clientY) {
+            const pt = lidSvgOuter.createSVGPoint();
+            pt.x = clientX;
+            pt.y = clientY;
+            const ctm = lidSvgOuter.getScreenCTM();
+            if (!ctm) return { x: 220, y: 200 };
+            const transformed = pt.matrixTransform(ctm.inverse());
+            return { x: transformed.x, y: transformed.y };
+        }
+
+        /* --- 1. MOTOR SHARPIE --- */
+        const sharpieCanvas = document.createElement('canvas');
+        sharpieCanvas.width = 880;  // 2x para trazo nítido
+        sharpieCanvas.height = 968;
+        const sCtx = sharpieCanvas.getContext('2d');
+        sCtx.scale(2, 2);
+        sCtx.lineCap = 'round';
+        sCtx.lineJoin = 'round';
+
+        let sharpieInk = '#111113';
+        let isDrawingSharpie = false;
+        let lastSharpiePt = null;
+
+        function selectSharpieInk(el) {
+            document.querySelectorAll('.ink-swatch').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            sharpieInk = el.dataset.ink;
+        }
+
+        function syncSharpieLayer() {
+            sharpieSvgImage.setAttribute('href', sharpieCanvas.toDataURL('image/png'));
+        }
+
+        function clearSharpie() {
+            sCtx.save();
+            sCtx.setTransform(1, 0, 0, 1, 0, 0);
+            sCtx.clearRect(0, 0, sharpieCanvas.width, sharpieCanvas.height);
+            sCtx.restore();
+            syncSharpieLayer();
+        }
+
+        sharpieHitSurface.addEventListener('pointerdown', (e) => {
+            if (activeTool !== 'sharpie') return;
+            e.preventDefault();
+            sharpieHitSurface.setPointerCapture(e.pointerId);
+            isDrawingSharpie = true;
+            lastSharpiePt = clientToSvgPoint(e.clientX, e.clientY);
+
+            sCtx.fillStyle = sharpieInk;
+            sCtx.beginPath();
+            sCtx.arc(lastSharpiePt.x, lastSharpiePt.y, 1.8, 0, Math.PI * 2);
+            sCtx.fill();
+            syncSharpieLayer();
+        });
+
+        sharpieHitSurface.addEventListener('pointermove', (e) => {
+            if (!isDrawingSharpie || !lastSharpiePt) return;
+            const pt = clientToSvgPoint(e.clientX, e.clientY);
+            sCtx.strokeStyle = sharpieInk;
+            sCtx.lineWidth = 3.6;
+            sCtx.beginPath();
+            sCtx.moveTo(lastSharpiePt.x, lastSharpiePt.y);
+            sCtx.lineTo(pt.x, pt.y);
+            sCtx.stroke();
+            lastSharpiePt = pt;
+            syncSharpieLayer();
+        });
+
+        function endSharpieStroke(e) {
+            if (!isDrawingSharpie) return;
+            isDrawingSharpie = false;
+            lastSharpiePt = null;
+        }
+        sharpieHitSurface.addEventListener('pointerup', endSharpieStroke);
+        sharpieHitSurface.addEventListener('pointercancel', endSharpieStroke);
+
+        /* --- 2. MOTOR DE STICKERS TROQUELADOS (Max ~10% del Discman = 44x44 unidades) --- */
+        let selectedSticker = null;
+        let draggingSticker = null;
+        let dragOffset = { x: 0, y: 0 };
+
+        const presetStickerMarkup = {
+            star: `<path d="M0-20 L5-5 L20 0 L5 5 L0 20 L-5 5 L-20 0 L-5-5 Z" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
+                   <path d="M0-20 L5-5 L20 0 L5 5 L0 20 L-5 5 L-20 0 L-5-5 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="1.6" stroke-linejoin="round"/>`,
+            bolt: `<polygon points="3,-20 -13,2 -1,2 -5,20 14,-3 2,-3" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
+                   <polygon points="3,-20 -13,2 -1,2 -5,20 14,-3 2,-3" fill="#facc15" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/>`,
+            bandaid: `<g transform="rotate(-35)">
+                        <rect x="-20" y="-8" width="40" height="16" rx="8" fill="#fff" stroke="#fff" stroke-width="5"/>
+                        <rect x="-20" y="-8" width="40" height="16" rx="8" fill="#e2b48a" stroke="#5c3a21" stroke-width="1.5"/>
+                        <rect x="-6" y="-7.5" width="12" height="15" fill="#f3d5b5"/>
+                        <circle cx="-2.5" cy="-3" r="1" fill="#8c5a3c"/><circle cx="2.5" cy="-3" r="1" fill="#8c5a3c"/>
+                        <circle cx="-2.5" cy="3" r="1" fill="#8c5a3c"/><circle cx="2.5" cy="3" r="1" fill="#8c5a3c"/>
+                      </g>`,
+            smiley: `<circle cx="0" cy="0" r="20" fill="#fff"/>
+                     <circle cx="0" cy="0" r="16.5" fill="#fde047" stroke="#111" stroke-width="1.6"/>
+                     <ellipse cx="-5" cy="-4" rx="1.8" ry="3.2" fill="#111"/>
+                     <ellipse cx="5" cy="-4" rx="1.8" ry="3.2" fill="#111"/>
+                     <path d="M-8 3 Q0 11 8 3" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>`,
+            disc: `<circle cx="0" cy="0" r="20" fill="#fff"/>
+                   <circle cx="0" cy="0" r="16.5" fill="#c084fc" stroke="#111" stroke-width="1.6"/>
+                   <path d="M0-16.5 A16.5 16.5 0 0 1 16.5 0 L0 0 Z" fill="#67e8f9" opacity="0.85"/>
+                   <circle cx="0" cy="0" r="4.5" fill="#fff" stroke="#111" stroke-width="1.4"/>`,
+            heart: `<path d="M0 17 C-16 6 -20 -6 -12 -13 C-7 -18 -2 -14 0 -9 C2 -14 7 -18 12 -13 C20 -6 16 6 0 17 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/>
+                    <path d="M0 17 C-16 6 -20 -6 -12 -13 C-7 -18 -2 -14 0 -9 C2 -14 7 -18 12 -13 C20 -6 16 6 0 17 Z" fill="#f43f5e" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/>`,
+            tag: `<rect x="-22" y="-11" width="44" height="22" rx="3.5" fill="#fff"/>
+                  <rect x="-19.5" y="-8.5" width="39" height="17" rx="2" fill="#111"/>
+                  <text x="0" y="3" text-anchor="middle" fill="#fff" font-family="Space Mono, monospace" font-size="7.5" font-weight="bold">NO CD</text>`
+        };
+
+        function createStickerNode(innerSvg, x = 220, y = 175, angle = 0) {
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.setAttribute('class', 'lid-sticker-item');
+            g.dataset.x = x;
+            g.dataset.y = y;
+            g.dataset.angle = angle;
+            g.setAttribute('transform', `translate(${x}, ${y}) rotate(${angle})`);
+            g.style.filter = 'drop-shadow(0 2px 3px rgba(0,0,0,0.65))';
+
+            g.innerHTML = innerSvg + `<circle class="sticker-sel-ring" cx="0" cy="0" r="24" fill="none" stroke="#38bdf8" stroke-width="1.4" stroke-dasharray="3 2" style="display:none; pointer-events:none;"/>`;
+
+            g.addEventListener('pointerdown', (e) => {
+                if (activeTool === 'sharpie') return;
+                e.stopPropagation();
+                selectStickerElement(g);
+                draggingSticker = g;
+                g.setPointerCapture(e.pointerId);
+                const pt = clientToSvgPoint(e.clientX, e.clientY);
+                dragOffset.x = pt.x - parseFloat(g.dataset.x);
+                dragOffset.y = pt.y - parseFloat(g.dataset.y);
+            });
+
+            g.addEventListener('pointermove', (e) => {
+                if (draggingSticker !== g) return;
+                const pt = clientToSvgPoint(e.clientX, e.clientY);
+                const nx = pt.x - dragOffset.x;
+                const ny = pt.y - dragOffset.y;
+                g.dataset.x = nx;
+                g.dataset.y = ny;
+                g.setAttribute('transform', `translate(${nx}, ${ny}) rotate(${g.dataset.angle})`);
+            });
+
+            g.addEventListener('pointerup', () => {
+                draggingSticker = null;
+            });
+
+            stickersLayer.appendChild(g);
+            selectStickerElement(g);
+        }
+
+        function selectStickerElement(node) {
+            document.querySelectorAll('.sticker-sel-ring').forEach(r => r.style.display = 'none');
+            selectedSticker = node;
+            if (node) {
+                const ring = node.querySelector('.sticker-sel-ring');
+                if (ring) ring.style.display = 'block';
+            }
+        }
+
+        function addPresetSticker(key) {
+            lid.classList.add('lid-closed');
+            const jitterX = 220 + (Math.random() * 60 - 30);
+            const jitterY = 175 + (Math.random() * 50 - 25);
+            const jitterAngle = Math.round(Math.random() * 24 - 12);
+            createStickerNode(presetStickerMarkup[key], jitterX, jitterY, jitterAngle);
+        }
+
+        // Procesa una imagen subida por el usuario y la convierte en sticker troquelado (max 44x44 unidades = 10% del Discman)
+        document.getElementById('stickerUploadInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => {
+                    const size = 160;
+                    const c = document.createElement('canvas');
+                    c.width = size;
+                    c.height = size;
+                    const ctx = c.getContext('2d');
+
+                    const pad = 16;
+                    const maxDim = size - pad * 2;
+                    const scale = Math.min(maxDim / img.width, maxDim / img.height);
+                    const w = img.width * scale;
+                    const h = img.height * scale;
+                    const dx = (size - w) / 2;
+                    const dy = (size - h) / 2;
+
+                    // Genera contorno blanco troquelado alrededor de la imagen
+                    ctx.save();
+                    for (let a = 0; a < Math.PI * 2; a += Math.PI / 8) {
+                        ctx.drawImage(img, dx + Math.cos(a) * 6, dy + Math.sin(a) * 6, w, h);
+                    }
+                    ctx.globalCompositeOperation = 'source-in';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, size, size);
+                    ctx.restore();
+
+                    // Dibuja la imagen original encima
+                    ctx.drawImage(img, dx, dy, w, h);
+
+                    const dataUrl = c.toDataURL('image/png');
+                    lid.classList.add('lid-closed');
+                    createStickerNode(`<image href="${dataUrl}" x="-22" y="-22" width="44" height="44"/>`, 220, 175, 0);
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        });
+
+        function rotateSelectedSticker() {
+            if (!selectedSticker) return;
+            const nextAngle = (parseFloat(selectedSticker.dataset.angle) + 20) % 360;
+            selectedSticker.dataset.angle = nextAngle;
+            selectedSticker.setAttribute('transform', `translate(${selectedSticker.dataset.x}, ${selectedSticker.dataset.y}) rotate(${nextAngle})`);
+        }
+
+        function deleteSelectedSticker() {
+            if (!selectedSticker) return;
+            selectedSticker.remove();
+            selectedSticker = null;
+        }
+
+        function clearAllStickers() {
+            stickersLayer.innerHTML = '';
+            selectedSticker = null;
+        }
+
+        /* --- 3. DESCARGA DEL DISCMAN COMO IMAGEN PNG --- */
+        function downloadDiscmanImage() {
+            selectStickerElement(null); // Oculta guías de selección antes de capturar
+
+            const styles = getComputedStyle(document.body);
+            const cBase = styles.getPropertyValue('--body-base').trim() || '#ff4da6';
+            const cLight = styles.getPropertyValue('--body-light').trim() || '#ff80bf';
+            const cDark = styles.getPropertyValue('--body-dark').trim() || '#b30059';
+            const cShadow = styles.getPropertyValue('--body-shadow').trim() || '#4d0026';
+
+            const isClosed = lid.classList.contains('lid-closed');
+            const sharpieHref = sharpieSvgImage.getAttribute('href') || '';
+            const stickersMarkup = stickersLayer.innerHTML;
+
+            // Construye un SVG autocontenido de alta resolución (880x968) solo con el Discman
+            const lidSectionSvg = isClosed ? `
+                <g>
+                    <defs>
+                        <radialGradient id="expLidGrad" cx="50%" cy="30%" r="70%">
+                            <stop offset="0%" stop-color="${cLight}" />
+                            <stop offset="70%" stop-color="${cBase}" />
+                            <stop offset="100%" stop-color="${cDark}" />
+                        </radialGradient>
+                        <mask id="expLidMask">
+                            <rect x="0" y="0" width="440" height="484" fill="white" />
+                            <path d="M 152,326 Q 220,334 288,326 L 281,360 Q 220,369 159,360 Z" fill="black" />
+                        </mask>
+                        <mask id="expCustomMask">
+                            <rect x="0" y="0" width="440" height="484" fill="black" />
+                            <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z" fill="white" />
+                            <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z" fill="black" />
+                        </mask>
+                    </defs>
+                    <g mask="url(#expLidMask)">
+                        <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z"
+                              fill="url(#expLidGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+                        <path d="M 78,22 C 44,112 42,216 74,302" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2" stroke-linecap="round" />
+                        <path d="M 362,22 C 396,112 398,216 366,302" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2" stroke-linecap="round" />
+                    </g>
+                    <g mask="url(#expCustomMask)">
+                        ${sharpieHref ? `<image x="0" y="0" width="440" height="484" href="${sharpieHref}" />` : ''}
+                        ${stickersMarkup}
+                    </g>
+                    <path d="M 145,319 Q 220,328 295,319 L 286,366 Q 220,377 154,366 Z" fill="none" stroke="rgba(0,0,0,0.45)" stroke-width="3.5" />
+                    <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z" fill="rgba(255,255,255,0.06)" stroke="#121214" stroke-width="2.5" />
+                </g>
+            ` : '';
+
+            const exportSvg = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="880" height="968" viewBox="0 0 440 484">
+                    <defs>
+                        <radialGradient id="expBaseGrad" cx="50%" cy="32%" r="68%">
+                            <stop offset="0%" stop-color="${cLight}" />
+                            <stop offset="68%" stop-color="${cBase}" />
+                            <stop offset="100%" stop-color="${cShadow}" />
+                        </radialGradient>
+                        <linearGradient id="expCdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#dfe3ea" />
+                            <stop offset="28%" stop-color="#9be7ff" />
+                            <stop offset="50%" stop-color="#f5f7fa" />
+                            <stop offset="72%" stop-color="#f59be6" />
+                            <stop offset="100%" stop-color="#cfd4dc" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="440" height="484" fill="#050505" />
+                    <!-- Base -->
+                    <path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z"
+                          fill="url(#expBaseGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+                    <path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z"
+                          fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+                    <!-- CD Plateado -->
+                    <circle cx="220" cy="215" r="174" fill="url(#expCdGrad)" stroke="#9ba0a8" stroke-width="2" />
+                    <circle cx="220" cy="215" r="49" fill="#e5e5e3" stroke="#8c9096" stroke-width="1.5" />
+                    <circle cx="220" cy="215" r="20" fill="#141416" stroke="#bec0c4" stroke-width="2.5" />
+                    <!-- Tapa cerrada (si aplica) -->
+                    ${lidSectionSvg}
+                    <!-- Bisel y Botones -->
+                    <path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z"
+                          fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
+                    <path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268"
+                          fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" />
+                    <g transform="translate(116, 412) rotate(25)">
+                        <rect x="-18" y="-12" width="36" height="24" rx="12" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/>
+                        <rect x="-3.5" y="-3.5" width="7" height="7" fill="#141416"/>
+                    </g>
+                    <g transform="translate(220, 443)">
+                        <rect x="-24" y="-12" width="48" height="24" rx="12" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/>
+                        <text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="10" font-weight="900">▶||</text>
+                    </g>
+                    <g transform="translate(324, 412) rotate(-25)">
+                        <rect x="-18" y="-12" width="36" height="24" rx="12" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/>
+                        <text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="10" font-weight="900">▶▶</text>
+                    </g>
+                </svg>
+            `;
+
+            const blob = new Blob([exportSvg], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 880;
+                canvas.height = 968;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+
+                const link = document.createElement('a');
+                link.download = 'no-escuches-el-cd-discman.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+            img.src = url;
         }
     </script>
 </body>
