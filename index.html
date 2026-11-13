@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>No escuches el CD</title>
-    <!-- Fuente estilo marcador para la Opción 1 -->
-    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <!-- Tipografía restaurada a un estilo marcador limpio -->
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,37 +16,15 @@
             font-family: sans-serif;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        /* Botón salvavidas para cargar tu imagen sin pelear con carpetas */
-        #upload-container {
-            position: absolute;
-            top: 20px;
-            z-index: 100;
-            background: #222;
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: 1px solid #444;
-        }
-        
-        #upload-container label {
-            font-family: monospace;
-            cursor: pointer;
-            color: #fff;
-        }
-        
-        #upload-container input {
-            display: none;
-        }
-
         /* Contenedor del Discman */
         #discman-container {
             position: relative;
-            width: min(90vw, 90vh, 550px);
+            width: min(90vw, 90vh, 600px);
             aspect-ratio: 1 / 1;
             perspective: 1200px; 
         }
@@ -81,14 +59,18 @@
             transition: transform 0.5s ease-in;
         }
 
-        /* Capa donde se inyecta tu foto */
+        /* Capa donde carga tu foto desde GitHub - CORREGIDO PARA LLENAR EL CÍRCULO */
         #cd-artwork {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            background-size: 98% auto;
-            background-position: 50% 62%;
+            background-image: url('assets/images/noescuches.webp');
+            
+            /* 'cover' asegura que la imagen no quede rectangular ni con franjas negras */
+            background-size: cover; 
+            background-position: center;
             background-repeat: no-repeat;
+            
             filter: grayscale(100%) contrast(120%);
             mix-blend-mode: lighten;
             z-index: 6;
@@ -104,8 +86,8 @@
         }
 
         .track-text {
-            font-family: 'Patrick Hand', cursive;
-            font-size: 32px;
+            font-family: 'Kalam', cursive;
+            font-size: 26px;
             fill: #fff;
             cursor: pointer;
             transition: fill 0.2s, font-size 0.2s;
@@ -189,12 +171,6 @@
 </head>
 <body>
 
-    <!-- Botón para subir la imagen fácilmente -->
-    <div id="upload-container">
-        <label for="imageLoader">📁 1. Haz clic aquí para cargar tu imagen</label>
-        <input type="file" id="imageLoader" accept="image/*">
-    </div>
-
     <div id="discman-container">
         <!-- Tapa de acrílico -->
         <div id="discman-lid"></div>
@@ -202,52 +178,43 @@
         <!-- CD -->
         <div id="cd-disc">
             
-            <!-- Aquí se inyecta tu foto -->
+            <!-- Aquí se carga tu foto automáticamente desde GitHub -->
             <div id="cd-artwork"></div>
 
             <div id="cd-hub"></div>
             <div id="cd-hole"></div>
             
-            <!-- Textos posicionados exactamente como en la Opción 1 -->
+            <!-- Textos posicionados matemáticamente para no encimarse -->
             <svg viewBox="0 0 500 500">
                 <defs>
-                    <!-- Arco superior (Izquierda a Derecha) -->
-                    <path id="arc-top" d="M 50, 250 A 200,200 0 0,1 450,250" />
-                    <!-- Arco inferior (Izquierda a Derecha, para que el texto no quede de cabeza) -->
-                    <path id="arc-bottom" d="M 50, 250 A 200,200 0 0,0 450,250" />
+                    <!-- Arco superior -->
+                    <path id="arc-top" d="M 35, 250 A 215,215 0 1,1 465,250" />
+                    <!-- Arco inferior -->
+                    <path id="arc-bottom" d="M 35, 250 A 215,215 0 0,0 465,250" />
                 </defs>
                 <text>
                     <!-- ARCO SUPERIOR -->
-                    <textPath class="track-text" href="#arc-top" startOffset="18%" text-anchor="middle" onclick="playTrack('Peter Pank')">Peter Pank</textPath>
+                    <!-- 12% a la izquierda, 50% al centro, 88% a la derecha -->
+                    <textPath class="track-text" href="#arc-top" startOffset="12%" text-anchor="middle" onclick="playTrack('Peter Pank')">Peter Pank</textPath>
                     <textPath class="track-text" href="#arc-top" startOffset="50%" text-anchor="middle" onclick="playTrack('Teaser')">Teaser</textPath>
-                    <textPath class="track-text" href="#arc-top" startOffset="82%" text-anchor="middle" onclick="playTrack('Literatura')">Literatura</textPath>
+                    <textPath class="track-text" href="#arc-top" startOffset="88%" text-anchor="middle" onclick="playTrack('Literatura')">Literatura</textPath>
 
                     <!-- ARCO INFERIOR -->
-                    <textPath class="track-text" href="#arc-bottom" startOffset="18%" text-anchor="middle" onclick="playTrack('Fanzines')">Fanzines</textPath>
+                    <textPath class="track-text" href="#arc-bottom" startOffset="12%" text-anchor="middle" onclick="playTrack('Fanzines')">Fanzines</textPath>
                     <textPath class="track-text" href="#arc-bottom" startOffset="50%" text-anchor="middle" onclick="playTrack('No escuches el CD - Film')">No escuches el CD - Film</textPath>
-                    <textPath class="track-text" href="#arc-bottom" startOffset="82%" text-anchor="middle" onclick="playTrack('Música')">Música</textPath>
+                    <textPath class="track-text" href="#arc-bottom" startOffset="88%" text-anchor="middle" onclick="playTrack('Música')">Música</textPath>
                 </text>
             </svg>
         </div>
     </div>
 
-    <!-- Pantalla de contenido al hacer clic -->
+    <!-- Pantalla de contenido -->
     <div id="content-screen">
-        <h1 id="playing-title" style="font-family: 'Patrick Hand', cursive; font-size: 52px; color: #fff;">Cargando...</h1>
+        <h1 id="playing-title" style="font-family: 'Kalam', cursive; font-size: 52px; color: #fff;">Cargando...</h1>
         <button id="stop-btn" onclick="stopDisc()">◼ EJECT</button>
     </div>
 
     <script>
-        // Lógica para cargar la imagen desde tu compu sin errores de ruta
-        document.getElementById('imageLoader').addEventListener('change', function(e) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                document.getElementById('cd-artwork').style.backgroundImage = `url(${event.target.result})`;
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        });
-
-        // Lógica de interacción del Discman
         const cd = document.getElementById('cd-disc');
         const lid = document.getElementById('discman-lid');
         const contentScreen = document.getElementById('content-screen');
@@ -257,7 +224,6 @@
             cd.classList.add('spinning');
             
             setTimeout(() => { lid.classList.add('lid-closed'); }, 300);
-
             playingTitle.innerText = trackName;
 
             setTimeout(() => { contentScreen.classList.add('show-content'); }, 1800);
