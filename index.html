@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No escuches el CD</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+    <title>No escuches el CD — Molino Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,200 +15,437 @@
             font-family: sans-serif;
             height: 100vh;
             display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Paleta base (se reescribe con el color picker) */
+            --body-base: #ff4da6;
+            --body-light: #ff80bf;
+            --body-dark: #b30059;
+            --body-shadow: #4d0026;
+        }
+
+        /* --- CUSTOMIZADOR DE COLOR --- */
+        #theme-customizer {
+            position: absolute;
+            top: 25px; left: 25px;
+            display: flex; align-items: center; gap: 12px;
+            z-index: 100;
+            background: rgba(20,20,20,0.8);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        #theme-customizer label {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #ccc;
+            text-transform: uppercase;
+        }
+
+        /* Estilizar el input type="color" para que parezca un botón redondo */
+        #colorPicker {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 32px; height: 32px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        #colorPicker::-webkit-color-swatch {
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+        #colorPicker::-moz-color-swatch {
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        /* --- LAYOUT PRINCIPAL --- */
+        #app-layout {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+            padding: 20px;
+        }
+
+        /* --- CONTENEDOR CON PERSPECTIVA 3D --- */
+        #player-section {
+            flex: 0 0 auto;
+            display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            perspective: 1600px; /* Profundidad de cámara */
         }
 
-        #discman-container {
+        #discman-device {
             position: relative;
-            width: min(90vw, 90vh, 600px);
-            aspect-ratio: 1 / 1;
-            perspective: 1200px; 
+            width: min(86vw, 440px);
+            aspect-ratio: 440 / 484;
+            /* Inclinación isométrica general del aparato */
+            transform: rotateX(15deg) translateY(-10px);
+            transform-style: preserve-3d; /* Permite que la tapa gire en 3D respecto a la base */
+            filter: drop-shadow(0 35px 45px rgba(0, 0, 0, 0.95));
         }
 
-        #discman-lid {
+        /* --- CUERPO BASE E INTERIOR MOLDEADO --- */
+        #device-base-svg {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            z-index: 2; pointer-events: none;
+        }
+
+        /* --- RECÁMARA DEL CD --- */
+        #cd-chamber {
             position: absolute;
-            inset: 0;
+            top: 7%; left: 50%; transform: translateX(-50%);
+            width: 82.5%; aspect-ratio: 1 / 1;
             border-radius: 50%;
-            background: rgba(12, 12, 12, 0.86);
-            border: 2px solid #262626;
-            box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95), 0 25px 60px rgba(0, 0, 0, 0.9);
-            transform-origin: top center;
-            transform: rotateX(112deg);
-            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: none;
-            z-index: 25;
-        }
-
-        .lid-closed {
-            transform: rotateX(0deg) !important;
+            background: radial-gradient(circle, #141416 55%, #070708 100%);
+            box-shadow: inset 0 6px 18px rgba(0, 0, 0, 1), 0 0 0 2px rgba(255, 255, 255, 0.06);
+            z-index: 5;
         }
 
         #cd-disc {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background-color: #111;
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.05), inset 0 0 20px rgba(0,0,0,0.8);
-            z-index: 5;
-            transition: transform 0.5s ease-in;
+            position: absolute; inset: 2%; border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, #161616 0%, #0c0c0c 72%, #181818 98%, #3a3a3a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.16); z-index: 6;
         }
 
-        /* AQUÍ ESTÁ EL NOMBRE DE TU ARCHIVO EXACTO */
         #cd-artwork {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
+            position: absolute; inset: 0; border-radius: 50%;
             background-image: url('assets/images/noescuches_2_2.webp');
-            background-size: cover; 
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: grayscale(100%) contrast(120%);
-            mix-blend-mode: lighten;
-            z-index: 6;
-        }
-
-        svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 15;
-        }
-
-        .track-text {
-            font-family: 'Kalam', cursive;
-            font-size: 26px;
-            fill: #fff;
-            cursor: pointer;
-            transition: fill 0.2s, font-size 0.2s;
-        }
-
-        .track-text:hover {
-            fill: #aaa;
-            font-weight: bold;
+            background-size: 86% auto; background-position: 50% 55%; background-repeat: no-repeat;
+            filter: grayscale(100%) contrast(132%) brightness(94%); mix-blend-mode: lighten;
+            -webkit-mask-image: radial-gradient(ellipse 42% 23% at 50% 55%, #000 72%, rgba(0,0,0,0.5) 88%, transparent 100%);
+            mask-image: radial-gradient(ellipse 42% 23% at 50% 55%, #000 72%, rgba(0,0,0,0.5) 88%, transparent 100%); z-index: 7;
         }
 
         #cd-hub {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 25%; height: 25%;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
-            z-index: 10;
-            pointer-events: none;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 27%; height: 27%; border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,0,0,0.75) 0%, rgba(20,20,20,0.52) 68%, rgba(255,255,255,0.14) 72%, rgba(0,0,0,0.7) 100%);
+            border: 1.5px solid rgba(255,255,255,0.16); z-index: 10; pointer-events: none;
         }
 
         #cd-hole {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 11.5%; height: 11.5%; border-radius: 50%; background: #050505;
+            border: 3px solid rgba(255,255,255,0.2); z-index: 12; pointer-events: none;
+        }
+
+        #cd-disc svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 15; }
+        .track-text {
+            font-family: 'Patrick Hand', cursive; font-size: 24px;
+            fill: #f2f2f2; stroke: #080808; stroke-width: 4px; paint-order: stroke fill;
+            cursor: pointer; transition: fill 0.2s ease;
+        }
+        .track-text:hover, .track-text.active { fill: var(--body-light); }
+
+        .spinning { animation: spinCD 0.8s linear infinite; }
+        @keyframes spinCD { 100% { transform: rotate(360deg); } }
+
+        /* --- TAPA 3D SÓLIDA --- */
+        #discman-lid {
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12%; height: 12%;
-            border-radius: 50%;
-            background: #050505;
-            border: 4px solid rgba(255, 255, 255, 0.15);
-            box-shadow: inset 0 0 10px #000;
-            z-index: 12;
-        }
-
-        .spinning {
-            animation: spinCD 0.75s linear infinite;
-        }
-
-        @keyframes spinCD {
-            100% { transform: rotate(360deg); }
-        }
-
-        #content-screen {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 5, 0.98);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
+            inset: 0; width: 100%; height: 100%;
+            transform-origin: 50% 2%; /* Bisagra superior */
+            transform-style: preserve-3d; /* Permite caras frontales y traseras */
+            transform: rotateX(110deg); /* Arranca abierta */
+            transition: transform 1.2s cubic-bezier(0.3, 0, 0.1, 1);
             pointer-events: none;
-            transition: opacity 0.9s ease 0.4s;
-            z-index: 30;
+            z-index: 20;
         }
 
-        .show-content {
-            opacity: 1 !important;
-            pointer-events: auto !important;
+        .lid-closed { transform: rotateX(0deg) !important; }
+
+        /* Cara EXTERIOR de la tapa (La que ves cuando está cerrada) */
+        .lid-face-outer {
+            position: absolute; inset: 0;
+            backface-visibility: hidden; /* Se oculta si la miras por detrás */
+            transform: translateZ(2px); /* Ligeramente hacia arriba para dar grosor */
         }
 
-        #stop-btn {
-            margin-top: 40px;
-            padding: 10px 26px;
-            background: #111;
-            color: #fff;
-            border: 1px solid #fff;
-            cursor: pointer;
-            font-family: monospace;
-            font-size: 17px;
-            border-radius: 3px;
+        /* Cara INTERIOR de la tapa (La que ves al abrirla, sólida y moldeada) */
+        .lid-face-inner {
+            position: absolute; inset: 0;
+            backface-visibility: hidden;
+            transform: rotateX(180deg) translateZ(2px); /* Invertida para mirar hacia adentro */
         }
+
+        /* SVGs de las caras */
+        .lid-svg-outer, .lid-svg-inner { position: absolute; inset: 0; width: 100%; height: 100%; }
         
-        #stop-btn:hover { background: #fff; color: #000; }
+        .lid-svg-outer { filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6)); }
+        
+        /* La cara interna no proyecta sombra externa, usa el color base oscurecido */
+        .lid-svg-inner { opacity: 0.95; }
+
+        .lid-branding {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column; align-items: center; padding-top: 11.5%;
+        }
+
+        .brand-studio {
+            padding: 4px 15px; border-radius: 999px;
+            border: 1.5px solid rgba(255, 255, 255, 0.6); background: rgba(0, 0, 0, 0.16);
+            font-family: sans-serif; font-weight: 800; font-size: clamp(10px, 1.9vw, 12.5px);
+            letter-spacing: 3px; color: rgba(255, 255, 255, 0.94); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+        }
+
+        .brand-project {
+            margin-top: 13.5%; font-family: sans-serif; font-weight: 900; font-style: italic;
+            font-size: clamp(13px, 2.5vw, 17px); letter-spacing: 2.2px; color: rgba(255, 255, 255, 0.92);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.65);
+        }
+
+        /* Marco del visor transparente */
+        .lid-visor-rim {
+            position: absolute;
+            left: 147px; top: 322px; width: 140px; height: 42px;
+            border-radius: 50%;
+            border: 3px solid #141416;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.8), 0 1px 3px rgba(255,255,255,0.15);
+            background: linear-gradient(180deg, rgba(255,255,255,0.1), transparent);
+        }
+
+        /* --- BISEL INFERIOR --- */
+        #control-deck {
+            position: absolute; inset: 0; pointer-events: none; z-index: 25;
+            transform: translateZ(5px); /* Un poco más alto por la perspectiva */
+        }
+        #bezel-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+        .hw-btn {
+            position: absolute; pointer-events: auto;
+            height: 24px; padding: 0 14px; border-radius: 999px;
+            background: radial-gradient(circle at 50% 25%, #f5f5f7 0%, #c4c4ca 62%, #8e8e95 100%);
+            border: 1px solid #161618;
+            box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 3px 6px rgba(0, 0, 0, 0.95), 0 0 0 2.5px #09090b;
+            color: #141416; font-family: Arial, sans-serif; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.15s ease;
+        }
+        .hw-btn:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 0 2.5px #09090b; transform: scale(0.95); }
+
+        #btn-stop { left: 26.5%; bottom: 12.2%; transform: translateX(-50%) rotate(25deg); }
+        #btn-play { left: 50%; bottom: 5.8%; transform: translateX(-50%); padding: 0 18px; }
+        #btn-next { left: 73.5%; bottom: 12.2%; transform: translateX(-50%) rotate(-25deg); }
+
+        /* --- ÁREA DE CONTENIDO (DERECHA) --- */
+        #module-section {
+            flex: 1; max-width: 600px; height: 80vh;
+            background: rgba(15, 15, 15, 0.92); border: 1px solid #333; border-radius: 10px;
+            padding: 40px; display: flex; flex-direction: column; opacity: 0; pointer-events: none;
+            transition: opacity 0.9s ease 0.4s; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+        }
+        #module-section.active { opacity: 1; pointer-events: auto; }
+        #module-title { font-family: 'Patrick Hand', cursive; font-size: 45px; color: var(--body-light); border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        #module-content { font-family: monospace; color: #aaa; line-height: 1.6; overflow-y: auto; }
+
+        @media (max-width: 900px) {
+            #app-layout { flex-direction: column; gap: 20px; padding-top: 70px; }
+            #discman-device { width: min(80vw, 340px); transform: rotateX(10deg); }
+            #module-section { width: 100%; height: 45vh; padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="discman-container">
-        <div id="discman-lid"></div>
-        <div id="cd-disc">
-            
-            <div id="cd-artwork"></div>
-            <div id="cd-hub"></div>
-            <div id="cd-hole"></div>
-            
-            <svg viewBox="0 0 500 500">
-                <defs>
-                    <path id="arc-top" d="M 35, 250 A 215,215 0 1,1 465,250" />
-                    <path id="arc-bottom" d="M 35, 250 A 215,215 0 0,0 465,250" />
-                </defs>
-                <text>
-                    <textPath class="track-text" href="#arc-top" startOffset="12%" text-anchor="middle" onclick="playTrack('Peter Pank')">Peter Pank</textPath>
-                    <textPath class="track-text" href="#arc-top" startOffset="50%" text-anchor="middle" onclick="playTrack('Teaser')">Teaser</textPath>
-                    <textPath class="track-text" href="#arc-top" startOffset="88%" text-anchor="middle" onclick="playTrack('Literatura')">Literatura</textPath>
-
-                    <textPath class="track-text" href="#arc-bottom" startOffset="12%" text-anchor="middle" onclick="playTrack('Fanzines')">Fanzines</textPath>
-                    <textPath class="track-text" href="#arc-bottom" startOffset="50%" text-anchor="middle" onclick="playTrack('No escuches el CD - Film')">No escuches el CD - Film</textPath>
-                    <textPath class="track-text" href="#arc-bottom" startOffset="88%" text-anchor="middle" onclick="playTrack('Música')">Música</textPath>
-                </text>
-            </svg>
-        </div>
+    <!-- Selector de Color Dinámico -->
+    <div id="theme-customizer">
+        <label for="colorPicker">Color:</label>
+        <input type="color" id="colorPicker" value="#ff4da6">
     </div>
 
-    <div id="content-screen">
-        <h1 id="playing-title" style="font-family: 'Kalam', cursive; font-size: 52px; color: #fff;">Cargando...</h1>
-        <button id="stop-btn" onclick="stopDisc()">◼ EJECT</button>
+    <!-- Máscara SVG para recortar el visor -->
+    <svg width="0" height="0" style="position:absolute;">
+        <defs>
+            <mask id="lidVisorCutout" maskContentUnits="objectBoundingBox">
+                <rect x="0" y="0" width="1" height="1" fill="white" />
+                <!-- Perforación curva -->
+                <path d="M 0.34,0.67 Q 0.5,0.69 0.66,0.67 L 0.64,0.74 Q 0.5,0.76 0.36,0.74 Z" fill="black" />
+            </mask>
+        </defs>
+    </svg>
+
+    <div id="app-layout">
+        
+        <!-- DISCMAN -->
+        <div id="player-section">
+            <div id="discman-device">
+                
+                <!-- Base Exterior -->
+                <svg id="device-base-svg" viewBox="0 0 440 484">
+                    <defs>
+                        <radialGradient id="shellGradBase" cx="50%" cy="32%" r="68%">
+                            <stop offset="0%" stop-color="var(--body-light)" />
+                            <stop offset="68%" stop-color="var(--body-base)" />
+                            <stop offset="100%" stop-color="var(--body-shadow)" />
+                        </radialGradient>
+                    </defs>
+                    <path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z"
+                          fill="url(#shellGradBase)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+                    <!-- Cavidad Interna (Opaca) -->
+                    <path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z"
+                          fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+                </svg>
+
+                <div id="cd-chamber">
+                    <div id="cd-disc">
+                        <div id="cd-artwork"></div>
+                        <div id="cd-hub"></div>
+                        <div id="cd-hole"></div>
+                        <svg viewBox="0 0 500 500">
+                            <defs>
+                                <path id="arc-top" d="M 38, 250 A 212,212 0 1,1 462,250" />
+                                <path id="arc-bottom" d="M 38, 250 A 212,212 0 0,0 462,250" />
+                            </defs>
+                            <text>
+                                <textPath class="track-text" id="trk-0" href="#arc-top" startOffset="16%" text-anchor="middle" onclick="selectTrack(0)">Peter Pank</textPath>
+                                <textPath class="track-text" id="trk-1" href="#arc-top" startOffset="50%" text-anchor="middle" onclick="selectTrack(1)">Teaser</textPath>
+                                <textPath class="track-text" id="trk-2" href="#arc-top" startOffset="84%" text-anchor="middle" onclick="selectTrack(2)">Literatura</textPath>
+                                <textPath class="track-text" id="trk-3" href="#arc-bottom" startOffset="15%" text-anchor="middle" onclick="selectTrack(3)">Fanzines</textPath>
+                                <textPath class="track-text" id="trk-4" href="#arc-bottom" startOffset="50%" text-anchor="middle" onclick="selectTrack(4)">No escuches el CD</textPath>
+                                <textPath class="track-text" id="trk-5" href="#arc-bottom" startOffset="85%" text-anchor="middle" onclick="selectTrack(5)">Música</textPath>
+                            </text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- TAPA 3D (Cara Externa + Cara Interna Sólida) -->
+                <div id="discman-lid">
+                    
+                    <!-- CARA EXTERNA (Visible cerrada, con logo y perforación) -->
+                    <div class="lid-face-outer">
+                        <svg class="lid-svg-outer" viewBox="0 0 440 484">
+                            <defs>
+                                <radialGradient id="lidGrad" cx="50%" cy="30%" r="70%">
+                                    <stop offset="0%" stop-color="var(--body-light)" />
+                                    <stop offset="70%" stop-color="var(--body-base)" />
+                                    <stop offset="100%" stop-color="var(--body-dark)" />
+                                </radialGradient>
+                            </defs>
+                            <g mask="url(#lidVisorCutout)">
+                                <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z"
+                                      fill="url(#lidGrad)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" />
+                                <path d="M 78,22 C 44,112 42,216 74,302" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
+                                <path d="M 362,22 C 396,112 398,216 366,302" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
+                            </g>
+                        </svg>
+                        <div class="lid-branding">
+                            <div class="brand-studio">MOLINO STUDIO</div>
+                            <div class="brand-project">NO ESCUCHES EL CD</div>
+                        </div>
+                        <div class="lid-visor-rim"></div>
+                    </div>
+
+                    <!-- CARA INTERNA (Sólida, visible solo al abrir, sin letras ni perforación transparente) -->
+                    <div class="lid-face-inner">
+                        <svg class="lid-svg-inner" viewBox="0 0 440 484">
+                            <defs>
+                                <radialGradient id="innerGrad" cx="50%" cy="50%" r="70%">
+                                    <stop offset="0%" stop-color="var(--body-dark)" />
+                                    <stop offset="100%" stop-color="var(--body-shadow)" />
+                                </radialGradient>
+                            </defs>
+                            <!-- La forma base reflejada horizontalmente, opaca -->
+                            <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z"
+                                  fill="url(#innerGrad)" stroke="#111" stroke-width="2" />
+                            <!-- Moldeado de plástico interno (estructura sólida) -->
+                            <circle cx="220" cy="210" r="100" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="4" />
+                            <circle cx="220" cy="210" r="30" fill="rgba(0,0,0,0.6)" />
+                        </svg>
+                    </div>
+
+                </div>
+
+                <!-- Bisel y Botones -->
+                <div id="control-deck">
+                    <svg id="bezel-svg" viewBox="0 0 440 484">
+                        <path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z"
+                              fill="#1c1c1f" stroke="rgba(255,255,255,0.15)" stroke-width="1.2" />
+                    </svg>
+
+                    <button class="hw-btn" id="btn-stop" onclick="stopDisc()">■</button>
+                    <button class="hw-btn" id="btn-play" onclick="playCurrent()">▶||</button>
+                    <button class="hw-btn" id="btn-next" onclick="nextTrack()">▶▶</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="module-section">
+            <h1 id="module-title"></h1>
+            <div id="module-content"></div>
+        </div>
+
     </div>
 
     <script>
+        const tracks = ["Peter Pank", "Teaser", "Literatura", "Fanzines", "No escuches el CD", "Música"];
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+
         const cd = document.getElementById('cd-disc');
         const lid = document.getElementById('discman-lid');
-        const contentScreen = document.getElementById('content-screen');
-        const playingTitle = document.getElementById('playing-title');
+        const moduleSection = document.getElementById('module-section');
+        const moduleTitle = document.getElementById('module-title');
+        const moduleContent = document.getElementById('module-content');
+        
+        // Lógica del Color Picker
+        const colorPicker = document.getElementById('colorPicker');
 
-        function playTrack(trackName) {
-            cd.classList.add('spinning');
-            setTimeout(() => { lid.classList.add('lid-closed'); }, 300);
-            playingTitle.innerText = trackName;
-            setTimeout(() => { contentScreen.classList.add('show-content'); }, 1800);
+        // Función para aclarar u oscurecer un color HEX (para generar la paleta automática)
+        function adjustColor(color, amount) {
+            return '#' + color.replace(/^#/, '').replace(/../g, color => ('0'+Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
         }
 
+        colorPicker.addEventListener('input', (e) => {
+            const hex = e.target.value;
+            // Genera la paleta de volumen basándose en el color elegido
+            document.body.style.setProperty('--body-base', hex);
+            document.body.style.setProperty('--body-light', adjustColor(hex, 50)); // Más claro
+            document.body.style.setProperty('--body-dark', adjustColor(hex, -60)); // Más oscuro
+            document.body.style.setProperty('--body-shadow', adjustColor(hex, -120)); // Sombra profunda
+        });
+
+        // Interacción del CD
+        function highlightTrack(index) {
+            document.querySelectorAll('.track-text').forEach(el => el.classList.remove('active'));
+            const activeEl = document.getElementById(`trk-${index}`);
+            if (activeEl) activeEl.classList.add('active');
+        }
+
+        function selectTrack(index) {
+            currentTrackIndex = index;
+            isPlaying = true;
+            highlightTrack(currentTrackIndex);
+
+            cd.classList.add('spinning');
+            lid.classList.add('lid-closed');
+
+            const trackName = tracks[currentTrackIndex];
+            moduleTitle.innerText = trackName;
+            moduleContent.innerHTML = `<p>Cargando el contenido de ${trackName}...</p>`;
+
+            setTimeout(() => { if (isPlaying) moduleSection.classList.add('active'); }, 900);
+        }
+
+        function playCurrent() { selectTrack(currentTrackIndex); }
+        function nextTrack() { selectTrack((currentTrackIndex + 1) % tracks.length); }
+
         function stopDisc() {
-            contentScreen.classList.remove('show-content');
+            isPlaying = false;
+            moduleSection.classList.remove('active');
             setTimeout(() => {
                 lid.classList.remove('lid-closed');
-                setTimeout(() => { cd.classList.remove('spinning'); }, 800);
-            }, 800);
+                setTimeout(() => { if (!isPlaying) cd.classList.remove('spinning'); }, 800);
+            }, 450);
         }
     </script>
 </body>
