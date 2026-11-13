@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>No escuches el CD</title>
-    <!-- Tipografía restaurada a un estilo marcador limpio -->
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
@@ -21,7 +20,6 @@
             overflow: hidden;
         }
 
-        /* Contenedor del Discman */
         #discman-container {
             position: relative;
             width: min(90vw, 90vh, 600px);
@@ -29,7 +27,6 @@
             perspective: 1200px; 
         }
 
-        /* Tapa del Discman translúcida */
         #discman-lid {
             position: absolute;
             inset: 0;
@@ -48,7 +45,6 @@
             transform: rotateX(0deg) !important;
         }
 
-        /* El CD Negro (Opción 1) */
         #cd-disc {
             position: absolute;
             inset: 0;
@@ -59,24 +55,20 @@
             transition: transform 0.5s ease-in;
         }
 
-        /* Capa donde carga tu foto desde GitHub - CORREGIDO PARA LLENAR EL CÍRCULO */
+        /* AQUÍ ESTÁ EL NOMBRE DE TU ARCHIVO EXACTO */
         #cd-artwork {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            background-image: url('assets/images/noescuches.webp');
-            
-            /* 'cover' asegura que la imagen no quede rectangular ni con franjas negras */
+            background-image: url('assets/images/noescuches_2_2.webp');
             background-size: cover; 
             background-position: center;
             background-repeat: no-repeat;
-            
             filter: grayscale(100%) contrast(120%);
             mix-blend-mode: lighten;
             z-index: 6;
         }
 
-        /* Textos Curvos SVG */
         svg {
             position: absolute;
             inset: 0;
@@ -98,7 +90,6 @@
             font-weight: bold;
         }
 
-        /* Anillo transparente oscuro (Opción 1) */
         #cd-hub {
             position: absolute;
             top: 50%; left: 50%;
@@ -112,7 +103,6 @@
             pointer-events: none;
         }
 
-        /* Agujero central */
         #cd-hole {
             position: absolute;
             top: 50%; left: 50%;
@@ -125,7 +115,6 @@
             z-index: 12;
         }
 
-        /* Animación de giro */
         .spinning {
             animation: spinCD 0.75s linear infinite;
         }
@@ -134,7 +123,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Pantalla de contenido */
         #content-screen {
             position: fixed;
             inset: 0;
@@ -172,34 +160,23 @@
 <body>
 
     <div id="discman-container">
-        <!-- Tapa de acrílico -->
         <div id="discman-lid"></div>
-
-        <!-- CD -->
         <div id="cd-disc">
             
-            <!-- Aquí se carga tu foto automáticamente desde GitHub -->
             <div id="cd-artwork"></div>
-
             <div id="cd-hub"></div>
             <div id="cd-hole"></div>
             
-            <!-- Textos posicionados matemáticamente para no encimarse -->
             <svg viewBox="0 0 500 500">
                 <defs>
-                    <!-- Arco superior -->
                     <path id="arc-top" d="M 35, 250 A 215,215 0 1,1 465,250" />
-                    <!-- Arco inferior -->
                     <path id="arc-bottom" d="M 35, 250 A 215,215 0 0,0 465,250" />
                 </defs>
                 <text>
-                    <!-- ARCO SUPERIOR -->
-                    <!-- 12% a la izquierda, 50% al centro, 88% a la derecha -->
                     <textPath class="track-text" href="#arc-top" startOffset="12%" text-anchor="middle" onclick="playTrack('Peter Pank')">Peter Pank</textPath>
                     <textPath class="track-text" href="#arc-top" startOffset="50%" text-anchor="middle" onclick="playTrack('Teaser')">Teaser</textPath>
                     <textPath class="track-text" href="#arc-top" startOffset="88%" text-anchor="middle" onclick="playTrack('Literatura')">Literatura</textPath>
 
-                    <!-- ARCO INFERIOR -->
                     <textPath class="track-text" href="#arc-bottom" startOffset="12%" text-anchor="middle" onclick="playTrack('Fanzines')">Fanzines</textPath>
                     <textPath class="track-text" href="#arc-bottom" startOffset="50%" text-anchor="middle" onclick="playTrack('No escuches el CD - Film')">No escuches el CD - Film</textPath>
                     <textPath class="track-text" href="#arc-bottom" startOffset="88%" text-anchor="middle" onclick="playTrack('Música')">Música</textPath>
@@ -208,7 +185,6 @@
         </div>
     </div>
 
-    <!-- Pantalla de contenido -->
     <div id="content-screen">
         <h1 id="playing-title" style="font-family: 'Kalam', cursive; font-size: 52px; color: #fff;">Cargando...</h1>
         <button id="stop-btn" onclick="stopDisc()">◼ EJECT</button>
@@ -222,16 +198,13 @@
 
         function playTrack(trackName) {
             cd.classList.add('spinning');
-            
             setTimeout(() => { lid.classList.add('lid-closed'); }, 300);
             playingTitle.innerText = trackName;
-
             setTimeout(() => { contentScreen.classList.add('show-content'); }, 1800);
         }
 
         function stopDisc() {
             contentScreen.classList.remove('show-content');
-            
             setTimeout(() => {
                 lid.classList.remove('lid-closed');
                 setTimeout(() => { cd.classList.remove('spinning'); }, 800);
