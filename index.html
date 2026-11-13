@@ -16,6 +16,7 @@
             color: #fff;
             font-family: 'Space Mono', monospace;
             height: 100vh;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -26,21 +27,27 @@
             --body-shadow: #4d0026;
         }
 
-        /* --- BARRA SUPERIOR IZQUIERDA (Arcoíris + Sharpie + Stickers + Descarga) --- */
-        #top-tools {
-            position: absolute;
-            top: 25px; left: 25px;
+        /* --- BARRA VERTICAL EN EL COSTADO IZQUIERDO --- */
+        #side-tools {
+            position: fixed;
+            left: clamp(10px, 2vw, 28px);
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: clamp(14px, 2.2vh, 22px);
             z-index: 100;
         }
 
         /* --- CUSTOMIZADOR DE COLOR (Solo arcoíris, sin círculo contenedor) --- */
         #theme-customizer {
             position: relative;
-            width: 45px; height: 33px;
-            display: flex; align-items: center; justify-content: center;
+            width: clamp(36px, 4vw, 48px);
+            height: clamp(27px, 3vw, 36px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: transform 0.15s ease;
         }
 
@@ -61,8 +68,8 @@
             background: transparent;
             border: none;
             color: rgba(255, 255, 255, 0.82);
-            width: 34px;
-            height: 34px;
+            width: clamp(32px, 3.5vw, 40px);
+            height: clamp(32px, 3.5vw, 40px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -82,11 +89,12 @@
             transform: scale(1.1);
         }
 
-        /* Sub-paneles flotantes minimalistas para Sharpie y Stickers */
+        /* Sub-paneles flotantes desplegados a la derecha de la barra izquierda */
         .tool-popover {
-            position: absolute;
-            top: 72px;
-            left: 25px;
+            position: fixed;
+            top: 50%;
+            left: clamp(56px, 7vw, 88px);
+            transform: translateY(-50%);
             background: rgba(14, 14, 17, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 12px;
@@ -137,7 +145,9 @@
 
         #sticker-popover {
             flex-wrap: wrap;
-            max-width: 336px;
+            max-width: min(336px, calc(100vw - 72px));
+            max-height: 78dvh;
+            overflow-y: auto;
             gap: 7px;
         }
 
@@ -162,6 +172,7 @@
         #sticker-controls-bar {
             width: 100%;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
             gap: 6px;
@@ -170,15 +181,15 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* --- LAYOUT PRINCIPAL --- */
+        /* --- LAYOUT PRINCIPAL ADAPTABLE (Móvil, Tablet, Laptop, Desktop, TV) --- */
         #app-layout {
             display: flex;
             width: 100%;
             height: 100%;
             align-items: center;
             justify-content: center;
-            gap: 48px;
-            padding: 20px;
+            gap: clamp(24px, 4vw, 64px);
+            padding: 20px clamp(20px, 4vw, 60px) 20px clamp(72px, 8vw, 120px);
         }
 
         /* --- CONTENEDOR CON PERSPECTIVA 3D --- */
@@ -188,11 +199,14 @@
             justify-content: center;
             align-items: center;
             perspective: 1600px;
+            /* Reserva margen superior para que la tapa abierta nunca se recorte */
+            padding-top: clamp(32px, 7vh, 72px);
         }
 
         #discman-device {
             position: relative;
-            width: min(86vw, 440px);
+            width: clamp(260px, 34vw, 560px);
+            max-height: 68dvh;
             aspect-ratio: 440 / 484;
             transform: rotateX(15deg) translateY(-10px);
             transform-style: preserve-3d;
@@ -314,6 +328,7 @@
         #sharpie-hit-surface {
             pointer-events: none;
             cursor: crosshair;
+            touch-action: none;
         }
         #discman-lid.lid-closed.sharpie-active #sharpie-hit-surface {
             pointer-events: all;
@@ -321,6 +336,7 @@
         #discman-lid.lid-closed .lid-sticker-item {
             pointer-events: all;
             cursor: grab;
+            touch-action: none;
         }
         #discman-lid.lid-closed .lid-sticker-item:active {
             cursor: grabbing;
@@ -335,12 +351,16 @@
 
         .hw-btn {
             position: absolute; pointer-events: auto;
-            height: 24px; padding: 0 14px; border-radius: 999px;
+            height: clamp(21px, 2.6vw, 28px);
+            padding: 0 clamp(11px, 1.5vw, 18px);
+            border-radius: 999px;
             background: radial-gradient(circle at 50% 25%, #f5f5f7 0%, #c4c4ca 62%, #8e8e95 100%);
             border: 1px solid #161618;
             outline: none;
             box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 3px 6px rgba(0, 0, 0, 0.95), 0 0 0 2.5px #09090b;
-            color: #141416; font-family: Arial, sans-serif; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;
+            color: #141416; font-family: Arial, sans-serif;
+            font-size: clamp(9px, 1vw, 12px);
+            font-weight: 900; letter-spacing: 0.5px;
             font-variant-emoji: text;
             display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.15s ease;
         }
@@ -348,16 +368,19 @@
         .hw-btn:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 0 2.5px #09090b; }
 
         #btn-stop { left: 26.5%; bottom: 12.2%; transform: translateX(-50%) rotate(25deg); }
-        #btn-play { left: 50%; bottom: 5.8%; transform: translateX(-50%); padding: 0 18px; }
+        #btn-play { left: 50%; bottom: 5.8%; transform: translateX(-50%); padding: 0 clamp(14px, 1.8vw, 22px); }
         #btn-next { left: 73.5%; bottom: 12.2%; transform: translateX(-50%) rotate(-25deg); }
 
         /* --- ÁREA DE CONTENIDO (DERECHA CON LÍNEA NEÓN DEL COLOR DEL DISCMAN) --- */
         #module-section {
-            flex: 1; max-width: 600px; height: 80vh;
+            flex: 1;
+            max-width: clamp(460px, 44vw, 820px);
+            height: 80dvh;
             background: rgba(10, 10, 12, 0.92);
             border: 2px solid var(--body-light);
             border-radius: 10px;
-            padding: 40px; display: flex; flex-direction: column; opacity: 0; pointer-events: none;
+            padding: clamp(24px, 3vw, 44px);
+            display: flex; flex-direction: column; opacity: 0; pointer-events: none;
             transition: opacity 0.9s ease 0.4s, border-color 0.2s ease, box-shadow 0.2s ease;
             box-shadow:
                 0 0 10px var(--body-base),
@@ -367,7 +390,7 @@
         #module-section.active { opacity: 1; pointer-events: auto; }
         #module-title {
             font-family: 'Space Mono', monospace;
-            font-size: 32px;
+            font-size: clamp(22px, 2.6vw, 38px);
             font-weight: 700;
             color: var(--body-light);
             text-shadow: 0 0 10px var(--body-base);
@@ -378,26 +401,84 @@
         #module-content {
             font-family: 'Space Mono', monospace;
             color: #e5e5e5;
-            font-size: 14px;
+            font-size: clamp(13px, 1.1vw, 17px);
             line-height: 1.7;
             overflow-y: auto;
         }
 
-        @media (max-width: 900px) {
-            #app-layout { flex-direction: column; gap: 20px; padding-top: 70px; }
-            #discman-device { width: min(80vw, 340px); transform: rotateX(10deg); }
-            #module-section { width: 100%; height: 45vh; padding: 20px; }
+        /* --- ADAPTACIÓN PARA CELULARES Y TABLETS EN VERTICAL --- */
+        @media (max-width: 900px) and (orientation: portrait) {
+            #app-layout {
+                flex-direction: column;
+                justify-content: center;
+                gap: 18px;
+                padding: 16px 14px 16px 56px;
+            }
+            #player-section {
+                /* Espacio amplio arriba para que la tapa abierta en 3D luzca completa sin tocar el borde */
+                padding-top: clamp(56px, 12dvh, 110px);
+                transition: padding-top 0.6s ease;
+            }
+            #discman-device {
+                width: min(72vw, 330px);
+                max-height: 44dvh;
+                transform: rotateX(12deg);
+            }
+            /* Mientras la tapa está abierta (sin módulo activo), el panel no roba altura y centra el Discman */
+            #module-section {
+                width: 100%;
+                max-width: 100%;
+                height: 0;
+                padding: 0 18px;
+                overflow: hidden;
+                border-width: 0;
+                transition: height 0.6s ease, padding 0.6s ease, opacity 0.6s ease 0.2s, border-color 0.2s ease, box-shadow 0.2s ease;
+            }
+            #module-section.active {
+                height: 42dvh;
+                padding: 18px;
+                border-width: 2px;
+            }
+            #module-title {
+                font-size: 22px;
+                padding-bottom: 8px;
+                margin-bottom: 12px;
+            }
+            #module-content {
+                font-size: 13px;
+            }
+        }
+
+        /* --- CELULARES / TABLETS EN HORIZONTAL --- */
+        @media (max-width: 900px) and (orientation: landscape) {
+            #app-layout {
+                flex-direction: row;
+                gap: 20px;
+                padding: 12px 16px 12px 58px;
+            }
+            #player-section {
+                padding-top: 34px;
+            }
+            #discman-device {
+                width: min(36vw, 260px);
+                max-height: 76dvh;
+                transform: rotateX(12deg);
+            }
+            #module-section {
+                height: 82dvh;
+                padding: 18px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Barra minimalista superior izquierda -->
-    <div id="top-tools">
+    <!-- Barra vertical en el costado izquierdo -->
+    <div id="side-tools">
         <!-- 1. Arcoíris selector de color -->
         <div id="theme-customizer" title="Cambiar color del Discman">
             <input type="color" id="colorPicker" value="#ff4da6">
-            <svg viewBox="0 0 64 46" width="45" height="33" style="pointer-events: none;">
+            <svg viewBox="0 0 64 46" width="100%" height="100%" style="pointer-events: none;">
                 <path d="M 6,38 A 26,26 0 0,1 58,38" fill="none" stroke="#ff3b5c" stroke-width="3.6" stroke-linecap="round" />
                 <path d="M 9.5,38 A 22.5,22.5 0 0,1 54.5,38" fill="none" stroke="#ff9500" stroke-width="3.6" stroke-linecap="round" />
                 <path d="M 13,38 A 19,19 0 0,1 51,38" fill="none" stroke="#ffd60a" stroke-width="3.6" stroke-linecap="round" />
@@ -411,14 +492,10 @@
         <button class="tool-icon-btn" id="btn-sharpie-tool" title="Rayar con marcador" onclick="toggleToolPanel('sharpie')">
             <svg viewBox="0 0 64 64" width="24" height="24">
                 <g transform="rotate(-45 32 32)">
-                    <!-- Tapa del marcador -->
                     <rect x="6" y="23" width="20" height="18" rx="6" fill="currentColor" />
                     <path d="M11 26.5 H22" stroke="#050505" stroke-width="2.2" stroke-linecap="round" />
-                    <!-- Cuerpo del marcador -->
                     <rect x="25" y="24.5" width="21" height="15" fill="none" stroke="currentColor" stroke-width="2.6" />
-                    <!-- Cuello cónico -->
                     <path d="M46 25.5 L53 28.5 L53 35.5 L46 38.5 Z" fill="currentColor" />
-                    <!-- Punta biselada -->
                     <path d="M53 29.5 L59 30.8 L59 34.5 L53 34.5 Z" fill="currentColor" />
                 </g>
             </svg>
@@ -451,7 +528,6 @@
 
     <!-- Popover Stickers 90s / Y2K / Terror & Pop -->
     <div class="tool-popover" id="sticker-popover">
-        <!-- 1. Máscara Slasher 90s -->
         <div class="sticker-choice" title="Slasher 90s" onclick="addPresetSticker('ghostface')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <path d="M17 20 C17 9 43 9 43 20 C44 33 38 49 30 52 C22 49 16 33 17 20 Z" fill="#fff" stroke="#fff" stroke-width="5"/>
@@ -461,7 +537,6 @@
                 <path d="M26 36 Q30 33 34 36 Q33 47 30 48 Q27 47 26 36 Z" fill="#111"/>
             </svg>
         </div>
-        <!-- 2. Calavera Punk -->
         <div class="sticker-choice" title="Calavera" onclick="addPresetSticker('skull')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <path d="M16 25 C16 13 44 13 44 25 C44 32 40 36 38 38 L38 47 L22 47 L22 38 C20 36 16 32 16 25 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
@@ -474,7 +549,6 @@
                 <line x1="34" y1="41" x2="34" y2="47" stroke="#111" stroke-width="2"/>
             </svg>
         </div>
-        <!-- 3. Alien Y2K -->
         <div class="sticker-choice" title="Alien 90s" onclick="addPresetSticker('alien')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <path d="M13 24 C13 10 47 10 47 24 C47 37 36 50 30 51 C24 50 13 37 13 24 Z" fill="#fff" stroke="#fff" stroke-width="5"/>
@@ -485,7 +559,6 @@
                 <circle cx="36.5" cy="25" r="1.4" fill="#fff"/>
             </svg>
         </div>
-        <!-- 4. Smiley Derretido Acid -->
         <div class="sticker-choice" title="Acid Smiley" onclick="addPresetSticker('trippySmiley')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <path d="M11 27 A19 19 0 1 1 49 27 C49 36 46 47 43 47 C40 47 40 39 37 39 C34 39 34 50 30 50 C26 50 26 40 23 40 C20 40 20 46 17 46 C14 46 11 36 11 27 Z" fill="#fff" stroke="#fff" stroke-width="5"/>
@@ -495,7 +568,6 @@
                 <path d="M19 31 Q25 38 30 33 Q35 38 41 31" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
             </svg>
         </div>
-        <!-- 5. Ojos Cartoon -->
         <div class="sticker-choice" title="Ojos Toon" onclick="addPresetSticker('eyes')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <ellipse cx="22" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5"/>
@@ -506,7 +578,6 @@
                 <ellipse cx="41" cy="31" rx="4" ry="6" fill="#111"/>
             </svg>
         </div>
-        <!-- 6. Boombox 90s -->
         <div class="sticker-choice" title="Boombox 90s" onclick="addPresetSticker('boombox')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <rect x="8" y="21" width="44" height="26" rx="4" fill="#fff" stroke="#fff" stroke-width="5"/>
@@ -518,7 +589,6 @@
                 <rect x="25" y="29" width="10" height="8" rx="1" fill="#38bdf8" stroke="#111" stroke-width="1.5"/>
             </svg>
         </div>
-        <!-- 7. Cassette Mixtape -->
         <div class="sticker-choice" title="Cassette" onclick="addPresetSticker('cassette')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <rect x="8" y="17" width="44" height="28" rx="4" fill="#fff" stroke="#fff" stroke-width="5"/>
@@ -529,7 +599,6 @@
                 <polygon points="18,45 21,39 39,39 42,45" fill="#111"/>
             </svg>
         </div>
-        <!-- 8. Bola 8 -->
         <div class="sticker-choice" title="Bola 8" onclick="addPresetSticker('eightball')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <circle cx="30" cy="30" r="22" fill="#fff"/>
@@ -538,7 +607,6 @@
                 <text x="30" y="32" text-anchor="middle" fill="#111" font-family="sans-serif" font-size="11" font-weight="900">8</text>
             </svg>
         </div>
-        <!-- 9. Llama Y2K -->
         <div class="sticker-choice" title="Llama Y2K" onclick="addPresetSticker('flame')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <path d="M31 8 C37 18 46 23 45 36 C44 46 37 52 29 52 C20 52 14 45 15 35 C16 28 21 24 22 19 C24 23 26 24 27 21 C26 15 28 11 31 8 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
@@ -546,7 +614,6 @@
                 <path d="M30 26 C34 32 37 36 36 42 C35 47 32 49 29 49 C25 49 22 46 23 41 C24 37 28 33 30 26 Z" fill="#fb923c"/>
             </svg>
         </div>
-        <!-- 10. Corazón con Ojos -->
         <div class="sticker-choice" title="Corazón Pop" onclick="addPresetSticker('heartEyes')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
@@ -557,7 +624,6 @@
                 <circle cx="35.5" cy="27.5" r="1.8" fill="#111"/>
             </svg>
         </div>
-        <!-- 11. Yin Yang -->
         <div class="sticker-choice" title="Yin Yang" onclick="addPresetSticker('yinyang')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <circle cx="30" cy="30" r="22" fill="#fff"/>
@@ -567,7 +633,6 @@
                 <circle cx="30" cy="39.25" r="2.8" fill="#fecdd3"/>
             </svg>
         </div>
-        <!-- 12. Paz 90s -->
         <div class="sticker-choice" title="Paz" onclick="addPresetSticker('peace')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <circle cx="30" cy="30" r="22" fill="#fff"/>
@@ -577,14 +642,12 @@
                 <line x1="30" y1="30" x2="43" y2="42" stroke="#111" stroke-width="2.4"/>
             </svg>
         </div>
-        <!-- 13. Rayo -->
         <div class="sticker-choice" title="Rayo" onclick="addPresetSticker('bolt')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
                 <polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#facc15" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
             </svg>
         </div>
-        <!-- 14. Hongo Psicodélico -->
         <div class="sticker-choice" title="Hongo" onclick="addPresetSticker('mushroom')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <path d="M12 30 C12 14 48 14 48 30 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
@@ -596,7 +659,6 @@
                 <circle cx="39" cy="24" r="2.5" fill="#fff"/>
             </svg>
         </div>
-        <!-- 15. Nube BOOM -->
         <div class="sticker-choice" title="BOOM!" onclick="addPresetSticker('boom')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <path d="M14 36 C8 35 7 26 14 24 C14 16 24 14 29 19 C34 13 45 15 46 23 C53 25 53 35 46 37 C45 44 35 46 30 42 C24 46 14 44 14 36 Z" fill="#fff" stroke="#fff" stroke-width="4"/>
@@ -604,7 +666,6 @@
                 <text x="30" y="33" text-anchor="middle" fill="#ec4899" stroke="#111" stroke-width="0.6" font-family="sans-serif" font-size="9.5" font-weight="900">BOOM</text>
             </svg>
         </div>
-        <!-- 16. Etiqueta NO CD -->
         <div class="sticker-choice" title="Etiqueta NO CD" onclick="addPresetSticker('tag')">
             <svg viewBox="0 0 60 60" width="30" height="30">
                 <rect x="6" y="17" width="48" height="26" rx="4" fill="#fff"/>
@@ -669,7 +730,7 @@
                                     <rect x="0" y="0" width="440" height="484" fill="white" />
                                     <path d="M 152,326 Q 220,334 288,326 L 281,360 Q 220,369 159,360 Z" fill="black" />
                                 </mask>
-                                <!-- Máscara estricta a la superficie plástica de la tapa (los stickers y rayones nunca se salen del Discman) -->
+                                <!-- Máscara estricta a la superficie plástica de la tapa -->
                                 <mask id="lidCustomSurfaceMask">
                                     <rect x="0" y="0" width="440" height="484" fill="black" />
                                     <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z" fill="white" />
@@ -913,12 +974,11 @@
         sharpieHitSurface.addEventListener('pointerup', endSharpieStroke);
         sharpieHitSurface.addEventListener('pointercancel', endSharpieStroke);
 
-        /* --- 2. MOTOR DE STICKERS TROQUELADOS (+20% tamaño, superponibles y recortados al Discman) --- */
+        /* --- 2. MOTOR DE STICKERS TROQUELADOS --- */
         let selectedSticker = null;
         let draggingSticker = null;
         let dragOffset = { x: 0, y: 0 };
 
-        // Todos los stickers tienen radio ~24 unidades (un 20% más grandes) y borde troquelado blanco
         const presetStickerMarkup = {
             ghostface: `<path d="M-15 -11 C-15 -24 15 -24 15 -11 C16 4 9 22 0 25 C-9 22 -16 4 -15 -11 Z" fill="#fff" stroke="#fff" stroke-width="5.5"/>
                         <path d="M-15 -11 C-15 -24 15 -24 15 -11 C16 4 9 22 0 25 C-9 22 -16 4 -15 -11 Z" fill="#f8fafc" stroke="#111" stroke-width="2"/>
@@ -1017,7 +1077,6 @@
             g.addEventListener('pointerdown', (e) => {
                 if (activeTool === 'sharpie') return;
                 e.stopPropagation();
-                // Trae el sticker seleccionado al frente para superponerlo sobre otros
                 stickersLayer.appendChild(g);
                 selectStickerElement(g);
                 draggingSticker = g;
@@ -1030,7 +1089,6 @@
             g.addEventListener('pointermove', (e) => {
                 if (draggingSticker !== g) return;
                 const pt = clientToSvgPoint(e.clientX, e.clientY);
-                // Mantiene el centro del sticker dentro de los límites de la tapa del Discman
                 const nx = Math.max(22, Math.min(418, pt.x - dragOffset.x));
                 const ny = Math.max(20, Math.min(395, pt.y - dragOffset.y));
                 g.dataset.x = nx;
@@ -1063,7 +1121,6 @@
             createStickerNode(presetStickerMarkup[key], jitterX, jitterY, jitterAngle);
         }
 
-        // Procesa una imagen subida por el usuario y la convierte en sticker troquelado (+20% tamaño = 53x53)
         document.getElementById('stickerUploadInput').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -1085,7 +1142,6 @@
                     const dx = (size - w) / 2;
                     const dy = (size - h) / 2;
 
-                    // Contorno blanco troquelado
                     ctx.save();
                     for (let a = 0; a < Math.PI * 2; a += Math.PI / 8) {
                         ctx.drawImage(img, dx + Math.cos(a) * 7, dy + Math.sin(a) * 7, w, h);
