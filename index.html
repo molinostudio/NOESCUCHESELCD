@@ -3,87 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base CD - No escuches el CD</title>
+    <title>No escuches el CD</title>
+    <!-- Fuente estilo marcador para la Opción 1 -->
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            background-color: #000; /* Fondo general negro */
+            background-color: #050505;
+            color: #fff;
+            font-family: sans-serif;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             overflow: hidden;
         }
 
-        /* Contenedor principal: mantiene el círculo perfecto en cualquier pantalla */
-        #cd-container {
-            position: relative;
-            width: min(90vw, 90vh, 600px);
-            aspect-ratio: 1 / 1;
+        /* Botón salvavidas para cargar tu imagen sin pelear con carpetas */
+        #upload-container {
+            position: absolute;
+            top: 20px;
+            z-index: 100;
+            background: #222;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        
+        #upload-container label {
+            font-family: monospace;
+            cursor: pointer;
+            color: #fff;
+        }
+        
+        #upload-container input {
+            display: none;
         }
 
-        /* Base negra del CD con textura y desgaste sutil en los bordes */
-        #cd-base {
+        /* Contenedor del Discman */
+        #discman-container {
+            position: relative;
+            width: min(90vw, 90vh, 550px);
+            aspect-ratio: 1 / 1;
+            perspective: 1200px; 
+        }
+
+        /* Tapa del Discman translúcida */
+        #discman-lid {
             position: absolute;
             inset: 0;
             border-radius: 50%;
-            background-color: #080808;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05), inset 0 0 20px rgba(255, 255, 255, 0.15);
-            overflow: hidden;
+            background: rgba(12, 12, 12, 0.86);
+            border: 2px solid #262626;
+            box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95), 0 25px 60px rgba(0, 0, 0, 0.9);
+            transform-origin: top center;
+            transform: rotateX(112deg);
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 25;
         }
 
-        /* Capa que llama a tu archivo original y le aplica el efecto de la Opción 1 */
+        .lid-closed {
+            transform: rotateX(0deg) !important;
+        }
+
+        /* El CD Negro (Opción 1) */
+        #cd-disc {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background-color: #111;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.05), inset 0 0 20px rgba(0,0,0,0.8);
+            z-index: 5;
+            transition: transform 0.5s ease-in;
+        }
+
+        /* Capa donde se inyecta tu foto */
         #cd-artwork {
             position: absolute;
             inset: 0;
-            background-image: url('noescuches_2_2.webp');
-            
-            /* Encuadre exacto para que el rostro calce con el agujero central */
+            border-radius: 50%;
             background-size: 98% auto;
             background-position: 50% 62%;
             background-repeat: no-repeat;
-            
-            /* Filtros CSS que convierten tu foto en serigrafía de alto contraste */
-            filter: grayscale(100%) contrast(140%) brightness(90%);
-            mix-blend-mode: lighten; /* Funde la imagen con la base negra del CD */
+            filter: grayscale(100%) contrast(120%);
+            mix-blend-mode: lighten;
+            z-index: 6;
         }
 
-        /* Anillo de policarbonato ahumado (deja ver el collar y la barbilla debajo) */
+        /* Textos Curvos SVG */
+        svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 15;
+        }
+
+        .track-text {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 32px;
+            fill: #fff;
+            cursor: pointer;
+            transition: fill 0.2s, font-size 0.2s;
+        }
+
+        .track-text:hover {
+            fill: #aaa;
+            font-weight: bold;
+        }
+
+        /* Anillo transparente oscuro (Opción 1) */
         #cd-hub {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 26%; height: 26%;
+            width: 25%; height: 25%;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.6); /* Semi-transparente */
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.95);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            pointer-events: none;
         }
 
-        /* Agujero central del CD */
+        /* Agujero central */
         #cd-hole {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 12%; height: 12%;
             border-radius: 50%;
-            background-color: #000;
-            border: 3px solid rgba(255, 255, 255, 0.25);
-            box-shadow: inset 0 0 15px #000;
+            background: #050505;
+            border: 4px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 0 10px #000;
+            z-index: 12;
         }
+
+        /* Animación de giro */
+        .spinning {
+            animation: spinCD 0.75s linear infinite;
+        }
+
+        @keyframes spinCD {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Pantalla de contenido */
+        #content-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.9s ease 0.4s;
+            z-index: 30;
+        }
+
+        .show-content {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        #stop-btn {
+            margin-top: 40px;
+            padding: 10px 26px;
+            background: #111;
+            color: #fff;
+            border: 1px solid #fff;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 17px;
+            border-radius: 3px;
+        }
+        
+        #stop-btn:hover { background: #fff; color: #000; }
     </style>
 </head>
 <body>
 
-    <!-- Estructura limpia del CD sin textos -->
-    <div id="cd-container">
-        <div id="cd-base">
+    <!-- Botón para subir la imagen fácilmente -->
+    <div id="upload-container">
+        <label for="imageLoader">📁 1. Haz clic aquí para cargar tu imagen</label>
+        <input type="file" id="imageLoader" accept="image/*">
+    </div>
+
+    <div id="discman-container">
+        <!-- Tapa de acrílico -->
+        <div id="discman-lid"></div>
+
+        <!-- CD -->
+        <div id="cd-disc">
+            
+            <!-- Aquí se inyecta tu foto -->
             <div id="cd-artwork"></div>
+
             <div id="cd-hub"></div>
             <div id="cd-hole"></div>
+            
+            <!-- Textos posicionados exactamente como en la Opción 1 -->
+            <svg viewBox="0 0 500 500">
+                <defs>
+                    <!-- Arco superior (Izquierda a Derecha) -->
+                    <path id="arc-top" d="M 50, 250 A 200,200 0 0,1 450,250" />
+                    <!-- Arco inferior (Izquierda a Derecha, para que el texto no quede de cabeza) -->
+                    <path id="arc-bottom" d="M 50, 250 A 200,200 0 0,0 450,250" />
+                </defs>
+                <text>
+                    <!-- ARCO SUPERIOR -->
+                    <textPath class="track-text" href="#arc-top" startOffset="18%" text-anchor="middle" onclick="playTrack('Peter Pank')">Peter Pank</textPath>
+                    <textPath class="track-text" href="#arc-top" startOffset="50%" text-anchor="middle" onclick="playTrack('Teaser')">Teaser</textPath>
+                    <textPath class="track-text" href="#arc-top" startOffset="82%" text-anchor="middle" onclick="playTrack('Literatura')">Literatura</textPath>
+
+                    <!-- ARCO INFERIOR -->
+                    <textPath class="track-text" href="#arc-bottom" startOffset="18%" text-anchor="middle" onclick="playTrack('Fanzines')">Fanzines</textPath>
+                    <textPath class="track-text" href="#arc-bottom" startOffset="50%" text-anchor="middle" onclick="playTrack('No escuches el CD - Film')">No escuches el CD - Film</textPath>
+                    <textPath class="track-text" href="#arc-bottom" startOffset="82%" text-anchor="middle" onclick="playTrack('Música')">Música</textPath>
+                </text>
+            </svg>
         </div>
     </div>
 
+    <!-- Pantalla de contenido al hacer clic -->
+    <div id="content-screen">
+        <h1 id="playing-title" style="font-family: 'Patrick Hand', cursive; font-size: 52px; color: #fff;">Cargando...</h1>
+        <button id="stop-btn" onclick="stopDisc()">◼ EJECT</button>
+    </div>
+
+    <script>
+        // Lógica para cargar la imagen desde tu compu sin errores de ruta
+        document.getElementById('imageLoader').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('cd-artwork').style.backgroundImage = `url(${event.target.result})`;
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+
+        // Lógica de interacción del Discman
+        const cd = document.getElementById('cd-disc');
+        const lid = document.getElementById('discman-lid');
+        const contentScreen = document.getElementById('content-screen');
+        const playingTitle = document.getElementById('playing-title');
+
+        function playTrack(trackName) {
+            cd.classList.add('spinning');
+            
+            setTimeout(() => { lid.classList.add('lid-closed'); }, 300);
+
+            playingTitle.innerText = trackName;
+
+            setTimeout(() => { contentScreen.classList.add('show-content'); }, 1800);
+        }
+
+        function stopDisc() {
+            contentScreen.classList.remove('show-content');
+            
+            setTimeout(() => {
+                lid.classList.remove('lid-closed');
+                setTimeout(() => { cd.classList.remove('spinning'); }, 800);
+            }, 800);
+        }
+    </script>
 </body>
 </html>
