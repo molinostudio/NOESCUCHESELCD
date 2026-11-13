@@ -60,7 +60,7 @@
         .tool-icon-btn {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.78);
+            color: rgba(255, 255, 255, 0.82);
             width: 34px;
             height: 34px;
             display: flex;
@@ -87,10 +87,10 @@
             position: absolute;
             top: 72px;
             left: 25px;
-            background: rgba(14, 14, 17, 0.94);
+            background: rgba(14, 14, 17, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 12px;
-            padding: 10px 14px;
+            padding: 12px 14px;
             display: none;
             align-items: center;
             gap: 10px;
@@ -104,8 +104,8 @@
         }
 
         .ink-swatch {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.35);
             cursor: pointer;
@@ -137,13 +137,13 @@
 
         #sticker-popover {
             flex-wrap: wrap;
-            max-width: 320px;
-            gap: 8px;
+            max-width: 336px;
+            gap: 7px;
         }
 
         .sticker-choice {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
@@ -156,7 +156,7 @@
 
         .sticker-choice:hover {
             transform: scale(1.12);
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.13);
         }
 
         #sticker-controls-bar {
@@ -165,7 +165,8 @@
             align-items: center;
             justify-content: space-between;
             gap: 6px;
-            padding-top: 6px;
+            padding-top: 8px;
+            margin-top: 2px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -406,11 +407,20 @@
             </svg>
         </div>
 
-        <!-- 2. Marcador Sharpie -->
-        <button class="tool-icon-btn" id="btn-sharpie-tool" title="Rayar con Sharpie" onclick="toggleToolPanel('sharpie')">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-                <path d="m15 5 4 4"/>
+        <!-- 2. Marcador Sharpie (estilo plumón permanente con tapa y punta biselada) -->
+        <button class="tool-icon-btn" id="btn-sharpie-tool" title="Rayar con marcador" onclick="toggleToolPanel('sharpie')">
+            <svg viewBox="0 0 64 64" width="24" height="24">
+                <g transform="rotate(-45 32 32)">
+                    <!-- Tapa del marcador -->
+                    <rect x="6" y="23" width="20" height="18" rx="6" fill="currentColor" />
+                    <path d="M11 26.5 H22" stroke="#050505" stroke-width="2.2" stroke-linecap="round" />
+                    <!-- Cuerpo del marcador -->
+                    <rect x="25" y="24.5" width="21" height="15" fill="none" stroke="currentColor" stroke-width="2.6" />
+                    <!-- Cuello cónico -->
+                    <path d="M46 25.5 L53 28.5 L53 35.5 L46 38.5 Z" fill="currentColor" />
+                    <!-- Punta biselada -->
+                    <path d="M53 29.5 L59 30.8 L59 34.5 L53 34.5 Z" fill="currentColor" />
+                </g>
             </svg>
         </button>
 
@@ -432,74 +442,182 @@
         </button>
     </div>
 
-    <!-- Popover Sharpie -->
+    <!-- Popover Sharpie (Solo Negro y Plateado) -->
     <div class="tool-popover" id="sharpie-popover">
-        <button class="ink-swatch selected" style="background:#111113;" data-ink="#111113" title="Sharpie Negro" onclick="selectSharpieInk(this)"></button>
-        <button class="ink-swatch" style="background:#e6e9ef;" data-ink="#e6e9ef" title="Sharpie Plateado" onclick="selectSharpieInk(this)"></button>
-        <button class="ink-swatch" style="background:#ffffff;" data-ink="#ffffff" title="Sharpie Blanco" onclick="selectSharpieInk(this)"></button>
+        <button class="ink-swatch selected" style="background:#111113;" data-ink="#111113" title="Marcador Negro" onclick="selectSharpieInk(this)"></button>
+        <button class="ink-swatch" style="background:linear-gradient(135deg, #ffffff 0%, #c8cdd6 50%, #9ca3af 100%);" data-ink="#dfe3ea" title="Marcador Plateado" onclick="selectSharpieInk(this)"></button>
         <button class="mini-action-btn" onclick="clearSharpie()">Borrar trazos</button>
     </div>
 
-    <!-- Popover Stickers -->
+    <!-- Popover Stickers 90s / Y2K / Terror & Pop -->
     <div class="tool-popover" id="sticker-popover">
-        <div class="sticker-choice" title="Estrella Cromada" onclick="addPresetSticker('star')">
-            <svg viewBox="0 0 60 60" width="28" height="28">
-                <path d="M30 6 L36 24 L54 30 L36 36 L30 54 L24 36 L6 30 L24 24 Z" fill="#fff" stroke="#fff" stroke-width="7" stroke-linejoin="round"/>
-                <path d="M30 6 L36 24 L54 30 L36 36 L30 54 L24 36 L6 30 L24 24 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="2" stroke-linejoin="round"/>
+        <!-- 1. Máscara Slasher 90s -->
+        <div class="sticker-choice" title="Slasher 90s" onclick="addPresetSticker('ghostface')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <path d="M17 20 C17 9 43 9 43 20 C44 33 38 49 30 52 C22 49 16 33 17 20 Z" fill="#fff" stroke="#fff" stroke-width="5"/>
+                <path d="M17 20 C17 9 43 9 43 20 C44 33 38 49 30 52 C22 49 16 33 17 20 Z" fill="#f8fafc" stroke="#111" stroke-width="2"/>
+                <ellipse cx="23.5" cy="23" rx="3.8" ry="6" transform="rotate(-14 23.5 23)" fill="#111"/>
+                <ellipse cx="36.5" cy="23" rx="3.8" ry="6" transform="rotate(14 36.5 23)" fill="#111"/>
+                <path d="M26 36 Q30 33 34 36 Q33 47 30 48 Q27 47 26 36 Z" fill="#111"/>
             </svg>
         </div>
+        <!-- 2. Calavera Punk -->
+        <div class="sticker-choice" title="Calavera" onclick="addPresetSticker('skull')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <path d="M16 25 C16 13 44 13 44 25 C44 32 40 36 38 38 L38 47 L22 47 L22 38 C20 36 16 32 16 25 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+                <path d="M16 25 C16 13 44 13 44 25 C44 32 40 36 38 38 L38 47 L22 47 L22 38 C20 36 16 32 16 25 Z" fill="#f4f4f5" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="24" cy="26" r="4.2" fill="#111"/>
+                <circle cx="36" cy="26" r="4.2" fill="#111"/>
+                <polygon points="30,31 28,35 32,35" fill="#111"/>
+                <line x1="26" y1="41" x2="26" y2="47" stroke="#111" stroke-width="2"/>
+                <line x1="30" y1="41" x2="30" y2="47" stroke="#111" stroke-width="2"/>
+                <line x1="34" y1="41" x2="34" y2="47" stroke="#111" stroke-width="2"/>
+            </svg>
+        </div>
+        <!-- 3. Alien Y2K -->
+        <div class="sticker-choice" title="Alien 90s" onclick="addPresetSticker('alien')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <path d="M13 24 C13 10 47 10 47 24 C47 37 36 50 30 51 C24 50 13 37 13 24 Z" fill="#fff" stroke="#fff" stroke-width="5"/>
+                <path d="M13 24 C13 10 47 10 47 24 C47 37 36 50 30 51 C24 50 13 37 13 24 Z" fill="#6ee7b7" stroke="#111" stroke-width="2"/>
+                <ellipse cx="22" cy="28" rx="4.5" ry="7.5" transform="rotate(-24 22 28)" fill="#111"/>
+                <ellipse cx="38" cy="28" rx="4.5" ry="7.5" transform="rotate(24 38 28)" fill="#111"/>
+                <circle cx="20.5" cy="25" r="1.4" fill="#fff"/>
+                <circle cx="36.5" cy="25" r="1.4" fill="#fff"/>
+            </svg>
+        </div>
+        <!-- 4. Smiley Derretido Acid -->
+        <div class="sticker-choice" title="Acid Smiley" onclick="addPresetSticker('trippySmiley')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <path d="M11 27 A19 19 0 1 1 49 27 C49 36 46 47 43 47 C40 47 40 39 37 39 C34 39 34 50 30 50 C26 50 26 40 23 40 C20 40 20 46 17 46 C14 46 11 36 11 27 Z" fill="#fff" stroke="#fff" stroke-width="5"/>
+                <path d="M11 27 A19 19 0 1 1 49 27 C49 36 46 47 43 47 C40 47 40 39 37 39 C34 39 34 50 30 50 C26 50 26 40 23 40 C20 40 20 46 17 46 C14 46 11 36 11 27 Z" fill="#fde047" stroke="#111" stroke-width="2"/>
+                <path d="M23 19 Q21 23 23 27" fill="none" stroke="#111" stroke-width="2.3" stroke-linecap="round"/>
+                <path d="M37 19 Q39 23 37 27" fill="none" stroke="#111" stroke-width="2.3" stroke-linecap="round"/>
+                <path d="M19 31 Q25 38 30 33 Q35 38 41 31" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <!-- 5. Ojos Cartoon -->
+        <div class="sticker-choice" title="Ojos Toon" onclick="addPresetSticker('eyes')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <ellipse cx="22" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5"/>
+                <ellipse cx="38" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5"/>
+                <ellipse cx="22" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/>
+                <ellipse cx="38" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/>
+                <ellipse cx="25" cy="31" rx="4" ry="6" fill="#111"/>
+                <ellipse cx="41" cy="31" rx="4" ry="6" fill="#111"/>
+            </svg>
+        </div>
+        <!-- 6. Boombox 90s -->
+        <div class="sticker-choice" title="Boombox 90s" onclick="addPresetSticker('boombox')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <rect x="8" y="21" width="44" height="26" rx="4" fill="#fff" stroke="#fff" stroke-width="5"/>
+                <path d="M18 21 V14 H42 V21" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
+                <path d="M18 21 V14 H42 V21" fill="none" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
+                <rect x="8" y="21" width="44" height="26" rx="4" fill="#f472b6" stroke="#111" stroke-width="2"/>
+                <circle cx="17" cy="35" r="6" fill="#111" stroke="#fff" stroke-width="1.2"/>
+                <circle cx="43" cy="35" r="6" fill="#111" stroke="#fff" stroke-width="1.2"/>
+                <rect x="25" y="29" width="10" height="8" rx="1" fill="#38bdf8" stroke="#111" stroke-width="1.5"/>
+            </svg>
+        </div>
+        <!-- 7. Cassette Mixtape -->
+        <div class="sticker-choice" title="Cassette" onclick="addPresetSticker('cassette')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <rect x="8" y="17" width="44" height="28" rx="4" fill="#fff" stroke="#fff" stroke-width="5"/>
+                <rect x="8" y="17" width="44" height="28" rx="4" fill="#a855f7" stroke="#111" stroke-width="2"/>
+                <rect x="14" y="22" width="32" height="13" rx="2" fill="#fef08a" stroke="#111" stroke-width="1.5"/>
+                <circle cx="22" cy="28.5" r="3.2" fill="#111"/>
+                <circle cx="38" cy="28.5" r="3.2" fill="#111"/>
+                <polygon points="18,45 21,39 39,39 42,45" fill="#111"/>
+            </svg>
+        </div>
+        <!-- 8. Bola 8 -->
+        <div class="sticker-choice" title="Bola 8" onclick="addPresetSticker('eightball')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <circle cx="30" cy="30" r="22" fill="#fff"/>
+                <circle cx="30" cy="30" r="19" fill="#18181b" stroke="#111" stroke-width="1.5"/>
+                <circle cx="30" cy="28" r="8.5" fill="#fff"/>
+                <text x="30" y="32" text-anchor="middle" fill="#111" font-family="sans-serif" font-size="11" font-weight="900">8</text>
+            </svg>
+        </div>
+        <!-- 9. Llama Y2K -->
+        <div class="sticker-choice" title="Llama Y2K" onclick="addPresetSticker('flame')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <path d="M31 8 C37 18 46 23 45 36 C44 46 37 52 29 52 C20 52 14 45 15 35 C16 28 21 24 22 19 C24 23 26 24 27 21 C26 15 28 11 31 8 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+                <path d="M31 8 C37 18 46 23 45 36 C44 46 37 52 29 52 C20 52 14 45 15 35 C16 28 21 24 22 19 C24 23 26 24 27 21 C26 15 28 11 31 8 Z" fill="#f472b6" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M30 26 C34 32 37 36 36 42 C35 47 32 49 29 49 C25 49 22 46 23 41 C24 37 28 33 30 26 Z" fill="#fb923c"/>
+            </svg>
+        </div>
+        <!-- 10. Corazón con Ojos -->
+        <div class="sticker-choice" title="Corazón Pop" onclick="addPresetSticker('heartEyes')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+                <path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#ef4444" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+                <ellipse cx="25" cy="27" rx="3.2" ry="5" fill="#fff" stroke="#111" stroke-width="1.4"/>
+                <ellipse cx="35" cy="27" rx="3.2" ry="5" fill="#fff" stroke="#111" stroke-width="1.4"/>
+                <circle cx="25.5" cy="27.5" r="1.8" fill="#111"/>
+                <circle cx="35.5" cy="27.5" r="1.8" fill="#111"/>
+            </svg>
+        </div>
+        <!-- 11. Yin Yang -->
+        <div class="sticker-choice" title="Yin Yang" onclick="addPresetSticker('yinyang')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <circle cx="30" cy="30" r="22" fill="#fff"/>
+                <circle cx="30" cy="30" r="18.5" fill="#fecdd3" stroke="#111" stroke-width="1.8"/>
+                <path d="M30 11.5 A18.5 18.5 0 0 1 30 48.5 A9.25 9.25 0 0 1 30 30 A9.25 9.25 0 0 0 30 11.5 Z" fill="#e11d48"/>
+                <circle cx="30" cy="20.75" r="2.8" fill="#e11d48"/>
+                <circle cx="30" cy="39.25" r="2.8" fill="#fecdd3"/>
+            </svg>
+        </div>
+        <!-- 12. Paz 90s -->
+        <div class="sticker-choice" title="Paz" onclick="addPresetSticker('peace')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <circle cx="30" cy="30" r="22" fill="#fff"/>
+                <circle cx="30" cy="30" r="18" fill="#34d399" stroke="#111" stroke-width="2"/>
+                <line x1="30" y1="12" x2="30" y2="48" stroke="#111" stroke-width="2.4"/>
+                <line x1="30" y1="30" x2="17" y2="42" stroke="#111" stroke-width="2.4"/>
+                <line x1="30" y1="30" x2="43" y2="42" stroke="#111" stroke-width="2.4"/>
+            </svg>
+        </div>
+        <!-- 13. Rayo -->
         <div class="sticker-choice" title="Rayo" onclick="addPresetSticker('bolt')">
-            <svg viewBox="0 0 60 60" width="28" height="28">
-                <polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#fff" stroke="#fff" stroke-width="7" stroke-linejoin="round"/>
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
                 <polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#facc15" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
             </svg>
         </div>
-        <div class="sticker-choice" title="Curita" onclick="addPresetSticker('bandaid')">
-            <svg viewBox="0 0 60 60" width="28" height="28">
-                <g transform="rotate(-35 30 30)">
-                    <rect x="8" y="20" width="44" height="20" rx="10" fill="#fff" stroke="#fff" stroke-width="6"/>
-                    <rect x="8" y="20" width="44" height="20" rx="10" fill="#e2b48a" stroke="#5c3a21" stroke-width="1.8"/>
-                    <rect x="23" y="21" width="14" height="18" fill="#f3d5b5"/>
-                    <circle cx="27" cy="26" r="1.2" fill="#8c5a3c"/><circle cx="33" cy="26" r="1.2" fill="#8c5a3c"/>
-                    <circle cx="27" cy="34" r="1.2" fill="#8c5a3c"/><circle cx="33" cy="34" r="1.2" fill="#8c5a3c"/>
-                </g>
+        <!-- 14. Hongo Psicodélico -->
+        <div class="sticker-choice" title="Hongo" onclick="addPresetSticker('mushroom')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <path d="M12 30 C12 14 48 14 48 30 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+                <rect x="24" y="29" width="12" height="19" rx="5" fill="#fff" stroke="#fff" stroke-width="5"/>
+                <rect x="24" y="29" width="12" height="19" rx="5" fill="#fde68a" stroke="#111" stroke-width="2"/>
+                <path d="M12 30 C12 14 48 14 48 30 Z" fill="#f97316" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="22" cy="23" r="2.8" fill="#fff"/>
+                <circle cx="31" cy="19" r="3.2" fill="#fff"/>
+                <circle cx="39" cy="24" r="2.5" fill="#fff"/>
             </svg>
         </div>
-        <div class="sticker-choice" title="Smiley 90s" onclick="addPresetSticker('smiley')">
-            <svg viewBox="0 0 60 60" width="28" height="28">
-                <circle cx="30" cy="30" r="22" fill="#fff"/>
-                <circle cx="30" cy="30" r="18" fill="#fde047" stroke="#111" stroke-width="2"/>
-                <ellipse cx="24" cy="25" rx="2" ry="3.5" fill="#111"/>
-                <ellipse cx="36" cy="25" rx="2" ry="3.5" fill="#111"/>
-                <path d="M21 33 Q30 42 39 33" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"/>
+        <!-- 15. Nube BOOM -->
+        <div class="sticker-choice" title="BOOM!" onclick="addPresetSticker('boom')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
+                <path d="M14 36 C8 35 7 26 14 24 C14 16 24 14 29 19 C34 13 45 15 46 23 C53 25 53 35 46 37 C45 44 35 46 30 42 C24 46 14 44 14 36 Z" fill="#fff" stroke="#fff" stroke-width="4"/>
+                <path d="M14 36 C8 35 7 26 14 24 C14 16 24 14 29 19 C34 13 45 15 46 23 C53 25 53 35 46 37 C45 44 35 46 30 42 C24 46 14 44 14 36 Z" fill="#fde047" stroke="#111" stroke-width="1.8"/>
+                <text x="30" y="33" text-anchor="middle" fill="#ec4899" stroke="#111" stroke-width="0.6" font-family="sans-serif" font-size="9.5" font-weight="900">BOOM</text>
             </svg>
         </div>
-        <div class="sticker-choice" title="Mini CD" onclick="addPresetSticker('disc')">
-            <svg viewBox="0 0 60 60" width="28" height="28">
-                <circle cx="30" cy="30" r="22" fill="#fff"/>
-                <circle cx="30" cy="30" r="18" fill="#c084fc" stroke="#111" stroke-width="1.8"/>
-                <path d="M30 12 A18 18 0 0 1 48 30 L30 30 Z" fill="#67e8f9" opacity="0.8"/>
-                <circle cx="30" cy="30" r="5" fill="#fff" stroke="#111" stroke-width="1.5"/>
-            </svg>
-        </div>
-        <div class="sticker-choice" title="Corazón Punk" onclick="addPresetSticker('heart')">
-            <svg viewBox="0 0 60 60" width="28" height="28">
-                <path d="M30 49 C12 37 8 24 16 16 C22 10 28 14 30 19 C32 14 38 10 44 16 C52 24 48 37 30 49 Z" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
-                <path d="M30 49 C12 37 8 24 16 16 C22 10 28 14 30 19 C32 14 38 10 44 16 C52 24 48 37 30 49 Z" fill="#f43f5e" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <div class="sticker-choice" title="Etiqueta Explicit" onclick="addPresetSticker('tag')">
-            <svg viewBox="0 0 60 60" width="28" height="28">
+        <!-- 16. Etiqueta NO CD -->
+        <div class="sticker-choice" title="Etiqueta NO CD" onclick="addPresetSticker('tag')">
+            <svg viewBox="0 0 60 60" width="30" height="30">
                 <rect x="6" y="17" width="48" height="26" rx="4" fill="#fff"/>
                 <rect x="9" y="20" width="42" height="20" rx="2" fill="#111"/>
                 <text x="30" y="33" text-anchor="middle" fill="#fff" font-family="monospace" font-size="8.5" font-weight="bold">NO CD</text>
             </svg>
         </div>
-        <label class="mini-action-btn" style="cursor:pointer;">
-            + Subir imagen
-            <input type="file" id="stickerUploadInput" accept="image/*" style="display:none;">
-        </label>
+
         <div id="sticker-controls-bar">
+            <label class="mini-action-btn" style="cursor:pointer;">
+                + Subir
+                <input type="file" id="stickerUploadInput" accept="image/*" style="display:none;">
+            </label>
             <button class="mini-action-btn" onclick="rotateSelectedSticker()">↻ Rotar</button>
             <button class="mini-action-btn" onclick="deleteSelectedSticker()">✕ Quitar</button>
             <button class="mini-action-btn" onclick="clearAllStickers()">Limpiar</button>
@@ -551,7 +669,7 @@
                                     <rect x="0" y="0" width="440" height="484" fill="white" />
                                     <path d="M 152,326 Q 220,334 288,326 L 281,360 Q 220,369 159,360 Z" fill="black" />
                                 </mask>
-                                <!-- Máscara estricta a la superficie plástica de la tapa (evita salir del borde o tapar la mirilla) -->
+                                <!-- Máscara estricta a la superficie plástica de la tapa (los stickers y rayones nunca se salen del Discman) -->
                                 <mask id="lidCustomSurfaceMask">
                                     <rect x="0" y="0" width="440" height="484" fill="black" />
                                     <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z" fill="white" />
@@ -566,12 +684,10 @@
                                 <path d="M 362,22 C 396,112 398,216 366,302" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2" stroke-linecap="round" />
                             </g>
 
-                            <!-- Capa de tinta Sharpie y Stickers troquelados sobre la tapa -->
+                            <!-- Capa de tinta Sharpie y Stickers troquelados recortados dentro del Discman -->
                             <g mask="url(#lidCustomSurfaceMask)">
                                 <image id="sharpie-svg-image" x="0" y="0" width="440" height="484" href="" />
-                                <!-- Área invisible para capturar trazos del Sharpie -->
                                 <path id="sharpie-hit-surface" d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z" fill="rgba(0,0,0,0)" />
-                                <!-- Contenedor de Stickers -->
                                 <g id="stickers-layer"></g>
                             </g>
 
@@ -590,12 +706,10 @@
                         <svg class="lid-svg-inner" viewBox="0 0 440 484">
                             <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z"
                                   fill="#141417" stroke="var(--body-dark)" stroke-width="5" />
-                            <!-- Moldeado estructural interno -->
                             <circle cx="220" cy="210" r="142" fill="none" stroke="#1f1f24" stroke-width="5" />
                             <circle cx="220" cy="210" r="46" fill="none" stroke="#222228" stroke-width="4" />
                             <line x1="88" y1="210" x2="352" y2="210" stroke="#1c1c20" stroke-width="3" />
                             <line x1="220" y1="78" x2="220" y2="342" stroke="#1c1c20" stroke-width="3" />
-                            <!-- Tapa trasera opaca de la mirilla -->
                             <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z"
                                   fill="#0b0b0d" stroke="#242429" stroke-width="2" />
                         </svg>
@@ -679,7 +793,7 @@
         }
 
         /* =========================================================
-           HERRAMIENTAS DE INTERACCIÓN: SHARPIE, STICKERS Y CAPTURA
+           HERRAMIENTAS DE INTERACCIÓN: MARCADOR, STICKERS Y CAPTURA
            ========================================================= */
         const lidSvgOuter = document.getElementById('lid-svg-outer');
         const sharpieHitSurface = document.getElementById('sharpie-hit-surface');
@@ -701,7 +815,6 @@
 
             closeAllToolPanels();
             activeTool = tool;
-            // Cierra la tapa automáticamente para dibujar o pegar sobre ella
             lid.classList.add('lid-closed');
 
             if (tool === 'sharpie') {
@@ -724,7 +837,6 @@
             selectStickerElement(null);
         }
 
-        // Conversión exacta de coordenadas de pantalla a viewBox 440x484 (compensa el rotateX 3D)
         function clientToSvgPoint(clientX, clientY) {
             const pt = lidSvgOuter.createSVGPoint();
             pt.x = clientX;
@@ -735,9 +847,9 @@
             return { x: transformed.x, y: transformed.y };
         }
 
-        /* --- 1. MOTOR SHARPIE --- */
+        /* --- 1. MOTOR MARCADOR (Solo Negro y Plateado) --- */
         const sharpieCanvas = document.createElement('canvas');
-        sharpieCanvas.width = 880;  // 2x para trazo nítido
+        sharpieCanvas.width = 880;
         sharpieCanvas.height = 968;
         const sCtx = sharpieCanvas.getContext('2d');
         sCtx.scale(2, 2);
@@ -793,7 +905,7 @@
             syncSharpieLayer();
         });
 
-        function endSharpieStroke(e) {
+        function endSharpieStroke() {
             if (!isDrawingSharpie) return;
             isDrawingSharpie = false;
             lastSharpiePt = null;
@@ -801,37 +913,94 @@
         sharpieHitSurface.addEventListener('pointerup', endSharpieStroke);
         sharpieHitSurface.addEventListener('pointercancel', endSharpieStroke);
 
-        /* --- 2. MOTOR DE STICKERS TROQUELADOS (Max ~10% del Discman = 44x44 unidades) --- */
+        /* --- 2. MOTOR DE STICKERS TROQUELADOS (+20% tamaño, superponibles y recortados al Discman) --- */
         let selectedSticker = null;
         let draggingSticker = null;
         let dragOffset = { x: 0, y: 0 };
 
+        // Todos los stickers tienen radio ~24 unidades (un 20% más grandes) y borde troquelado blanco
         const presetStickerMarkup = {
-            star: `<path d="M0-20 L5-5 L20 0 L5 5 L0 20 L-5 5 L-20 0 L-5-5 Z" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
-                   <path d="M0-20 L5-5 L20 0 L5 5 L0 20 L-5 5 L-20 0 L-5-5 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="1.6" stroke-linejoin="round"/>`,
-            bolt: `<polygon points="3,-20 -13,2 -1,2 -5,20 14,-3 2,-3" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
-                   <polygon points="3,-20 -13,2 -1,2 -5,20 14,-3 2,-3" fill="#facc15" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/>`,
-            bandaid: `<g transform="rotate(-35)">
-                        <rect x="-20" y="-8" width="40" height="16" rx="8" fill="#fff" stroke="#fff" stroke-width="5"/>
-                        <rect x="-20" y="-8" width="40" height="16" rx="8" fill="#e2b48a" stroke="#5c3a21" stroke-width="1.5"/>
-                        <rect x="-6" y="-7.5" width="12" height="15" fill="#f3d5b5"/>
-                        <circle cx="-2.5" cy="-3" r="1" fill="#8c5a3c"/><circle cx="2.5" cy="-3" r="1" fill="#8c5a3c"/>
-                        <circle cx="-2.5" cy="3" r="1" fill="#8c5a3c"/><circle cx="2.5" cy="3" r="1" fill="#8c5a3c"/>
-                      </g>`,
-            smiley: `<circle cx="0" cy="0" r="20" fill="#fff"/>
-                     <circle cx="0" cy="0" r="16.5" fill="#fde047" stroke="#111" stroke-width="1.6"/>
-                     <ellipse cx="-5" cy="-4" rx="1.8" ry="3.2" fill="#111"/>
-                     <ellipse cx="5" cy="-4" rx="1.8" ry="3.2" fill="#111"/>
-                     <path d="M-8 3 Q0 11 8 3" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>`,
-            disc: `<circle cx="0" cy="0" r="20" fill="#fff"/>
-                   <circle cx="0" cy="0" r="16.5" fill="#c084fc" stroke="#111" stroke-width="1.6"/>
-                   <path d="M0-16.5 A16.5 16.5 0 0 1 16.5 0 L0 0 Z" fill="#67e8f9" opacity="0.85"/>
-                   <circle cx="0" cy="0" r="4.5" fill="#fff" stroke="#111" stroke-width="1.4"/>`,
-            heart: `<path d="M0 17 C-16 6 -20 -6 -12 -13 C-7 -18 -2 -14 0 -9 C2 -14 7 -18 12 -13 C20 -6 16 6 0 17 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/>
-                    <path d="M0 17 C-16 6 -20 -6 -12 -13 C-7 -18 -2 -14 0 -9 C2 -14 7 -18 12 -13 C20 -6 16 6 0 17 Z" fill="#f43f5e" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/>`,
-            tag: `<rect x="-22" y="-11" width="44" height="22" rx="3.5" fill="#fff"/>
-                  <rect x="-19.5" y="-8.5" width="39" height="17" rx="2" fill="#111"/>
-                  <text x="0" y="3" text-anchor="middle" fill="#fff" font-family="Space Mono, monospace" font-size="7.5" font-weight="bold">NO CD</text>`
+            ghostface: `<path d="M-15 -11 C-15 -24 15 -24 15 -11 C16 4 9 22 0 25 C-9 22 -16 4 -15 -11 Z" fill="#fff" stroke="#fff" stroke-width="5.5"/>
+                        <path d="M-15 -11 C-15 -24 15 -24 15 -11 C16 4 9 22 0 25 C-9 22 -16 4 -15 -11 Z" fill="#f8fafc" stroke="#111" stroke-width="2"/>
+                        <ellipse cx="-7" cy="-7" rx="4.2" ry="6.8" transform="rotate(-14 -7 -7)" fill="#111"/>
+                        <ellipse cx="7" cy="-7" rx="4.2" ry="6.8" transform="rotate(14 7 -7)" fill="#111"/>
+                        <path d="M-4.5 7 Q0 4 4.5 7 Q3.5 19 0 20.5 Q-3.5 19 -4.5 7 Z" fill="#111"/>`,
+            skull: `<path d="M-16 -5 C-16 -20 16 -20 16 -5 C16 3 11 8 9 10 L9 20 L-9 20 L-9 10 C-11 8 -16 3 -16 -5 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/>
+                    <path d="M-16 -5 C-16 -20 16 -20 16 -5 C16 3 11 8 9 10 L9 20 L-9 20 L-9 10 C-11 8 -16 3 -16 -5 Z" fill="#f4f4f5" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+                    <circle cx="-7" cy="-4" r="4.8" fill="#111"/>
+                    <circle cx="7" cy="-4" r="4.8" fill="#111"/>
+                    <polygon points="0,2 -2.5,7 2.5,7" fill="#111"/>
+                    <line x1="-4.5" y1="13" x2="-4.5" y2="20" stroke="#111" stroke-width="2"/>
+                    <line x1="0" y1="13" x2="0" y2="20" stroke="#111" stroke-width="2"/>
+                    <line x1="4.5" y1="13" x2="4.5" y2="20" stroke="#111" stroke-width="2"/>`,
+            alien: `<path d="M-19 -6 C-19 -22 19 -22 19 -6 C19 9 7 23 0 24 C-7 23 -19 9 -19 -6 Z" fill="#fff" stroke="#fff" stroke-width="5.5"/>
+                    <path d="M-19 -6 C-19 -22 19 -22 19 -6 C19 9 7 23 0 24 C-7 23 -19 9 -19 -6 Z" fill="#6ee7b7" stroke="#111" stroke-width="2"/>
+                    <ellipse cx="-9" cy="-2" rx="5.2" ry="8.5" transform="rotate(-24 -9 -2)" fill="#111"/>
+                    <ellipse cx="9" cy="-2" rx="5.2" ry="8.5" transform="rotate(24 9 -2)" fill="#111"/>
+                    <circle cx="-10.5" cy="-5" r="1.6" fill="#fff"/>
+                    <circle cx="7.5" cy="-5" r="1.6" fill="#fff"/>`,
+            trippySmiley: `<path d="M-22 -3 A22 22 0 1 1 22 -3 C22 7 18 20 15 20 C11.5 20 11.5 11 8 11 C4.5 11 4.5 23 0 23 C-4.5 23 -4.5 12 -8 12 C-11.5 12 -11.5 19 -15 19 C-18.5 19 -22 7 -22 -3 Z" fill="#fff" stroke="#fff" stroke-width="5.5"/>
+                           <path d="M-22 -3 A22 22 0 1 1 22 -3 C22 7 18 20 15 20 C11.5 20 11.5 11 8 11 C4.5 11 4.5 23 0 23 C-4.5 23 -4.5 12 -8 12 C-11.5 12 -11.5 19 -15 19 C-18.5 19 -22 7 -22 -3 Z" fill="#fde047" stroke="#111" stroke-width="2"/>
+                           <path d="M-8 -12 Q-10.5 -7.5 -8 -3" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+                           <path d="M8 -12 Q10.5 -7.5 8 -3" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+                           <path d="M-12 2 Q-6 9 0 4 Q6 9 12 2" fill="none" stroke="#111" stroke-width="2.3" stroke-linecap="round"/>`,
+            eyes: `<ellipse cx="-9.5" cy="0" rx="12.5" ry="18.5" fill="#fff" stroke="#fff" stroke-width="5.5"/>
+                   <ellipse cx="9.5" cy="0" rx="12.5" ry="18.5" fill="#fff" stroke="#fff" stroke-width="5.5"/>
+                   <ellipse cx="-9.5" cy="0" rx="11.5" ry="17.5" fill="#fff" stroke="#111" stroke-width="2"/>
+                   <ellipse cx="9.5" cy="0" rx="11.5" ry="17.5" fill="#fff" stroke="#111" stroke-width="2"/>
+                   <ellipse cx="-6" cy="1" rx="4.5" ry="7" fill="#111"/>
+                   <ellipse cx="13" cy="1" rx="4.5" ry="7" fill="#111"/>`,
+            boombox: `<rect x="-25" y="-10" width="50" height="30" rx="4.5" fill="#fff" stroke="#fff" stroke-width="5.5"/>
+                      <path d="M-14 -10 V-18 H14 V-10" fill="none" stroke="#fff" stroke-width="6.5" stroke-linejoin="round"/>
+                      <path d="M-14 -10 V-18 H14 V-10" fill="none" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/>
+                      <rect x="-25" y="-10" width="50" height="30" rx="4.5" fill="#f472b6" stroke="#111" stroke-width="2"/>
+                      <circle cx="-15" cy="6" r="7" fill="#111" stroke="#fff" stroke-width="1.4"/>
+                      <circle cx="15" cy="6" r="7" fill="#111" stroke="#fff" stroke-width="1.4"/>
+                      <rect x="-6" y="-1" width="12" height="9" rx="1.2" fill="#38bdf8" stroke="#111" stroke-width="1.6"/>`,
+            cassette: `<rect x="-25" y="-15" width="50" height="32" rx="4.5" fill="#fff" stroke="#fff" stroke-width="5.5"/>
+                       <rect x="-25" y="-15" width="50" height="32" rx="4.5" fill="#a855f7" stroke="#111" stroke-width="2"/>
+                       <rect x="-18" y="-9.5" width="36" height="15" rx="2.2" fill="#fef08a" stroke="#111" stroke-width="1.6"/>
+                       <circle cx="-9" cy="-2" r="3.6" fill="#111"/>
+                       <circle cx="9" cy="-2" r="3.6" fill="#111"/>
+                       <polygon points="-13,17 -10,10 10,10 13,17" fill="#111"/>`,
+            eightball: `<circle cx="0" cy="0" r="24" fill="#fff"/>
+                        <circle cx="0" cy="0" r="20.5" fill="#18181b" stroke="#111" stroke-width="1.6"/>
+                        <circle cx="0" cy="-2" r="9.5" fill="#fff"/>
+                        <text x="0" y="2.5" text-anchor="middle" fill="#111" font-family="sans-serif" font-size="12.5" font-weight="900">8</text>`,
+            flame: `<path d="M1 -24 C8 -13 18 -7 17 7 C16 18 8 25 -1 25 C-11 25 -18 17 -17 6 C-16 -2 -10 -6 -9 -12 C-7 -7 -5 -6 -3.5 -10 C-5 -16 -2.5 -21 1 -24 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/>
+                    <path d="M1 -24 C8 -13 18 -7 17 7 C16 18 8 25 -1 25 C-11 25 -18 17 -17 6 C-16 -2 -10 -6 -9 -12 C-7 -7 -5 -6 -3.5 -10 C-5 -16 -2.5 -21 1 -24 Z" fill="#f472b6" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M0 -4 C4.5 2.5 8 7 7 14 C6 19.5 2.5 22 -1 22 C-5.5 22 -9 18.5 -8 13 C-7 8.5 -2.5 4 0 -4 Z" fill="#fb923c"/>`,
+            heartEyes: `<path d="M0 22 C-21 8 -26 -8 -16 -17 C-9 -23 -2 -19 0 -12 C2 -19 9 -23 16 -17 C26 -8 21 8 0 22 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/>
+                        <path d="M0 22 C-21 8 -26 -8 -16 -17 C-9 -23 -2 -19 0 -12 C2 -19 9 -23 16 -17 C26 -8 21 8 0 22 Z" fill="#ef4444" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+                        <ellipse cx="-5.5" cy="-3.5" rx="3.6" ry="5.6" fill="#fff" stroke="#111" stroke-width="1.5"/>
+                        <ellipse cx="5.5" cy="-3.5" rx="3.6" ry="5.6" fill="#fff" stroke="#111" stroke-width="1.5"/>
+                        <circle cx="-5" cy="-3" r="2" fill="#111"/>
+                        <circle cx="6" cy="-3" r="2" fill="#111"/>`,
+            yinyang: `<circle cx="0" cy="0" r="24" fill="#fff"/>
+                      <circle cx="0" cy="0" r="20.5" fill="#fecdd3" stroke="#111" stroke-width="1.8"/>
+                      <path d="M0 -20.5 A20.5 20.5 0 0 1 0 20.5 A10.25 10.25 0 0 1 0 0 A10.25 10.25 0 0 0 0 -20.5 Z" fill="#e11d48"/>
+                      <circle cx="0" cy="-10.25" r="3.2" fill="#e11d48"/>
+                      <circle cx="0" cy="10.25" r="3.2" fill="#fecdd3"/>`,
+            peace: `<circle cx="0" cy="0" r="24" fill="#fff"/>
+                    <circle cx="0" cy="0" r="20" fill="#34d399" stroke="#111" stroke-width="2"/>
+                    <line x1="0" y1="-20" x2="0" y2="20" stroke="#111" stroke-width="2.6"/>
+                    <line x1="0" y1="0" x2="-14.5" y2="13.5" stroke="#111" stroke-width="2.6"/>
+                    <line x1="0" y1="0" x2="14.5" y2="13.5" stroke="#111" stroke-width="2.6"/>`,
+            bolt: `<polygon points="4,-24 -16,2 -1,2 -6,24 17,-4 2,-4" fill="#fff" stroke="#fff" stroke-width="6.5" stroke-linejoin="round"/>
+                   <polygon points="4,-24 -16,2 -1,2 -6,24 17,-4 2,-4" fill="#facc15" stroke="#111" stroke-width="2" stroke-linejoin="round"/>`,
+            mushroom: `<path d="M-20 0 C-20 -18 20 -18 20 0 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/>
+                       <rect x="-7" y="-1" width="14" height="21" rx="5.5" fill="#fff" stroke="#fff" stroke-width="5.5"/>
+                       <rect x="-7" y="-1" width="14" height="21" rx="5.5" fill="#fde68a" stroke="#111" stroke-width="2"/>
+                       <path d="M-20 0 C-20 -18 20 -18 20 0 Z" fill="#f97316" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+                       <circle cx="-9" cy="-8" r="3.2" fill="#fff"/>
+                       <circle cx="1" cy="-12" r="3.6" fill="#fff"/>
+                       <circle cx="10" cy="-7" r="2.8" fill="#fff"/>`,
+            boom: `<path d="M-18 7 C-25 6 -26 -5 -18 -7 C-18 -16 -7 -18 -1 -12 C5 -19 17 -17 18 -8 C26 -6 26 6 18 8 C17 16 6 18 0 13 C-7 18 -18 16 -18 7 Z" fill="#fff" stroke="#fff" stroke-width="5"/>
+                   <path d="M-18 7 C-25 6 -26 -5 -18 -7 C-18 -16 -7 -18 -1 -12 C5 -19 17 -17 18 -8 C26 -6 26 6 18 8 C17 16 6 18 0 13 C-7 18 -18 16 -18 7 Z" fill="#fde047" stroke="#111" stroke-width="2"/>
+                   <text x="0" y="3.5" text-anchor="middle" fill="#ec4899" stroke="#111" stroke-width="0.6" font-family="sans-serif" font-size="10.5" font-weight="900">BOOM</text>`,
+            tag: `<rect x="-26" y="-13" width="52" height="26" rx="4" fill="#fff"/>
+                  <rect x="-23" y="-10" width="46" height="20" rx="2.5" fill="#111"/>
+                  <text x="0" y="3.5" text-anchor="middle" fill="#fff" font-family="Space Mono, monospace" font-size="9" font-weight="bold">NO CD</text>`
         };
 
         function createStickerNode(innerSvg, x = 220, y = 175, angle = 0) {
@@ -843,11 +1012,13 @@
             g.setAttribute('transform', `translate(${x}, ${y}) rotate(${angle})`);
             g.style.filter = 'drop-shadow(0 2px 3px rgba(0,0,0,0.65))';
 
-            g.innerHTML = innerSvg + `<circle class="sticker-sel-ring" cx="0" cy="0" r="24" fill="none" stroke="#38bdf8" stroke-width="1.4" stroke-dasharray="3 2" style="display:none; pointer-events:none;"/>`;
+            g.innerHTML = innerSvg + `<circle class="sticker-sel-ring" cx="0" cy="0" r="28" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 2" style="display:none; pointer-events:none;"/>`;
 
             g.addEventListener('pointerdown', (e) => {
                 if (activeTool === 'sharpie') return;
                 e.stopPropagation();
+                // Trae el sticker seleccionado al frente para superponerlo sobre otros
+                stickersLayer.appendChild(g);
                 selectStickerElement(g);
                 draggingSticker = g;
                 g.setPointerCapture(e.pointerId);
@@ -859,8 +1030,9 @@
             g.addEventListener('pointermove', (e) => {
                 if (draggingSticker !== g) return;
                 const pt = clientToSvgPoint(e.clientX, e.clientY);
-                const nx = pt.x - dragOffset.x;
-                const ny = pt.y - dragOffset.y;
+                // Mantiene el centro del sticker dentro de los límites de la tapa del Discman
+                const nx = Math.max(22, Math.min(418, pt.x - dragOffset.x));
+                const ny = Math.max(20, Math.min(395, pt.y - dragOffset.y));
                 g.dataset.x = nx;
                 g.dataset.y = ny;
                 g.setAttribute('transform', `translate(${nx}, ${ny}) rotate(${g.dataset.angle})`);
@@ -885,13 +1057,13 @@
 
         function addPresetSticker(key) {
             lid.classList.add('lid-closed');
-            const jitterX = 220 + (Math.random() * 60 - 30);
-            const jitterY = 175 + (Math.random() * 50 - 25);
-            const jitterAngle = Math.round(Math.random() * 24 - 12);
+            const jitterX = 220 + (Math.random() * 70 - 35);
+            const jitterY = 175 + (Math.random() * 60 - 30);
+            const jitterAngle = Math.round(Math.random() * 26 - 13);
             createStickerNode(presetStickerMarkup[key], jitterX, jitterY, jitterAngle);
         }
 
-        // Procesa una imagen subida por el usuario y la convierte en sticker troquelado (max 44x44 unidades = 10% del Discman)
+        // Procesa una imagen subida por el usuario y la convierte en sticker troquelado (+20% tamaño = 53x53)
         document.getElementById('stickerUploadInput').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -899,13 +1071,13 @@
             reader.onload = (ev) => {
                 const img = new Image();
                 img.onload = () => {
-                    const size = 160;
+                    const size = 180;
                     const c = document.createElement('canvas');
                     c.width = size;
                     c.height = size;
                     const ctx = c.getContext('2d');
 
-                    const pad = 16;
+                    const pad = 18;
                     const maxDim = size - pad * 2;
                     const scale = Math.min(maxDim / img.width, maxDim / img.height);
                     const w = img.width * scale;
@@ -913,22 +1085,21 @@
                     const dx = (size - w) / 2;
                     const dy = (size - h) / 2;
 
-                    // Genera contorno blanco troquelado alrededor de la imagen
+                    // Contorno blanco troquelado
                     ctx.save();
                     for (let a = 0; a < Math.PI * 2; a += Math.PI / 8) {
-                        ctx.drawImage(img, dx + Math.cos(a) * 6, dy + Math.sin(a) * 6, w, h);
+                        ctx.drawImage(img, dx + Math.cos(a) * 7, dy + Math.sin(a) * 7, w, h);
                     }
                     ctx.globalCompositeOperation = 'source-in';
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(0, 0, size, size);
                     ctx.restore();
 
-                    // Dibuja la imagen original encima
                     ctx.drawImage(img, dx, dy, w, h);
 
                     const dataUrl = c.toDataURL('image/png');
                     lid.classList.add('lid-closed');
-                    createStickerNode(`<image href="${dataUrl}" x="-22" y="-22" width="44" height="44"/>`, 220, 175, 0);
+                    createStickerNode(`<image href="${dataUrl}" x="-26.5" y="-26.5" width="53" height="53"/>`, 220, 175, 0);
                 };
                 img.src = ev.target.result;
             };
@@ -956,7 +1127,7 @@
 
         /* --- 3. DESCARGA DEL DISCMAN COMO IMAGEN PNG --- */
         function downloadDiscmanImage() {
-            selectStickerElement(null); // Oculta guías de selección antes de capturar
+            selectStickerElement(null);
 
             const styles = getComputedStyle(document.body);
             const cBase = styles.getPropertyValue('--body-base').trim() || '#ff4da6';
@@ -968,7 +1139,6 @@
             const sharpieHref = sharpieSvgImage.getAttribute('href') || '';
             const stickersMarkup = stickersLayer.innerHTML;
 
-            // Construye un SVG autocontenido de alta resolución (880x968) solo con el Discman
             const lidSectionSvg = isClosed ? `
                 <g>
                     <defs>
@@ -1019,18 +1189,14 @@
                         </linearGradient>
                     </defs>
                     <rect width="440" height="484" fill="#050505" />
-                    <!-- Base -->
                     <path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z"
                           fill="url(#expBaseGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
                     <path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z"
                           fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
-                    <!-- CD Plateado -->
                     <circle cx="220" cy="215" r="174" fill="url(#expCdGrad)" stroke="#9ba0a8" stroke-width="2" />
                     <circle cx="220" cy="215" r="49" fill="#e5e5e3" stroke="#8c9096" stroke-width="1.5" />
                     <circle cx="220" cy="215" r="20" fill="#141416" stroke="#bec0c4" stroke-width="2.5" />
-                    <!-- Tapa cerrada (si aplica) -->
                     ${lidSectionSvg}
-                    <!-- Bisel y Botones -->
                     <path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z"
                           fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
                     <path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268"
