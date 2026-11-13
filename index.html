@@ -199,7 +199,6 @@
             justify-content: center;
             align-items: center;
             perspective: 1600px;
-            /* Reserva margen superior para que la tapa abierta nunca se recorte */
             padding-top: clamp(32px, 7vh, 72px);
         }
 
@@ -404,6 +403,55 @@
             font-size: clamp(13px, 1.1vw, 17px);
             line-height: 1.7;
             overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        #module-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        #module-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 4px;
+        }
+        #module-content::-webkit-scrollbar-thumb {
+            background: var(--body-base);
+            border-radius: 4px;
+        }
+
+        #module-content p {
+            margin-bottom: 16px;
+        }
+
+        .module-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .module-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--body-light);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--body-light);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+        }
+
+        .module-link-btn:hover {
+            background: var(--body-base);
+            color: #050505;
+            box-shadow: 0 0 12px var(--body-base);
         }
 
         /* --- ADAPTACIÓN PARA CELULARES Y TABLETS EN VERTICAL --- */
@@ -415,7 +463,6 @@
                 padding: 16px 14px 16px 56px;
             }
             #player-section {
-                /* Espacio amplio arriba para que la tapa abierta en 3D luzca completa sin tocar el borde */
                 padding-top: clamp(56px, 12dvh, 110px);
                 transition: padding-top 0.6s ease;
             }
@@ -424,7 +471,6 @@
                 max-height: 44dvh;
                 transform: rotateX(12deg);
             }
-            /* Mientras la tapa está abierta (sin módulo activo), el panel no roba altura y centra el Discman */
             #module-section {
                 width: 100%;
                 max-width: 100%;
@@ -488,7 +534,7 @@
             </svg>
         </div>
 
-        <!-- 2. Marcador Sharpie (estilo plumón permanente con tapa y punta biselada) -->
+        <!-- 2. Marcador Sharpie -->
         <button class="tool-icon-btn" id="btn-sharpie-tool" title="Rayar con marcador" onclick="toggleToolPanel('sharpie')">
             <svg viewBox="0 0 64 64" width="24" height="24">
                 <g transform="rotate(-45 32 32)">
@@ -730,7 +776,6 @@
                                     <rect x="0" y="0" width="440" height="484" fill="white" />
                                     <path d="M 152,326 Q 220,334 288,326 L 281,360 Q 220,369 159,360 Z" fill="black" />
                                 </mask>
-                                <!-- Máscara estricta a la superficie plástica de la tapa -->
                                 <mask id="lidCustomSurfaceMask">
                                     <rect x="0" y="0" width="440" height="484" fill="black" />
                                     <path d="M 97,10 Q 220,4 343,10 C 392,14 429,96 431,225 C 431,241 430,254 428,266 C 386,369 304,409 220,409 C 136,409 54,369 12,266 C 10,254 9,241 9,225 C 11,96 48,14 97,10 Z" fill="white" />
@@ -804,6 +849,21 @@
 
     <script>
         const tracks = ["Peter Pank", "Teaser", "Literatura", "Fanzines", "No escuches el CD", "Música"];
+
+        const moduleContents = {
+            0: `
+                <p>Durante más de dos décadas, Peter Pank ha sido una figura fundamental —y a la vez un secreto a voces— de la contracultura de Buenos Aires. Formado al calor del legado de Batato Barea y la herencia del Parakultural, su trabajo cruza música, cine, teatro, literatura y performance con un pulso magnético.</p>
+                <p>Con una identidad visual inconfundible y una obra tan provocadora como coherente, Peter Pank encarna una forma de hacer arte radicalmente personal, donde la música, la palabra y el cuerpo funcionan como un mismo territorio expresivo.</p>
+                <p>Al frente de Peter Pank &amp; Los Chicos Perdidos, fusionó el synth-pop, el post-punk y el electroclash en álbumes como Electro-Pank, Neverland Bizarro y Manzana de las Luces, consolidando un sonido y una puesta en escena clave dentro del circuito alternativo. Esa misma mirada irreverente y poética atraviesa su producción fuera de los escenarios: en cine, codirigió el documental La peli de Batato (2011), pieza esencial para comprender el arte underground argentino; en literatura, publicó tres libros —Está en la sangre, Tarzán Boy y Por favor, no escuches el CD— que indagan en la identidad, la noche y la memoria cultural.</p>
+                <p>A lo largo de los años, construyó un catálogo sólido que escapa a las etiquetas convencionales. Es un artista de culto cuyo carisma dialoga de igual a igual con la escena contemporánea de la ciudad.</p>
+                <p>Construida desde la calle, la obra de Peter Pank es el retrato de un creador total: un referente cuya autenticidad sigue convocando a nuevas audiencias.</p>
+                <div class="module-links">
+                    <a class="module-link-btn" href="https://www.instagram.com/peterpankartista/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    <a class="module-link-btn" href="https://www.youtube.com/user/PeterPankOficial" target="_blank" rel="noopener noreferrer">YouTube</a>
+                </div>
+            `
+        };
+
         let currentTrackIndex = 0;
         let isPlaying = false;
 
@@ -835,7 +895,8 @@
 
             const trackName = tracks[currentTrackIndex];
             moduleTitle.innerText = trackName;
-            moduleContent.innerHTML = `<p>Cargando el contenido de ${trackName}...</p>`;
+            moduleContent.scrollTop = 0;
+            moduleContent.innerHTML = moduleContents[currentTrackIndex] || `<p>Cargando el contenido de ${trackName}...</p>`;
 
             setTimeout(() => { if (isPlaying) moduleSection.classList.add('active'); }, 900);
         }
