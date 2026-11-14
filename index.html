@@ -290,23 +290,54 @@
         #discman-lid.lid-closed .lid-sticker-item { pointer-events: all; cursor: grab; touch-action: none; }
         #discman-lid.lid-closed .lid-sticker-item:active { cursor: grabbing; }
 
+        /* --- BISEL INFERIOR, 4 BOTONES SIMÉTRICOS Y LOGO CENTRAL --- */
         #control-deck { position: absolute; inset: 0; pointer-events: none; z-index: 25; transform: translateZ(5px); }
         #bezel-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
         .hw-btn {
             position: absolute; pointer-events: auto;
-            height: clamp(21px, 2.6vw, 28px); padding: 0 clamp(11px, 1.5vw, 18px); border-radius: 999px;
+            height: clamp(20px, 2.5vw, 27px); padding: 0 clamp(9px, 1.2vw, 15px); border-radius: 999px;
             background: radial-gradient(circle at 50% 25%, #f5f5f7 0%, #c4c4ca 62%, #8e8e95 100%);
             border: 1px solid #161618; outline: none;
             box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 3px 6px rgba(0, 0, 0, 0.95), 0 0 0 2.5px #09090b;
             color: #141416; font-family: Arial, sans-serif; font-size: clamp(9px, 1vw, 12px); font-weight: 900; letter-spacing: 0.5px;
+            font-variant-emoji: text;
             display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.15s ease;
         }
         .hw-btn:hover { filter: brightness(1.08); }
         .hw-btn:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 0 2.5px #09090b; }
 
-        #btn-stop { left: 26.5%; bottom: 12.2%; transform: translateX(-50%) rotate(25deg); }
-        #btn-play { left: 50%; bottom: 5.8%; transform: translateX(-50%); padding: 0 clamp(14px, 1.8vw, 22px); }
+        /* Izquierda: Retroceder + Stop */
+        #btn-prev { left: 26.5%; bottom: 12.2%; transform: translateX(-50%) rotate(25deg); }
+        #btn-stop { left: 38.2%; bottom: 7.8%; transform: translateX(-50%) rotate(11deg); }
+
+        /* Centro: Insignia circular Molino Studio */
+        #molino-badge {
+            position: absolute;
+            left: 50%;
+            top: 91.8%;
+            transform: translate(-50%, -50%);
+            width: 9.8%;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #09090b;
+            border: 1.5px solid rgba(255, 255, 255, 0.24);
+            box-shadow:
+                inset 0 1px 3px rgba(255, 255, 255, 0.35),
+                0 2px 6px rgba(0, 0, 0, 0.95),
+                0 0 0 2px #09090b;
+            pointer-events: none;
+        }
+        #molino-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Derecha: Play + Adelantar (en su posición original) */
+        #btn-play { left: 61.8%; bottom: 7.8%; transform: translateX(-50%) rotate(-11deg); padding: 0 clamp(10px, 1.3vw, 16px); }
         #btn-next { left: 73.5%; bottom: 12.2%; transform: translateX(-50%) rotate(-25deg); }
 
         /* --- ÁREA DE CONTENIDO (DERECHA) --- */
@@ -481,12 +512,12 @@
         <div class="sticker-choice" onclick="addPresetSticker('skull')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M16 25 C16 13 44 13 44 25 C44 32 40 36 38 38 L38 47 L22 47 L22 38 C20 36 16 32 16 25 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><path d="M16 25 C16 13 44 13 44 25 C44 32 40 36 38 38 L38 47 L22 47 L22 38 C20 36 16 32 16 25 Z" fill="#f4f4f5" stroke="#111" stroke-width="2" stroke-linejoin="round"/><circle cx="24" cy="26" r="4.2" fill="#111"/><circle cx="36" cy="26" r="4.2" fill="#111"/><polygon points="30,31 28,35 32,35" fill="#111"/><line x1="26" y1="41" x2="26" y2="47" stroke="#111" stroke-width="2"/><line x1="30" y1="41" x2="30" y2="47" stroke="#111" stroke-width="2"/><line x1="34" y1="41" x2="34" y2="47" stroke="#111" stroke-width="2"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('alien')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M13 24 C13 10 47 10 47 24 C47 37 36 50 30 51 C24 50 13 37 13 24 Z" fill="#fff" stroke="#fff" stroke-width="5"/><path d="M13 24 C13 10 47 10 47 24 C47 37 36 50 30 51 C24 50 13 37 13 24 Z" fill="#6ee7b7" stroke="#111" stroke-width="2"/><ellipse cx="22" cy="28" rx="4.5" ry="7.5" transform="rotate(-24 22 28)" fill="#111"/><ellipse cx="38" cy="28" rx="4.5" ry="7.5" transform="rotate(24 38 28)" fill="#111"/><circle cx="20.5" cy="25" r="1.4" fill="#fff"/><circle cx="36.5" cy="25" r="1.4" fill="#fff"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('trippySmiley')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M11 27 A19 19 0 1 1 49 27 C49 36 46 47 43 47 C40 47 40 39 37 39 C34 39 34 50 30 50 C26 50 26 40 23 40 C20 40 20 46 17 46 C14 46 11 36 11 27 Z" fill="#fff" stroke="#fff" stroke-width="5"/><path d="M11 27 A19 19 0 1 1 49 27 C49 36 46 47 43 47 C40 47 40 39 37 39 C34 39 34 50 30 50 C26 50 26 40 23 40 C20 40 20 46 17 46 C14 46 11 36 11 27 Z" fill="#fde047" stroke="#111" stroke-width="2"/><path d="M23 19 Q21 23 23 27" fill="none" stroke="#111" stroke-width="2.3" stroke-linecap="round"/><path d="M37 19 Q39 23 37 27" fill="none" stroke="#111" stroke-width="2.3" stroke-linecap="round"/><path d="M19 31 Q25 38 30 33 Q35 38 41 31" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"/></svg></div>
-        <div class="sticker-choice" onclick="addPresetSticker('eyes')"><svg viewBox="0 0 60 60" width="30" height="30"><ellipse cx="22" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5.5"/><ellipse cx="38" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5.5"/><ellipse cx="22" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="38" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="25" cy="31" rx="4" ry="6" fill="#111"/><ellipse cx="41" cy="31" rx="4" ry="6" fill="#111"/></svg></div>
+        <div class="sticker-choice" onclick="addPresetSticker('eyes')"><svg viewBox="0 0 60 60" width="30" height="30"><ellipse cx="22" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5.5"/><ellipse cx="38" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5.5"/><ellipse cx="22" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="38" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="-6" cy="1" rx="4.5" ry="7" fill="#111"/><ellipse cx="13" cy="1" rx="4.5" ry="7" fill="#111"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('boombox')"><svg viewBox="0 0 60 60" width="30" height="30"><rect x="8" y="21" width="44" height="26" rx="4" fill="#fff" stroke="#fff" stroke-width="5"/><path d="M18 21 V14 H42 V21" fill="none" stroke="#fff" stroke-width="6.5" stroke-linejoin="round"/><path d="M18 21 V14 H42 V21" fill="none" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/><rect x="8" y="21" width="44" height="26" rx="4" fill="#f472b6" stroke="#111" stroke-width="2"/><circle cx="17" cy="35" r="6" fill="#111" stroke="#fff" stroke-width="1.4"/><circle cx="43" cy="35" r="6" fill="#111" stroke="#fff" stroke-width="1.4"/><rect x="25" y="29" width="10" height="8" rx="1" fill="#38bdf8" stroke="#111" stroke-width="1.6"/></svg></div>
-        <div class="sticker-choice" onclick="addPresetSticker('cassette')"><svg viewBox="0 0 60 60" width="30" height="30"><rect x="8" y="17" width="44" height="28" rx="4" fill="#fff" stroke="#fff" stroke-width="5.5"/><rect x="8" y="17" width="44" height="28" rx="4" fill="#a855f7" stroke="#111" stroke-width="2"/><rect x="14" y="22" width="32" height="13" rx="2" fill="#fef08a" stroke="#111" stroke-width="1.6"/><circle cx="22" cy="28.5" r="3.2" fill="#111"/><circle cx="38" cy="28.5" r="3.2" fill="#111"/><polygon points="18,45 21,39 39,39 42,45" fill="#111"/></svg></div>
+        <div class="sticker-choice" onclick="addPresetSticker('cassette')"><svg viewBox="0 0 60 60" width="30" height="30"><rect x="8" y="17" width="44" height="28" rx="4" fill="#fff" stroke="#fff" stroke-width="5.5"/><rect x="8" y="17" width="44" height="28" rx="4" fill="#a855f7" stroke="#111" stroke-width="2"/><rect x="14" y="22" width="32" height="13" rx="2" fill="#fef08a" stroke="#111" stroke-width="1.6"/><circle cx="-9" cy="-2" r="3.6" fill="#111"/><circle cx="9" cy="-2" r="3.6" fill="#111"/><polygon points="-13,17 -10,10 10,10 13,17" fill="#111"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('eightball')"><svg viewBox="0 0 60 60" width="30" height="30"><circle cx="30" cy="30" r="22" fill="#fff"/><circle cx="30" cy="30" r="19" fill="#18181b" stroke="#111" stroke-width="1.6"/><circle cx="30" cy="28" r="8.5" fill="#fff"/><text x="30" y="32" text-anchor="middle" fill="#111" font-family="sans-serif" font-size="11" font-weight="900">8</text></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('flame')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M31 8 C37 18 46 23 45 36 C44 46 37 52 29 52 C20 52 14 45 15 35 C16 28 21 24 22 19 C24 23 26 24 27 21 C26 15 28 11 31 8 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><path d="M31 8 C37 18 46 23 45 36 C44 46 37 52 29 52 C20 52 14 45 15 35 C16 28 21 24 22 19 C24 23 26 24 27 21 C26 15 28 11 31 8 Z" fill="#f472b6" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M30 26 C34 32 37 36 36 42 C35 47 32 49 29 49 C25 49 22 46 23 41 C24 37 28 33 30 26 Z" fill="#fb923c"/></svg></div>
-        <div class="sticker-choice" onclick="addPresetSticker('heartEyes')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/><path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#ef4444" stroke="#111" stroke-width="2" stroke-linejoin="round"/><ellipse cx="25" cy="27" rx="3.2" ry="5" fill="#fff" stroke="#111" stroke-width="1.4"/><ellipse cx="35" cy="27" rx="3.2" ry="5" fill="#fff" stroke="#111" stroke-width="1.4"/><circle cx="25.5" cy="27.5" r="1.8" fill="#111"/><circle cx="35.5" cy="27.5" r="1.8" fill="#111"/></svg></div>
+        <div class="sticker-choice" onclick="addPresetSticker('heartEyes')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/><path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#ef4444" stroke="#111" stroke-width="2" stroke-linejoin="round"/><ellipse cx="-5.5" cy="-3.5" rx="3.6" ry="5.6" fill="#fff" stroke="#111" stroke-width="1.5"/><ellipse cx="5.5" cy="-3.5" rx="3.6" ry="5.6" fill="#fff" stroke="#111" stroke-width="1.5"/><circle cx="-5" cy="-3" r="2" fill="#111"/><circle cx="6" cy="-3" r="2" fill="#111"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('yinyang')"><svg viewBox="0 0 60 60" width="30" height="30"><circle cx="30" cy="30" r="22" fill="#fff"/><circle cx="30" cy="30" r="18.5" fill="#fecdd3" stroke="#111" stroke-width="1.8"/><path d="M30 11.5 A18.5 18.5 0 0 1 30 48.5 A9.25 9.25 0 0 1 30 30 A9.25 9.25 0 0 0 30 11.5 Z" fill="#e11d48"/><circle cx="30" cy="20.75" r="2.8" fill="#e11d48"/><circle cx="30" cy="39.25" r="2.8" fill="#fecdd3"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('peace')"><svg viewBox="0 0 60 60" width="30" height="30"><circle cx="30" cy="30" r="22" fill="#fff"/><circle cx="30" cy="30" r="18" fill="#34d399" stroke="#111" stroke-width="2"/><line x1="30" y1="12" x2="30" y2="48" stroke="#111" stroke-width="2.4"/><line x1="30" y1="30" x2="17" y2="42" stroke="#111" stroke-width="2.4"/><line x1="30" y1="30" x2="43" y2="42" stroke="#111" stroke-width="2.4"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('bolt')"><svg viewBox="0 0 60 60" width="30" height="30"><polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#facc15" stroke="#111" stroke-width="2" stroke-linejoin="round"/></svg></div>
@@ -591,16 +622,22 @@
                     </div>
                 </div>
 
-                <!-- Bisel y Botones -->
+                <!-- Bisel, Botones (Retroceder + Stop | Logo | Play + Adelantar) -->
                 <div id="control-deck">
                     <svg id="bezel-svg" viewBox="0 0 440 484">
                         <path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
                         <path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" />
                     </svg>
 
-                    <button class="hw-btn" id="btn-stop" onclick="stopDisc()">■</button>
-                    <button class="hw-btn" id="btn-play" onclick="playCurrent()">▶||</button>
-                    <button class="hw-btn" id="btn-next" onclick="nextTrack()">▶▶</button>
+                    <button class="hw-btn" id="btn-prev" onclick="prevTrack()" title="Anterior">◀◀</button>
+                    <button class="hw-btn" id="btn-stop" onclick="stopDisc()" title="Stop">■</button>
+
+                    <div id="molino-badge" title="Molino Studio">
+                        <img src="assets/images/logo_molino.webp" alt="Molino Studio">
+                    </div>
+
+                    <button class="hw-btn" id="btn-play" onclick="playCurrent()" title="Play / Pause">▶||</button>
+                    <button class="hw-btn" id="btn-next" onclick="nextTrack()" title="Siguiente">▶▶</button>
                 </div>
 
             </div>
@@ -714,6 +751,7 @@
 
         function playCurrent() { selectTrack(currentTrackIndex); }
         function nextTrack() { selectTrack((currentTrackIndex + 1) % tracks.length); }
+        function prevTrack() { selectTrack((currentTrackIndex - 1 + tracks.length) % tracks.length); }
 
         function stopDisc() {
             isPlaying = false;
@@ -939,7 +977,7 @@
                     <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z" fill="rgba(255,255,255,0.06)" stroke="#121214" stroke-width="2.5" />
                 </g>` : '';
 
-            const exportSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="880" height="968" viewBox="0 0 440 484"><defs><radialGradient id="expBaseGrad" cx="50%" cy="32%" r="68%"><stop offset="0%" stop-color="${cLight}" /><stop offset="68%" stop-color="${cBase}" /><stop offset="100%" stop-color="${cShadow}" /></radialGradient><linearGradient id="expCdGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#dfe3ea" /><stop offset="28%" stop-color="#9be7ff" /><stop offset="50%" stop-color="#f5f7fa" /><stop offset="72%" stop-color="#f59be6" /><stop offset="100%" stop-color="#cfd4dc" /></linearGradient></defs><rect width="440" height="484" fill="#050505" /><path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z" fill="url(#expBaseGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" /><path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z" fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" /><circle cx="220" cy="215" r="174" fill="url(#expCdGrad)" stroke="#9ba0a8" stroke-width="2" /><circle cx="220" cy="215" r="49" fill="#e5e5e3" stroke="#8c9096" stroke-width="1.5" /><circle cx="220" cy="215" r="20" fill="#141416" stroke="#bec0c4" stroke-width="2.5" />${lidSectionSvg}<path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" /><path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" /><g transform="translate(116, 412) rotate(25)"><rect x="-18" y="-12" width="36" height="24" rx="12" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><rect x="-3.5" y="-3.5" width="7" height="7" fill="#141416"/></g><g transform="translate(220, 443)"><rect x="-24" y="-12" width="48" height="24" rx="12" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="10" font-weight="900">▶||</text></g><g transform="translate(324, 412) rotate(-25)"><rect x="-18" y="-12" width="36" height="24" rx="12" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="10" font-weight="900">▶▶</text></g></svg>`;
+            const exportSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="880" height="968" viewBox="0 0 440 484"><defs><radialGradient id="expBaseGrad" cx="50%" cy="32%" r="68%"><stop offset="0%" stop-color="${cLight}" /><stop offset="68%" stop-color="${cBase}" /><stop offset="100%" stop-color="${cShadow}" /></radialGradient><linearGradient id="expCdGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#dfe3ea" /><stop offset="28%" stop-color="#9be7ff" /><stop offset="50%" stop-color="#f5f7fa" /><stop offset="72%" stop-color="#f59be6" /><stop offset="100%" stop-color="#cfd4dc" /></linearGradient></defs><rect width="440" height="484" fill="#050505" /><path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z" fill="url(#expBaseGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" /><path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z" fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" /><circle cx="220" cy="215" r="174" fill="url(#expCdGrad)" stroke="#9ba0a8" stroke-width="2" /><circle cx="220" cy="215" r="49" fill="#e5e5e3" stroke="#8c9096" stroke-width="1.5" /><circle cx="220" cy="215" r="20" fill="#141416" stroke="#bec0c4" stroke-width="2.5" />${lidSectionSvg}<path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" /><path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" /><g transform="translate(116, 412) rotate(25)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">◀◀</text></g><g transform="translate(168, 434) rotate(11)"><rect x="-15" y="-11" width="30" height="22" rx="11" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><rect x="-3.5" y="-3.5" width="7" height="7" fill="#141416"/></g><g transform="translate(220, 444)"><circle cx="0" cy="0" r="21" fill="#d90404" stroke="#09090b" stroke-width="2.5"/><path d="M -18,7 A 21,21 0 0,0 18,7 Z" fill="#09090b"/><line x1="-8" y1="-13" x2="-8" y2="7" stroke="#09090b" stroke-width="2"/><circle cx="-8" cy="-13" r="4" fill="#09090b"/></g><g transform="translate(272, 434) rotate(-11)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">▶||</text></g><g transform="translate(324, 412) rotate(-25)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">▶▶</text></g></svg>`;
 
             const blob = new Blob([exportSvg], { type: 'image/svg+xml;charset=utf-8' });
             const url = URL.createObjectURL(blob);
