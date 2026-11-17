@@ -303,7 +303,6 @@
             min-width: clamp(36px, 4.6vw, 46px);
             padding: 0;
             border-radius: 999px;
-            /* Acabado metálico satinado cóncavo / hundido en el plástico del bisel */
             background: linear-gradient(180deg, #b8b9c0 0%, #dcdde2 48%, #f2f3f6 100%);
             border: 1px solid #0c0c0e;
             outline: none;
@@ -332,7 +331,6 @@
                 0 0 0 1.5px var(--body-base);
         }
 
-        /* Ícono apaisado aprovechando todo el ancho interior del botón */
         .hw-btn svg {
             width: 86%;
             height: 82%;
@@ -362,8 +360,7 @@
         #btn-track-5 { left: 71.1%; top: 87.8%; transform: translate(-50%, -50%) rotate(-22deg); }
         #btn-track-6 { left: 80.8%; top: 82.6%; transform: translate(-50%, -50%) rotate(-35deg); }
 
-
-        /* --- POP-UP TRANSLÚCIDO CON MICRO-PÍXELES EN DEGRADÉ Y CONSTELACIÓN TITILANTE --- */
+        /* --- POP-UP TRANSLÚCIDO CON GLITTER 3D (ZOOM OUT LENTO) --- */
         #module-overlay {
             position: fixed;
             inset: 0;
@@ -394,14 +391,14 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            background: rgba(10, 9, 16, 0.56);
-            backdrop-filter: blur(12px) saturate(150%);
-            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            background: rgba(9, 8, 15, 0.62);
+            backdrop-filter: blur(13px) saturate(155%);
+            -webkit-backdrop-filter: blur(13px) saturate(155%);
             border: 1.5px solid var(--body-light);
             box-shadow:
                 0 25px 60px rgba(0, 0, 0, 0.85),
-                0 0 26px var(--body-base),
-                inset 0 0 22px rgba(255, 255, 255, 0.14);
+                0 0 24px var(--body-base),
+                inset 0 0 22px rgba(255, 255, 255, 0.12);
             transform: scale(0.95) translateY(10px);
             transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s ease;
         }
@@ -410,7 +407,7 @@
             transform: scale(1) translateY(0);
         }
 
-        /* Canvas de micro-píxeles en degradé + constelación y estrellas titilantes */
+        /* Canvas del campo de glitter 3D en zoom out */
         #popup-fx-canvas {
             position: absolute;
             inset: 0;
@@ -420,7 +417,7 @@
             z-index: 0;
         }
 
-        /* Velo sutil central para legibilidad nítida */
+        /* Velo sutil central para mantener lectura limpia sin apagar los destellos de borde */
         .popup-readability-veil {
             position: absolute;
             inset: 0;
@@ -428,9 +425,9 @@
             z-index: 1;
             background: radial-gradient(
                 ellipse at 50% 50%,
-                rgba(7, 7, 11, 0.65) 0%,
-                rgba(7, 7, 11, 0.45) 68%,
-                rgba(7, 7, 11, 0.12) 100%
+                rgba(6, 6, 10, 0.58) 0%,
+                rgba(6, 6, 10, 0.36) 70%,
+                rgba(6, 6, 10, 0.12) 100%
             );
         }
 
@@ -442,7 +439,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.24);
             padding-bottom: 12px;
             margin-bottom: 18px;
         }
@@ -454,7 +451,6 @@
             pointer-events: none;
         }
 
-        /* Replicamos el ícono del track activo al lado del título */
         .popup-title-wrap {
             display: flex;
             align-items: center;
@@ -515,7 +511,7 @@
             line-height: 1.72;
             overflow-y: auto;
             padding-right: 8px;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.92);
         }
         #module-content::-webkit-scrollbar { width: 5px; }
         #module-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.08); border-radius: 4px; }
@@ -835,11 +831,9 @@
                     <!-- TRACK 1: Alas (Peter Pank) -->
                     <button class="hw-btn" id="btn-track-1" data-track="0" onclick="selectTrack(0)" title="01. Peter Pank">
                         <svg viewBox="0 0 96 48">
-                            <!-- Ala izquierda -->
                             <path d="M44 21 C41 8 33 4 27 8 C22 14 19 29 16 42 C21 43 24 40 26 39 C29 40 31 37 33 35 C36 35 38 32 40 29 C42 28 45 25 44 21 Z" fill="#f5f5f7" stroke="#141416" stroke-width="2.6" stroke-linejoin="round" />
                             <path d="M16 42 C18 33 21 29 24 31 C27 33 30 30 33 35 C31 37 29 40 26 39 C24 40 21 43 16 42 Z" fill="#141416" />
                             <path d="M35 12 C37 16 37 20 35 23 M30 16 C30 20 29 24 27 26 M25 22 C25 26 24 29 22 31" fill="none" stroke="#141416" stroke-width="2.1" stroke-linecap="round" />
-                            <!-- Ala derecha -->
                             <path d="M52 21 C55 8 63 4 69 8 C74 14 77 29 80 42 C75 43 72 40 70 39 C67 40 65 37 63 35 C60 35 58 32 56 29 C54 28 51 25 52 21 Z" fill="#f5f5f7" stroke="#141416" stroke-width="2.6" stroke-linejoin="round" />
                             <path d="M80 42 C78 33 75 29 72 31 C69 33 66 30 63 35 C65 37 67 40 70 39 C72 40 75 43 80 42 Z" fill="#141416" />
                             <path d="M61 12 C59 16 59 20 61 23 M66 16 C66 20 67 24 69 26 M71 22 C71 26 72 29 74 31" fill="none" stroke="#141416" stroke-width="2.1" stroke-linecap="round" />
@@ -859,16 +853,12 @@
                     <!-- TRACK 3: Lentes con rayos y patillas (Literatura) -->
                     <button class="hw-btn" id="btn-track-3" data-track="2" onclick="selectTrack(2)" title="03. Literatura">
                         <svg viewBox="0 0 96 48">
-                            <!-- Patillas en perspectiva -->
                             <path d="M31 23 L13 15 Q8 14 7 22" fill="none" stroke="#141416" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
                             <path d="M75 21 L61 13 Q56 12 55 19" fill="none" stroke="#141416" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                            <!-- Marco izquierdo -->
                             <polygon points="26,27 40,17 55,26 54,37 38,44" fill="#141416" stroke="#141416" stroke-width="2" stroke-linejoin="round" />
                             <polygon points="29,27 40,20 52,27 51,35 38,41" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
                             <polygon points="42,21 35,30 40,31 37,39 46,29 41,28" fill="#f5f5f7" />
-                            <!-- Puente -->
                             <line x1="54" y1="29" x2="58" y2="29" stroke="#141416" stroke-width="3.5" />
-                            <!-- Marco derecho -->
                             <polygon points="57,26 73,18 87,27 73,44 58,37" fill="#141416" stroke="#141416" stroke-width="2" stroke-linejoin="round" />
                             <polygon points="60,27 73,21 84,27 73,41 61,35" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
                             <polygon points="73,22 66,31 71,32 68,40 77,30 72,29" fill="#f5f5f7" />
@@ -886,14 +876,10 @@
                     <!-- TRACK 4: Boca con lengua y piercing (Fanzines) -->
                     <button class="hw-btn" id="btn-track-4" data-track="3" onclick="selectTrack(3)" title="04. Fanzines">
                         <svg viewBox="0 0 96 48">
-                            <!-- Labio superior -->
                             <path d="M15 22 C26 9 37 6 45 10 C52 7 61 11 66 20 C55 18 42 18 15 22 Z" fill="#141416" stroke="#141416" stroke-width="2" stroke-linejoin="round" />
                             <path d="M25 16 C33 11 40 11 45 13" fill="none" stroke="#f5f5f7" stroke-width="2" stroke-linecap="round" />
-                            <!-- Labio inferior -->
                             <path d="M15 22 C24 37 42 42 56 35 L46 25 Z" fill="#141416" stroke="#141416" stroke-width="2" stroke-linejoin="round" />
-                            <!-- Lengua saliendo hacia la derecha -->
                             <path d="M32 21 C47 16 68 15 78 24 C83 30 76 38 63 38 C50 38 39 30 32 21 Z" fill="#f5f5f7" stroke="#141416" stroke-width="3.2" stroke-linejoin="round" />
-                            <!-- Piercing en la lengua -->
                             <polygon points="62,23 68,26 63,31 59,27" fill="none" stroke="#141416" stroke-width="2.4" stroke-linejoin="round" />
                             <polygon points="56,37 56,44 63,39" fill="#141416" />
                         </svg>
@@ -902,7 +888,6 @@
                     <!-- TRACK 5: Corazón con púas caladas (Música) -->
                     <button class="hw-btn" id="btn-track-5" data-track="4" onclick="selectTrack(4)" title="05. Música">
                         <svg viewBox="0 0 96 48">
-                            <!-- Púas traseras -->
                             <polygon points="48,2 45,14 51,14" fill="#141416" />
                             <polygon points="24,7 34,17 30,20" fill="#141416" />
                             <polygon points="72,7 62,17 66,20" fill="#141416" />
@@ -911,9 +896,7 @@
                             <polygon points="25,42 36,33 32,30" fill="#141416" />
                             <polygon points="71,42 60,33 64,30" fill="#141416" />
                             <polygon points="48,46 45,35 51,35" fill="#141416" />
-                            <!-- Corazón central -->
                             <path d="M48 41 C31 30 28 16 36 10 C42 6 46 10 48 14 C50 10 54 6 60 10 C68 16 65 30 48 41 Z" fill="#141416" />
-                            <!-- Púas atravesando el frente con borde calado -->
                             <polygon points="48,5 46,23 50,23" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
                             <polygon points="18,26 40,23 40,28" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
                             <polygon points="78,26 56,23 56,28" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
@@ -925,19 +908,15 @@
                     <!-- TRACK 6: Encendedor Zippo estilizado (No escuches el CD) -->
                     <button class="hw-btn" id="btn-track-6" data-track="5" onclick="selectTrack(5)" title="06. No escuches el CD">
                         <svg viewBox="0 0 96 48">
-                            <!-- Cuerpo esbelto del encendedor -->
                             <rect x="33" y="23" width="16" height="22" rx="2.5" fill="#f5f5f7" stroke="#141416" stroke-width="2.8" />
                             <line x1="37.5" y1="27" x2="37.5" y2="40" stroke="#141416" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="6 3.5" />
-                            <!-- Chimenea perforada -->
                             <rect x="36" y="16.5" width="10" height="6.5" rx="1.2" fill="#f5f5f7" stroke="#141416" stroke-width="2.2" />
                             <circle cx="39" cy="19.8" r="1.1" fill="#141416" />
                             <circle cx="43" cy="19.8" r="1.1" fill="#141416" />
-                            <!-- Tapa abierta en ángulo -->
                             <g transform="translate(50, 23) rotate(16)">
                                 <rect x="1" y="-14" width="12" height="14" rx="2" fill="#f5f5f7" stroke="#141416" stroke-width="2.6" />
                                 <line x1="4" y1="-10.5" x2="10" y2="-10.5" stroke="#141416" stroke-width="2" stroke-linecap="round" />
                             </g>
-                            <!-- Llama estilizada -->
                             <path d="M41 2.5 C46 7.5 46.5 13 41 15.5 C36 13 36.5 8 41 2.5 Z" fill="#141416" />
                             <path d="M41 7.5 C43 10 43 12.5 41 13.8 C39 12.5 39 10 41 7.5 Z" fill="#f5f5f7" />
                         </svg>
@@ -949,7 +928,7 @@
 
     </div>
 
-    <!-- Pop-up Translúcido con Matriz de Micro-Píxeles en Degradé y Constelación Titilante -->
+    <!-- Pop-up Translúcido con Glitter 3D (Zoom Out Lento) -->
     <div id="module-overlay" onclick="handleOverlayClick(event)">
         <div id="module-section" role="dialog" aria-modal="true" aria-labelledby="module-title">
             <canvas id="popup-fx-canvas"></canvas>
@@ -1158,30 +1137,41 @@
         }
 
         /* =========================================================
-           MOTOR CANVAS: MICRO-PÍXELES EN DEGRADÉ + CONSTELACIÓN TITILANTE
+           MOTOR CANVAS: CAMPO GLITTER 3D EN ZOOM OUT LENTO Y SUTIL
            ========================================================= */
         const fxCanvas = document.getElementById('popup-fx-canvas');
         const fxCtx = fxCanvas.getContext('2d');
         let fxAnimId = null;
+        let lastFxTime = null;
 
-        const constellationGroups = [
-            [{ x: 0.08, y: 0.14 }, { x: 0.17, y: 0.08 }, { x: 0.25, y: 0.17 }, { x: 0.34, y: 0.10 }],
-            [{ x: 0.68, y: 0.11 }, { x: 0.79, y: 0.18 }, { x: 0.90, y: 0.12 }, { x: 0.85, y: 0.26 }],
-            [{ x: 0.10, y: 0.82 }, { x: 0.20, y: 0.90 }, { x: 0.31, y: 0.84 }],
-            [{ x: 0.67, y: 0.87 }, { x: 0.78, y: 0.81 }, { x: 0.91, y: 0.89 }]
-        ];
+        const Z_MIN = 0.25;
+        const Z_MAX = 2.8;
+        const GLITTER_COUNT = 165;
 
-        const starField = Array.from({ length: 34 }, (_, i) => {
-            const flatNodes = constellationGroups.flat();
-            if (i < flatNodes.length) {
-                return { x: flatNodes[i].x, y: flatNodes[i].y, phase: (i * 1.37) % (Math.PI * 2), speed: 0.0018 + (i % 5) * 0.00045, flare: i % 2 === 0 };
-            }
-            const seed = (i * 9301 + 49297) % 233280;
-            const seed2 = (i * 4253 + 17389) % 233280;
-            return { x: (seed / 233280) * 0.94 + 0.03, y: (seed2 / 233280) * 0.92 + 0.04, phase: (i * 2.13) % (Math.PI * 2), speed: 0.0015 + (i % 7) * 0.0004, flare: i % 3 === 0 };
-        });
+        function createGlitterParticle(randomDepth = true) {
+            // Distribuimos coordenadas en espacio 3D para que al hacer zoom out (aumentar z)
+            // las partículas converjan suavemente hacia el centro de cámara
+            const spread = 1.65;
+            return {
+                x: (Math.random() * 2 - 1) * spread,
+                y: (Math.random() * 2 - 1) * spread,
+                z: randomDepth ? (Z_MIN + Math.random() * (Z_MAX - Z_MIN)) : (Z_MIN + Math.random() * 0.22),
+                isSparkle: Math.random() < 0.34, // 34% destellos en cruz de 4 puntas, 66% micro-glitter
+                size: 0.55 + Math.random() * 0.95,
+                phase: Math.random() * Math.PI * 2,
+                twinkleSpeed: 1.6 + Math.random() * 2.4,
+                // Variante tonal: 0=color activo, 1=luz activa, 2=cian sutil, 3=champán/blanco
+                tintType: Math.random() < 0.58 ? (Math.random() < 0.5 ? 0 : 1) : (Math.random() < 0.55 ? 2 : 3)
+            };
+        }
+
+        const glitterParticles = Array.from({ length: GLITTER_COUNT }, () => createGlitterParticle(true));
 
         function renderPopupFx(time) {
+            if (!lastFxTime) lastFxTime = time;
+            const dt = Math.min((time - lastFxTime) / 1000, 0.05);
+            lastFxTime = time;
+
             const rect = moduleSection.getBoundingClientRect();
             if (rect.width === 0 || rect.height === 0) {
                 fxAnimId = requestAnimationFrame(renderPopupFx);
@@ -1200,6 +1190,10 @@
             fxCtx.scale(dpr, dpr);
             const w = rect.width;
             const h = rect.height;
+            const cx = w * 0.5;
+            const cy = h * 0.5;
+            const focal = Math.min(w, h) * 0.72;
+
             fxCtx.clearRect(0, 0, w, h);
 
             const styles = getComputedStyle(document.body);
@@ -1210,90 +1204,86 @@
             const cLight = hexToRgb(lightHex);
             const cDark = hexToRgb(darkHex);
 
-            const step = 4.6;
-            const radius = 1.45;
-            const cols = Math.ceil(w / step);
-            const rows = Math.ceil(h / step);
+            // 1. Atmósfera ambiental muy tenue del color del Discman
+            const bgGrad = fxCtx.createRadialGradient(cx, cy, 10, cx, cy, Math.max(w, h) * 0.72);
+            bgGrad.addColorStop(0, `rgba(${cDark.r}, ${cDark.g}, ${cDark.b}, 0.14)`);
+            bgGrad.addColorStop(0.65, `rgba(${cBase.r}, ${cBase.g}, ${cBase.b}, 0.08)`);
+            bgGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            fxCtx.fillStyle = bgGrad;
+            fxCtx.fillRect(0, 0, w, h);
 
-            for (let r = 0; r < rows; r++) {
-                const ny = r / Math.max(1, rows - 1);
-                for (let c = 0; c < cols; c++) {
-                    const nx = c / Math.max(1, cols - 1);
-                    const diag = (nx * 0.6 + ny * 0.4);
-                    const distCenter = Math.hypot(nx - 0.52, ny - 0.45);
-                    const lum = Math.max(0, Math.min(1, 1 - distCenter * 1.15));
-                    const cellHash = ((r * 73 + c * 151) % 17) / 17;
-                    const shimmer = 0.78 + 0.22 * Math.sin(time * 0.0014 + cellHash * Math.PI * 2);
+            // 2. Movimiento lento de cámara en ZOOM OUT (aumentando z constantemente)
+            const zoomOutSpeed = 0.085; // Muy lento y sutil
 
-                    let pr, pg, pb;
-                    if (lum > 0.55) {
-                        const t = (lum - 0.55) / 0.45;
-                        pr = Math.round(cBase.r + (cLight.r - cBase.r) * t);
-                        pg = Math.round(cBase.g + (cLight.g - cBase.g) * t);
-                        pb = Math.round(cBase.b + (cLight.b - cBase.b) * t);
-                    } else {
-                        const t = diag;
-                        pr = Math.round(cDark.r + (cBase.r - cDark.r) * t);
-                        pg = Math.round(cDark.g + (cBase.g - cDark.g) * t);
-                        pb = Math.round(cDark.b + (cBase.b - cDark.b) * t);
-                    }
+            for (let i = 0; i < glitterParticles.length; i++) {
+                const p = glitterParticles[i];
+                p.z += zoomOutSpeed * dt;
 
-                    const alpha = (0.20 + lum * 0.28) * shimmer;
-                    fxCtx.fillStyle = `rgba(${pr}, ${pg}, ${pb}, ${alpha.toFixed(3)})`;
+                if (p.z > Z_MAX) {
+                    const fresh = createGlitterParticle(false);
+                    p.x = fresh.x;
+                    p.y = fresh.y;
+                    p.z = fresh.z;
+                    p.isSparkle = fresh.isSparkle;
+                    p.size = fresh.size;
+                    p.phase = fresh.phase;
+                    p.twinkleSpeed = fresh.twinkleSpeed;
+                    p.tintType = fresh.tintType;
+                }
+
+                const sx = cx + (p.x / p.z) * focal;
+                const sy = cy + (p.y / p.z) * focal;
+
+                // Desvanecimiento suave al entrar desde el frente (Z_MIN) y al perderse en el fondo (Z_MAX)
+                const fadeIn = Math.min(1, (p.z - Z_MIN) / 0.35);
+                const fadeOut = Math.min(1, (Z_MAX - p.z) / 0.65);
+                const depthFade = Math.max(0, fadeIn * fadeOut);
+
+                // Titileo orgánico individual
+                const twinkle = 0.35 + 0.65 * Math.pow((Math.sin((time * 0.001) * p.twinkleSpeed + p.phase) + 1) * 0.5, 1.8);
+                const alpha = depthFade * twinkle * 0.78;
+
+                if (alpha < 0.02 || sx < -20 || sx > w + 20 || sy < -20 || sy > h + 20) continue;
+
+                let rgb;
+                if (p.tintType === 0) rgb = cBase;
+                else if (p.tintType === 1) rgb = cLight;
+                else if (p.tintType === 2) rgb = { r: 120, g: 245, b: 255 }; // Cian glitter Y2K
+                else rgb = { r: 255, g: 238, b: 205 }; // Champán cálido
+
+                const scaleProj = Math.min(1.55, 0.95 / p.z);
+                const r = p.size * scaleProj;
+
+                if (p.isSparkle) {
+                    // Destello sutil de 4 puntas tipo lente anamórfica / glitter fino
+                    const arm = (3.4 + r * 2.4) * (0.7 + 0.3 * twinkle);
+
+                    const glow = fxCtx.createRadialGradient(sx, sy, 0, sx, sy, arm * 1.15);
+                    glow.addColorStop(0, `rgba(255, 255, 255, ${(alpha * 0.95).toFixed(3)})`);
+                    glow.addColorStop(0.35, `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${(alpha * 0.45).toFixed(3)})`);
+                    glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                    fxCtx.fillStyle = glow;
                     fxCtx.beginPath();
-                    fxCtx.arc(c * step + step * 0.5, r * step + step * 0.5, radius, 0, Math.PI * 2);
+                    fxCtx.arc(sx, sy, arm * 1.15, 0, Math.PI * 2);
+                    fxCtx.fill();
+
+                    // Aspas finas en cruz
+                    fxCtx.strokeStyle = `rgba(255, 255, 255, ${(alpha * 0.85).toFixed(3)})`;
+                    fxCtx.lineWidth = 0.75;
+                    fxCtx.beginPath();
+                    fxCtx.moveTo(sx - arm, sy);
+                    fxCtx.lineTo(sx + arm, sy);
+                    fxCtx.moveTo(sx, sy - arm);
+                    fxCtx.lineTo(sx, sy + arm);
+                    fxCtx.stroke();
+                } else {
+                    // Micro-partícula de glitter puntual
+                    fxCtx.fillStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${(alpha * 0.85).toFixed(3)})`;
+                    fxCtx.beginPath();
+                    fxCtx.arc(sx, sy, Math.max(0.55, r), 0, Math.PI * 2);
                     fxCtx.fill();
                 }
             }
-
-            const driftX = Math.sin(time * 0.00035) * 4;
-            const driftY = Math.cos(time * 0.0003) * 3;
-
-            fxCtx.save();
-            fxCtx.strokeStyle = `rgba(${cLight.r}, ${cLight.g}, ${cLight.b}, 0.22)`;
-            fxCtx.lineWidth = 0.75;
-            fxCtx.setLineDash([2, 3]);
-            constellationGroups.forEach(group => {
-                fxCtx.beginPath();
-                group.forEach((pt, idx) => {
-                    const px = pt.x * w + driftX;
-                    const py = pt.y * h + driftY;
-                    if (idx === 0) fxCtx.moveTo(px, py);
-                    else fxCtx.lineTo(px, py);
-                });
-                fxCtx.stroke();
-            });
-            fxCtx.restore();
-
-            starField.forEach(star => {
-                const wave = (Math.sin(time * star.speed + star.phase) + 1) * 0.5;
-                const intensity = Math.pow(wave, 2.4);
-                if (intensity < 0.05) return;
-
-                const sx = star.x * w + driftX;
-                const sy = star.y * h + driftY;
-                const glowR = star.flare ? 7.5 : 4;
-                
-                const grad = fxCtx.createRadialGradient(sx, sy, 0, sx, sy, glowR);
-                grad.addColorStop(0, `rgba(255, 255, 255, ${(0.95 * intensity).toFixed(3)})`);
-                grad.addColorStop(0.45, `rgba(${cLight.r}, ${cLight.g}, ${cLight.b}, ${(0.55 * intensity).toFixed(3)})`);
-                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                
-                fxCtx.fillStyle = grad;
-                fxCtx.beginPath();
-                fxCtx.arc(sx, sy, glowR, 0, Math.PI * 2);
-                fxCtx.fill();
-
-                if (star.flare && intensity > 0.35) {
-                    const arm = 4.2 * intensity;
-                    fxCtx.strokeStyle = `rgba(255, 255, 255, ${(0.85 * intensity).toFixed(3)})`;
-                    fxCtx.lineWidth = 0.9;
-                    fxCtx.beginPath();
-                    fxCtx.moveTo(sx - arm, sy); fxCtx.lineTo(sx + arm, sy);
-                    fxCtx.moveTo(sx, sy - arm); fxCtx.lineTo(sx, sy + arm);
-                    fxCtx.stroke();
-                }
-            });
 
             fxCtx.restore();
             fxAnimId = requestAnimationFrame(renderPopupFx);
@@ -1301,6 +1291,7 @@
 
         function startPopupFx() {
             if (!fxAnimId) {
+                lastFxTime = null;
                 fxAnimId = requestAnimationFrame(renderPopupFx);
             }
         }
@@ -1309,6 +1300,7 @@
             if (fxAnimId) {
                 cancelAnimationFrame(fxAnimId);
                 fxAnimId = null;
+                lastFxTime = null;
             }
         }
 
