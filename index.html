@@ -40,18 +40,22 @@
             z-index: 100;
         }
 
-        /* --- CUSTOMIZADOR DE COLOR --- */
+        /* --- CUSTOMIZADOR DE COLOR (Ícono Esmalte de Uñas) --- */
         #theme-customizer {
             position: relative;
-            width: clamp(36px, 4vw, 48px);
-            height: clamp(27px, 3vw, 36px);
+            width: clamp(32px, 3.5vw, 40px);
+            height: clamp(32px, 3.5vw, 40px);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.15s ease;
+            color: rgba(255, 255, 255, 0.85);
+            transition: transform 0.15s ease, color 0.15s ease;
         }
 
-        #theme-customizer:hover { transform: scale(1.08); }
+        #theme-customizer:hover {
+            transform: scale(1.1);
+            color: #fff;
+        }
 
         #colorPicker {
             position: absolute;
@@ -177,15 +181,14 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* --- LAYOUT PRINCIPAL ADAPTABLE --- */
+        /* --- LAYOUT PRINCIPAL CENTRADO --- */
         #app-layout {
             display: flex;
             width: 100%;
             height: 100%;
             align-items: center;
             justify-content: center;
-            gap: clamp(24px, 4vw, 64px);
-            padding: 20px clamp(20px, 4vw, 60px) 20px clamp(72px, 8vw, 120px);
+            padding: 20px clamp(20px, 4vw, 60px) 20px clamp(64px, 7vw, 110px);
         }
 
         /* --- CONTENEDOR CON PERSPECTIVA 3D --- */
@@ -200,8 +203,8 @@
 
         #discman-device {
             position: relative;
-            width: clamp(260px, 34vw, 560px);
-            max-height: 68dvh;
+            width: clamp(270px, 38vw, 560px);
+            max-height: 74dvh;
             aspect-ratio: 440 / 484;
             transform: rotateX(15deg) translateY(-10px);
             transform-style: preserve-3d;
@@ -290,93 +293,257 @@
         #discman-lid.lid-closed .lid-sticker-item { pointer-events: all; cursor: grab; touch-action: none; }
         #discman-lid.lid-closed .lid-sticker-item:active { cursor: grabbing; }
 
-        /* --- BISEL INFERIOR, 4 BOTONES SIMÉTRICOS Y LOGO CENTRAL --- */
+        /* --- BISEL INFERIOR: 1, 2, 3 (IZQ) | ▲ EJECT (CENTRO) | 4, 5, 6 (DER) --- */
         #control-deck { position: absolute; inset: 0; pointer-events: none; z-index: 25; transform: translateZ(5px); }
         #bezel-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
         .hw-btn {
             position: absolute; pointer-events: auto;
-            height: clamp(20px, 2.5vw, 27px); padding: 0 clamp(9px, 1.2vw, 15px); border-radius: 999px;
+            height: clamp(19px, 2.35vw, 26px);
+            min-width: clamp(25px, 3vw, 34px);
+            padding: 0 clamp(6px, 0.8vw, 10px);
+            border-radius: 999px;
             background: radial-gradient(circle at 50% 25%, #f5f5f7 0%, #c4c4ca 62%, #8e8e95 100%);
             border: 1px solid #161618; outline: none;
-            box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 3px 6px rgba(0, 0, 0, 0.95), 0 0 0 2.5px #09090b;
-            color: #141416; font-family: Arial, sans-serif; font-size: clamp(9px, 1vw, 12px); font-weight: 900; letter-spacing: 0.5px;
+            box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 3px 6px rgba(0, 0, 0, 0.95), 0 0 0 2.2px #09090b;
+            color: #141416; font-family: Arial, sans-serif; font-size: clamp(9px, 1vw, 12px); font-weight: 900; letter-spacing: 0.3px;
             font-variant-emoji: text;
             display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.15s ease;
         }
         .hw-btn:hover { filter: brightness(1.08); }
-        .hw-btn:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 0 2.5px #09090b; }
-
-        /* Izquierda: Retroceder + Stop */
-        #btn-prev { left: 26.5%; bottom: 12.2%; transform: translateX(-50%) rotate(25deg); }
-        #btn-stop { left: 38.2%; bottom: 7.8%; transform: translateX(-50%) rotate(11deg); }
-
-        /* Centro: Insignia circular Molino Studio */
-        #molino-badge {
-            position: absolute;
-            left: 50%;
-            top: 91.8%;
-            transform: translate(-50%, -50%);
-            width: 9.8%;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            overflow: hidden;
-            background: #09090b;
-            border: 1.5px solid rgba(255, 255, 255, 0.24);
-            box-shadow:
-                inset 0 1px 3px rgba(255, 255, 255, 0.35),
-                0 2px 6px rgba(0, 0, 0, 0.95),
-                0 0 0 2px #09090b;
-            pointer-events: none;
+        .hw-btn:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 0 2.2px #09090b; }
+        .hw-btn.active-track {
+            box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 0 10px var(--body-light), 0 0 0 2.2px var(--body-base);
         }
-        #molino-badge img {
+
+        /* Izquierda: 1, 2, 3 */
+        #btn-track-1 { left: 19.5%; top: 82.9%; transform: translate(-50%, -50%) rotate(35deg); }
+        #btn-track-2 { left: 29.0%; top: 87.9%; transform: translate(-50%, -50%) rotate(22deg); }
+        #btn-track-3 { left: 39.2%; top: 90.9%; transform: translate(-50%, -50%) rotate(10deg); }
+
+        /* Centro: ▲ Eject */
+        #btn-eject {
+            left: 50.0%; top: 91.8%;
+            transform: translate(-50%, -50%);
+            min-width: clamp(32px, 3.8vw, 44px);
+            padding: 0 clamp(10px, 1.2vw, 15px);
+        }
+
+        /* Derecha: 4, 5, 6 */
+        #btn-track-4 { left: 60.8%; top: 90.9%; transform: translate(-50%, -50%) rotate(-10deg); }
+        #btn-track-5 { left: 71.0%; top: 87.9%; transform: translate(-50%, -50%) rotate(-22deg); }
+        #btn-track-6 { left: 80.5%; top: 82.9%; transform: translate(-50%, -50%) rotate(-35deg); }
+
+        /* --- POP-UP TRANSLÚCIDO CON MICRO-PÍXELES EN DEGRADÉ Y CONSTELACIÓN TITILANTE --- */
+        #module-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(16px, 4vw, 44px);
+            background: rgba(5, 5, 8, 0.30);
+            backdrop-filter: blur(2.5px);
+            -webkit-backdrop-filter: blur(2.5px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.55s ease;
+        }
+
+        #module-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #module-section {
+            position: relative;
+            width: min(90vw, 720px);
+            max-height: 82dvh;
+            border-radius: 16px;
+            padding: clamp(22px, 3vw, 38px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Base translúcida dejando ver el Discman girando detrás */
+            background: rgba(10, 9, 16, 0.56);
+            backdrop-filter: blur(12px) saturate(150%);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            border: 1.5px solid var(--body-light);
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.85),
+                0 0 26px var(--body-base),
+                inset 0 0 22px rgba(255, 255, 255, 0.14);
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        #module-overlay.active #module-section {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Canvas de micro-píxeles en degradé + constelación y estrellas titilantes */
+        #popup-fx-canvas {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            display: block;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        /* Derecha: Play + Adelantar (en su posición original) */
-        #btn-play { left: 61.8%; bottom: 7.8%; transform: translateX(-50%) rotate(-11deg); padding: 0 clamp(10px, 1.3vw, 16px); }
-        #btn-next { left: 73.5%; bottom: 12.2%; transform: translateX(-50%) rotate(-25deg); }
-
-        /* --- ÁREA DE CONTENIDO (DERECHA) --- */
-        #module-section {
-            flex: 1; max-width: clamp(460px, 44vw, 820px); height: 80dvh;
-            background: rgba(10, 10, 12, 0.92); border: 2px solid var(--body-light); border-radius: 10px;
-            padding: clamp(24px, 3vw, 44px); display: flex; flex-direction: column; opacity: 0; pointer-events: none;
-            transition: opacity 0.9s ease 0.4s, border-color 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 0 10px var(--body-base), 0 0 26px var(--body-base), inset 0 0 14px var(--body-base);
+        /* Velo sutil central para legibilidad nítida sin tapar los bordes de píxeles y estrellas */
+        .popup-readability-veil {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(7, 7, 11, 0.54) 0%,
+                rgba(7, 7, 11, 0.34) 68%,
+                rgba(7, 7, 11, 0.12) 100%
+            );
         }
-        #module-section.active { opacity: 1; pointer-events: auto; }
+
+        /* Cabecera del Pop-up */
+        .popup-header {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+
+        .popup-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        #module-track-label {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: var(--body-light);
+            opacity: 0.95;
+        }
+
         #module-title {
-            font-size: clamp(22px, 2.6vw, 38px); font-weight: 700; color: var(--body-light);
-            text-shadow: 0 0 10px var(--body-base); border-bottom: 1px solid var(--body-base);
-            padding-bottom: 12px; margin-bottom: 20px;
+            font-size: clamp(21px, 2.5vw, 34px);
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0 0 12px var(--body-base);
         }
+
+        #btn-close-popup {
+            flex: 0 0 auto;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            background: rgba(12, 11, 18, 0.55);
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            font-size: 18px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+        }
+
+        #btn-close-popup:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.18);
+            border-color: var(--body-light);
+        }
+
+        /* Cuerpo desplazable del Pop-up */
         #module-content {
-            color: #e5e5e5; font-size: clamp(13px, 1.1vw, 17px); line-height: 1.7; overflow-y: auto; padding-right: 8px;
+            position: relative;
+            z-index: 3;
+            flex: 1;
+            color: #f4f4f8;
+            font-size: clamp(13px, 1.1vw, 16px);
+            line-height: 1.72;
+            overflow-y: auto;
+            padding-right: 8px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
         }
         #module-content::-webkit-scrollbar { width: 5px; }
-        #module-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.04); border-radius: 4px; }
-        #module-content::-webkit-scrollbar-thumb { background: var(--body-base); border-radius: 4px; }
+        #module-content::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.08); border-radius: 4px; }
+        #module-content::-webkit-scrollbar-thumb {
+            background: var(--body-light);
+            border-radius: 4px;
+        }
         #module-content p { margin-bottom: 16px; }
 
+        /* Barra inferior de controles dentro del Pop-up: ◀◀  ■  ▶▶ */
+        .popup-transport-bar {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .popup-ctrl-btn {
+            height: 32px;
+            min-width: 48px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 50% 25%, #f5f5f7 0%, #c4c4ca 62%, #8e8e95 100%);
+            border: 1px solid #161618;
+            box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 3px 8px rgba(0, 0, 0, 0.85), 0 0 0 2px #09090b;
+            color: #141416;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            font-variant-emoji: text;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.12s ease, filter 0.12s ease;
+        }
+
+        .popup-ctrl-btn:hover {
+            filter: brightness(1.08);
+            transform: scale(1.06);
+        }
+
+        .popup-ctrl-btn:active {
+            transform: scale(0.97);
+        }
+
         /* Estilos específicos para contenido interno de módulos */
-        .module-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.14); }
+        .module-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.25); }
         .module-link-btn {
             display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 6px;
-            border: 1px solid var(--body-light); background: rgba(255, 255, 255, 0.04); color: var(--body-light); text-decoration: none;
+            border: 1px solid var(--body-light); background: rgba(15, 14, 24, 0.55); color: #ffffff; text-decoration: none;
             font-size: 13px; font-weight: 700; letter-spacing: 0.5px; transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
         }
-        .module-link-btn:hover { background: var(--body-base); color: #050505; box-shadow: 0 0 12px var(--body-base); }
+        .module-link-btn:hover {
+            background: var(--body-base);
+            color: #050505;
+            box-shadow: 0 0 14px var(--body-base);
+        }
         
         .book-item { display: flex; gap: 20px; margin-bottom: 30px; align-items: flex-start; }
         .book-cover {
             flex: 0 0 120px; width: 120px; height: 176px; border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6); object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.75); object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.35);
         }
-        .book-info h3 { color: var(--body-light); font-size: 18px; margin-bottom: 10px; text-shadow: 0 0 6px var(--body-base); }
+        .book-info h3 { color: #ffffff; font-size: 18px; margin-bottom: 10px; text-shadow: 0 0 10px var(--body-base); }
 
         /* Estilos del Teaser interactivo */
         .teaser-link {
@@ -386,14 +553,14 @@
             aspect-ratio: 16 / 9;
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.35);
             margin-bottom: 20px;
             background: #000;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .teaser-link:hover {
-            border-color: var(--body-base);
-            box-shadow: 0 0 15px var(--body-base);
+            border-color: var(--body-light);
+            box-shadow: 0 0 18px var(--body-base);
         }
         .teaser-still {
             width: 100%;
@@ -407,65 +574,87 @@
         .play-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background 0.3s ease;
         }
         .teaser-link:hover .play-overlay {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.15);
         }
         .play-icon {
             width: 64px;
             height: 64px;
-            fill: var(--body-light);
-            filter: drop-shadow(0 0 10px var(--body-base));
+            fill: #ffffff;
+            filter: drop-shadow(0 0 12px var(--body-base));
             transition: transform 0.3s ease, filter 0.3s ease;
         }
         .teaser-link:hover .play-icon {
             transform: scale(1.15);
-            filter: drop-shadow(0 0 15px var(--body-light));
         }
 
-        /* --- ADAPTACIÓN PARA CELULARES Y TABLETS EN VERTICAL --- */
+        /* --- ADAPTACIÓN PARA CELULARES Y TABLETS --- */
         @media (max-width: 900px) and (orientation: portrait) {
-            #app-layout { flex-direction: column; justify-content: center; gap: 18px; padding: 16px 14px 16px 56px; }
-            #player-section { padding-top: clamp(56px, 12dvh, 110px); transition: padding-top 0.6s ease; }
-            #discman-device { width: min(72vw, 330px); max-height: 44dvh; transform: rotateX(12deg); }
-            #module-section {
-                width: 100%; max-width: 100%; height: 0; padding: 0 18px; overflow: hidden; border-width: 0;
-                transition: height 0.6s ease, padding 0.6s ease, opacity 0.6s ease 0.2s, border-color 0.2s ease, box-shadow 0.2s ease;
+            #app-layout {
+                padding: 16px 14px 16px 56px;
             }
-            #module-section.active { height: 42dvh; padding: 18px; border-width: 2px; }
-            #module-title { font-size: 22px; padding-bottom: 8px; margin-bottom: 12px; }
-            #module-content { font-size: 13px; }
+            #player-section {
+                padding-top: clamp(56px, 11dvh, 105px);
+            }
+            #discman-device {
+                width: min(74vw, 350px);
+                max-height: 56dvh;
+                transform: rotateX(12deg);
+            }
+            #module-section {
+                width: 92vw;
+                max-height: 78dvh;
+                padding: 18px;
+            }
+            #module-title {
+                font-size: 21px;
+            }
+            #module-content {
+                font-size: 13px;
+            }
             .book-item { flex-direction: column; gap: 12px; }
             .book-cover { width: 110px; height: 162px; flex: 0 0 auto; }
         }
 
-        /* --- CELULARES / TABLETS EN HORIZONTAL --- */
         @media (max-width: 900px) and (orientation: landscape) {
-            #app-layout { flex-direction: row; gap: 20px; padding: 12px 16px 12px 58px; }
-            #player-section { padding-top: 34px; }
-            #discman-device { width: min(36vw, 260px); max-height: 76dvh; transform: rotateX(12deg); }
-            #module-section { height: 82dvh; padding: 18px; }
+            #app-layout {
+                padding: 12px 16px 12px 58px;
+            }
+            #player-section {
+                padding-top: 34px;
+            }
+            #discman-device {
+                width: min(38vw, 270px);
+                max-height: 76dvh;
+                transform: rotateX(12deg);
+            }
+            #module-section {
+                width: min(84vw, 620px);
+                max-height: 84dvh;
+                padding: 18px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div id="side-tools">
-        <!-- 1. Arcoíris -->
+        <!-- 1. Selector de color (Ícono Esmalte de uñas) -->
         <div id="theme-customizer" title="Cambiar color del Discman">
             <input type="color" id="colorPicker" value="#ff4da6">
-            <svg viewBox="0 0 64 46" width="100%" height="100%" style="pointer-events: none;">
-                <path d="M 6,38 A 26,26 0 0,1 58,38" fill="none" stroke="#ff3b5c" stroke-width="3.6" stroke-linecap="round" />
-                <path d="M 9.5,38 A 22.5,22.5 0 0,1 54.5,38" fill="none" stroke="#ff9500" stroke-width="3.6" stroke-linecap="round" />
-                <path d="M 13,38 A 19,19 0 0,1 51,38" fill="none" stroke="#ffd60a" stroke-width="3.6" stroke-linecap="round" />
-                <path d="M 16.5,38 A 15.5,15.5 0 0,1 47.5,38" fill="none" stroke="#34c759" stroke-width="3.6" stroke-linecap="round" />
-                <path d="M 20,38 A 12,12 0 0,1 44,38" fill="none" stroke="#32ade6" stroke-width="3.6" stroke-linecap="round" />
-                <path d="M 23.5,38 A 8.5,8.5 0 0,1 40.5,38" fill="none" stroke="#af52de" stroke-width="3.6" stroke-linecap="round" />
+            <svg viewBox="0 0 36 36" width="24" height="24" style="pointer-events: none;">
+                <path d="M14.5 3.5 H21.5 L20.5 13.5 H15.5 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                <line x1="15.5" y1="8.5" x2="20.5" y2="8.5" stroke="currentColor" stroke-width="1.4" />
+                <rect x="15.5" y="13.5" width="5" height="3" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <path d="M10.2 21.5 H25.8 L26.5 29.5 C26.5 31.2 25.2 32.3 23.5 32.3 H12.5 C10.8 32.3 9.5 31.2 9.5 29.5 Z" fill="var(--body-base)" />
+                <path d="M11.5 22.5 H15 V30.5 H11.5 Z" fill="var(--body-light)" opacity="0.65" />
+                <path d="M11.5 16.5 H24.5 C25.8 16.5 26.8 17.5 26.9 18.8 L27.6 29.5 C27.8 31.4 26.2 33 24.3 33 H11.7 C9.8 33 8.2 31.4 8.4 29.5 L9.1 18.8 C9.2 17.5 10.2 16.5 11.5 16.5 Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
             </svg>
         </div>
 
@@ -512,12 +701,12 @@
         <div class="sticker-choice" onclick="addPresetSticker('skull')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M16 25 C16 13 44 13 44 25 C44 32 40 36 38 38 L38 47 L22 47 L22 38 C20 36 16 32 16 25 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><path d="M16 25 C16 13 44 13 44 25 C44 32 40 36 38 38 L38 47 L22 47 L22 38 C20 36 16 32 16 25 Z" fill="#f4f4f5" stroke="#111" stroke-width="2" stroke-linejoin="round"/><circle cx="24" cy="26" r="4.2" fill="#111"/><circle cx="36" cy="26" r="4.2" fill="#111"/><polygon points="30,31 28,35 32,35" fill="#111"/><line x1="26" y1="41" x2="26" y2="47" stroke="#111" stroke-width="2"/><line x1="30" y1="41" x2="30" y2="47" stroke="#111" stroke-width="2"/><line x1="34" y1="41" x2="34" y2="47" stroke="#111" stroke-width="2"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('alien')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M13 24 C13 10 47 10 47 24 C47 37 36 50 30 51 C24 50 13 37 13 24 Z" fill="#fff" stroke="#fff" stroke-width="5"/><path d="M13 24 C13 10 47 10 47 24 C47 37 36 50 30 51 C24 50 13 37 13 24 Z" fill="#6ee7b7" stroke="#111" stroke-width="2"/><ellipse cx="22" cy="28" rx="4.5" ry="7.5" transform="rotate(-24 22 28)" fill="#111"/><ellipse cx="38" cy="28" rx="4.5" ry="7.5" transform="rotate(24 38 28)" fill="#111"/><circle cx="20.5" cy="25" r="1.4" fill="#fff"/><circle cx="36.5" cy="25" r="1.4" fill="#fff"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('trippySmiley')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M11 27 A19 19 0 1 1 49 27 C49 36 46 47 43 47 C40 47 40 39 37 39 C34 39 34 50 30 50 C26 50 26 40 23 40 C20 40 20 46 17 46 C14 46 11 36 11 27 Z" fill="#fff" stroke="#fff" stroke-width="5"/><path d="M11 27 A19 19 0 1 1 49 27 C49 36 46 47 43 47 C40 47 40 39 37 39 C34 39 34 50 30 50 C26 50 26 40 23 40 C20 40 20 46 17 46 C14 46 11 36 11 27 Z" fill="#fde047" stroke="#111" stroke-width="2"/><path d="M23 19 Q21 23 23 27" fill="none" stroke="#111" stroke-width="2.3" stroke-linecap="round"/><path d="M37 19 Q39 23 37 27" fill="none" stroke="#111" stroke-width="2.3" stroke-linecap="round"/><path d="M19 31 Q25 38 30 33 Q35 38 41 31" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"/></svg></div>
-        <div class="sticker-choice" onclick="addPresetSticker('eyes')"><svg viewBox="0 0 60 60" width="30" height="30"><ellipse cx="22" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5.5"/><ellipse cx="38" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5.5"/><ellipse cx="22" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="38" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="-6" cy="1" rx="4.5" ry="7" fill="#111"/><ellipse cx="13" cy="1" rx="4.5" ry="7" fill="#111"/></svg></div>
+        <div class="sticker-choice" onclick="addPresetSticker('eyes')"><svg viewBox="0 0 60 60" width="30" height="30"><ellipse cx="22" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5.5"/><ellipse cx="38" cy="30" rx="11" ry="16" fill="#fff" stroke="#fff" stroke-width="5.5"/><ellipse cx="22" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="38" cy="30" rx="10" ry="15" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="25" cy="31" rx="4" ry="6" fill="#111"/><ellipse cx="41" cy="31" rx="4" ry="6" fill="#111"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('boombox')"><svg viewBox="0 0 60 60" width="30" height="30"><rect x="8" y="21" width="44" height="26" rx="4" fill="#fff" stroke="#fff" stroke-width="5"/><path d="M18 21 V14 H42 V21" fill="none" stroke="#fff" stroke-width="6.5" stroke-linejoin="round"/><path d="M18 21 V14 H42 V21" fill="none" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/><rect x="8" y="21" width="44" height="26" rx="4" fill="#f472b6" stroke="#111" stroke-width="2"/><circle cx="17" cy="35" r="6" fill="#111" stroke="#fff" stroke-width="1.4"/><circle cx="43" cy="35" r="6" fill="#111" stroke="#fff" stroke-width="1.4"/><rect x="25" y="29" width="10" height="8" rx="1" fill="#38bdf8" stroke="#111" stroke-width="1.6"/></svg></div>
-        <div class="sticker-choice" onclick="addPresetSticker('cassette')"><svg viewBox="0 0 60 60" width="30" height="30"><rect x="8" y="17" width="44" height="28" rx="4" fill="#fff" stroke="#fff" stroke-width="5.5"/><rect x="8" y="17" width="44" height="28" rx="4" fill="#a855f7" stroke="#111" stroke-width="2"/><rect x="14" y="22" width="32" height="13" rx="2" fill="#fef08a" stroke="#111" stroke-width="1.6"/><circle cx="-9" cy="-2" r="3.6" fill="#111"/><circle cx="9" cy="-2" r="3.6" fill="#111"/><polygon points="-13,17 -10,10 10,10 13,17" fill="#111"/></svg></div>
+        <div class="sticker-choice" onclick="addPresetSticker('cassette')"><svg viewBox="0 0 60 60" width="30" height="30"><rect x="8" y="17" width="44" height="28" rx="4" fill="#fff" stroke="#fff" stroke-width="5.5"/><rect x="8" y="17" width="44" height="28" rx="4" fill="#a855f7" stroke="#111" stroke-width="2"/><rect x="14" y="22" width="32" height="13" rx="2" fill="#fef08a" stroke="#111" stroke-width="1.6"/><circle cx="22" cy="28.5" r="3.2" fill="#111"/><circle cx="38" cy="28.5" r="3.2" fill="#111"/><polygon points="18,45 21,39 39,39 42,45" fill="#111"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('eightball')"><svg viewBox="0 0 60 60" width="30" height="30"><circle cx="30" cy="30" r="22" fill="#fff"/><circle cx="30" cy="30" r="19" fill="#18181b" stroke="#111" stroke-width="1.6"/><circle cx="30" cy="28" r="8.5" fill="#fff"/><text x="30" y="32" text-anchor="middle" fill="#111" font-family="sans-serif" font-size="11" font-weight="900">8</text></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('flame')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M31 8 C37 18 46 23 45 36 C44 46 37 52 29 52 C20 52 14 45 15 35 C16 28 21 24 22 19 C24 23 26 24 27 21 C26 15 28 11 31 8 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/><path d="M31 8 C37 18 46 23 45 36 C44 46 37 52 29 52 C20 52 14 45 15 35 C16 28 21 24 22 19 C24 23 26 24 27 21 C26 15 28 11 31 8 Z" fill="#f472b6" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M30 26 C34 32 37 36 36 42 C35 47 32 49 29 49 C25 49 22 46 23 41 C24 37 28 33 30 26 Z" fill="#fb923c"/></svg></div>
-        <div class="sticker-choice" onclick="addPresetSticker('heartEyes')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/><path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#ef4444" stroke="#111" stroke-width="2" stroke-linejoin="round"/><ellipse cx="-5.5" cy="-3.5" rx="3.6" ry="5.6" fill="#fff" stroke="#111" stroke-width="1.5"/><ellipse cx="5.5" cy="-3.5" rx="3.6" ry="5.6" fill="#fff" stroke="#111" stroke-width="1.5"/><circle cx="-5" cy="-3" r="2" fill="#111"/><circle cx="6" cy="-3" r="2" fill="#111"/></svg></div>
+        <div class="sticker-choice" onclick="addPresetSticker('heartEyes')"><svg viewBox="0 0 60 60" width="30" height="30"><path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/><path d="M30 50 C11 37 7 23 16 15 C22 9 28 13 30 19 C32 13 38 9 44 15 C53 23 49 37 30 50 Z" fill="#ef4444" stroke="#111" stroke-width="2" stroke-linejoin="round"/><ellipse cx="25" cy="27" rx="3.2" ry="5" fill="#fff" stroke="#111" stroke-width="1.4"/><ellipse cx="35" cy="27" rx="3.2" ry="5" fill="#fff" stroke="#111" stroke-width="1.4"/><circle cx="25.5" cy="27.5" r="1.8" fill="#111"/><circle cx="35.5" cy="27.5" r="1.8" fill="#111"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('yinyang')"><svg viewBox="0 0 60 60" width="30" height="30"><circle cx="30" cy="30" r="22" fill="#fff"/><circle cx="30" cy="30" r="18.5" fill="#fecdd3" stroke="#111" stroke-width="1.8"/><path d="M30 11.5 A18.5 18.5 0 0 1 30 48.5 A9.25 9.25 0 0 1 30 30 A9.25 9.25 0 0 0 30 11.5 Z" fill="#e11d48"/><circle cx="30" cy="20.75" r="2.8" fill="#e11d48"/><circle cx="30" cy="39.25" r="2.8" fill="#fecdd3"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('peace')"><svg viewBox="0 0 60 60" width="30" height="30"><circle cx="30" cy="30" r="22" fill="#fff"/><circle cx="30" cy="30" r="18" fill="#34d399" stroke="#111" stroke-width="2"/><line x1="30" y1="12" x2="30" y2="48" stroke="#111" stroke-width="2.4"/><line x1="30" y1="30" x2="17" y2="42" stroke="#111" stroke-width="2.4"/><line x1="30" y1="30" x2="43" y2="42" stroke="#111" stroke-width="2.4"/></svg></div>
         <div class="sticker-choice" onclick="addPresetSticker('bolt')"><svg viewBox="0 0 60 60" width="30" height="30"><polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><polygon points="34,6 14,33 28,33 24,54 46,26 32,26" fill="#facc15" stroke="#111" stroke-width="2" stroke-linejoin="round"/></svg></div>
@@ -622,32 +811,52 @@
                     </div>
                 </div>
 
-                <!-- Bisel, Botones (Retroceder + Stop | Logo | Play + Adelantar) -->
+                <!-- Bisel Inferior: 1, 2, 3 | ▲ Eject | 4, 5, 6 -->
                 <div id="control-deck">
                     <svg id="bezel-svg" viewBox="0 0 440 484">
                         <path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
                         <path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" />
                     </svg>
 
-                    <button class="hw-btn" id="btn-prev" onclick="prevTrack()" title="Anterior">◀◀</button>
-                    <button class="hw-btn" id="btn-stop" onclick="stopDisc()" title="Stop">■</button>
+                    <button class="hw-btn" id="btn-track-1" data-track="0" onclick="selectTrack(0)" title="01. Peter Pank">1</button>
+                    <button class="hw-btn" id="btn-track-2" data-track="1" onclick="selectTrack(1)" title="02. Teaser">2</button>
+                    <button class="hw-btn" id="btn-track-3" data-track="2" onclick="selectTrack(2)" title="03. Literatura">3</button>
 
-                    <div id="molino-badge" title="Molino Studio">
-                        <img src="assets/images/logo_molino.webp" alt="Molino Studio">
-                    </div>
+                    <button class="hw-btn" id="btn-eject" onclick="stopDisc()" title="Eject / Abrir tapa">▲</button>
 
-                    <button class="hw-btn" id="btn-play" onclick="playCurrent()" title="Play / Pause">▶||</button>
-                    <button class="hw-btn" id="btn-next" onclick="nextTrack()" title="Siguiente">▶▶</button>
+                    <button class="hw-btn" id="btn-track-4" data-track="3" onclick="selectTrack(3)" title="04. Fanzines">4</button>
+                    <button class="hw-btn" id="btn-track-5" data-track="4" onclick="selectTrack(4)" title="05. Música">5</button>
+                    <button class="hw-btn" id="btn-track-6" data-track="5" onclick="selectTrack(5)" title="06. No escuches el CD">6</button>
                 </div>
 
             </div>
         </div>
 
-        <div id="module-section">
-            <h1 id="module-title"></h1>
-            <div id="module-content"></div>
-        </div>
+    </div>
 
+    <!-- Pop-up Translúcido con Matriz de Micro-Píxeles en Degradé y Constelación Titilante -->
+    <div id="module-overlay" onclick="handleOverlayClick(event)">
+        <div id="module-section" role="dialog" aria-modal="true" aria-labelledby="module-title">
+            <canvas id="popup-fx-canvas"></canvas>
+            <div class="popup-readability-veil"></div>
+
+            <div class="popup-header">
+                <div class="popup-title-group">
+                    <span id="module-track-label">TRACK 01</span>
+                    <h1 id="module-title"></h1>
+                </div>
+                <button id="btn-close-popup" onclick="closePopup()" title="Volver al CD">×</button>
+            </div>
+
+            <div id="module-content"></div>
+
+            <!-- Controles trasladados al pop-up: ◀◀  ■  ▶▶ -->
+            <div class="popup-transport-bar">
+                <button class="popup-ctrl-btn" onclick="prevTrack()" title="Pista anterior">◀◀</button>
+                <button class="popup-ctrl-btn" onclick="stopDisc()" title="Stop y abrir tapa">■</button>
+                <button class="popup-ctrl-btn" onclick="nextTrack()" title="Pista siguiente">▶▶</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -717,7 +926,9 @@
 
         const cd = document.getElementById('cd-disc');
         const lid = document.getElementById('discman-lid');
+        const moduleOverlay = document.getElementById('module-overlay');
         const moduleSection = document.getElementById('module-section');
+        const moduleTrackLabel = document.getElementById('module-track-label');
         const moduleTitle = document.getElementById('module-title');
         const moduleContent = document.getElementById('module-content');
         const colorPicker = document.getElementById('colorPicker');
@@ -726,41 +937,284 @@
             return '#' + color.replace(/^#/, '').replace(/../g, c => ('0'+Math.min(255, Math.max(0, parseInt(c, 16) + amount)).toString(16)).substr(-2));
         }
 
+        function hexToRgb(hex) {
+            const clean = hex.replace('#', '');
+            const num = parseInt(clean, 16);
+            return {
+                r: (num >> 16) & 255,
+                g: (num >> 8) & 255,
+                b: num & 255
+            };
+        }
+
         colorPicker.addEventListener('input', (e) => {
             const hex = e.target.value;
             document.body.style.setProperty('--body-base', hex);
-            document.body.style.setProperty('--body-light', adjustColor(hex, 50));
-            document.body.style.setProperty('--body-dark', adjustColor(hex, -60));
+            document.body.style.setProperty('--body-light', adjustColor(hex, 60));
+            document.body.style.setProperty('--body-dark', adjustColor(hex, -65));
             document.body.style.setProperty('--body-shadow', adjustColor(hex, -120));
         });
 
+        function updateActiveTrackButton(index, playing) {
+            document.querySelectorAll('.hw-btn[data-track]').forEach(btn => {
+                btn.classList.toggle('active-track', playing && parseInt(btn.dataset.track, 10) === index);
+            });
+        }
+
         function selectTrack(index) {
+            const wasOpenLid = !lid.classList.contains('lid-closed');
             currentTrackIndex = index;
             isPlaying = true;
+            closeAllToolPanels();
 
             cd.classList.add('spinning');
             lid.classList.add('lid-closed');
+            updateActiveTrackButton(currentTrackIndex, true);
 
             const trackName = tracks[currentTrackIndex];
+            moduleTrackLabel.innerText = `TRACK 0${currentTrackIndex + 1}`;
             moduleTitle.innerText = trackName;
             moduleContent.scrollTop = 0;
             moduleContent.innerHTML = moduleContents[currentTrackIndex] || `<p>Cargando el contenido de ${trackName}...</p>`;
 
-            setTimeout(() => { if (isPlaying) moduleSection.classList.add('active'); }, 900);
+            const delay = wasOpenLid ? 850 : 120;
+            setTimeout(() => {
+                if (isPlaying) {
+                    moduleOverlay.classList.add('active');
+                    startPopupFx();
+                }
+            }, delay);
         }
 
-        function playCurrent() { selectTrack(currentTrackIndex); }
         function nextTrack() { selectTrack((currentTrackIndex + 1) % tracks.length); }
         function prevTrack() { selectTrack((currentTrackIndex - 1 + tracks.length) % tracks.length); }
 
+        /* Cierra únicamente el pop-up para volver a ver el CD girando */
+        function closePopup() {
+            moduleOverlay.classList.remove('active');
+            stopPopupFx();
+        }
+
+        function handleOverlayClick(e) {
+            if (e.target === moduleOverlay) {
+                closePopup();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && moduleOverlay.classList.contains('active')) {
+                closePopup();
+            }
+        });
+
+        /* Eject (▲) en el Discman o Stop (■) en el pop-up: cierra ventana, detiene giro y abre la tapa */
         function stopDisc() {
             isPlaying = false;
-            moduleSection.classList.remove('active');
+            closePopup();
             closeAllToolPanels();
+            updateActiveTrackButton(currentTrackIndex, false);
             setTimeout(() => {
                 lid.classList.remove('lid-closed');
                 setTimeout(() => { if (!isPlaying) cd.classList.remove('spinning'); }, 800);
-            }, 450);
+            }, 350);
+        }
+
+        /* =========================================================
+           MOTOR CANVAS: MICRO-PÍXELES EN DEGRADÉ + CONSTELACIÓN TITILANTE
+           ========================================================= */
+        const fxCanvas = document.getElementById('popup-fx-canvas');
+        const fxCtx = fxCanvas.getContext('2d');
+        let fxAnimId = null;
+
+        // Nodos de constelación (coordenadas normalizadas 0..1)
+        const constellationGroups = [
+            [
+                { x: 0.08, y: 0.14 },
+                { x: 0.17, y: 0.08 },
+                { x: 0.25, y: 0.17 },
+                { x: 0.34, y: 0.10 }
+            ],
+            [
+                { x: 0.68, y: 0.11 },
+                { x: 0.79, y: 0.18 },
+                { x: 0.90, y: 0.12 },
+                { x: 0.85, y: 0.26 }
+            ],
+            [
+                { x: 0.10, y: 0.82 },
+                { x: 0.20, y: 0.90 },
+                { x: 0.31, y: 0.84 }
+            ],
+            [
+                { x: 0.67, y: 0.87 },
+                { x: 0.78, y: 0.81 },
+                { x: 0.91, y: 0.89 }
+            ]
+        ];
+
+        // Estrellas muy pequeñas que titilan con fases y velocidades independientes
+        const starField = Array.from({ length: 34 }, (_, i) => {
+            // Algunas coinciden con nodos de constelación y otras flotan alrededor
+            const flatNodes = constellationGroups.flat();
+            if (i < flatNodes.length) {
+                return {
+                    x: flatNodes[i].x,
+                    y: flatNodes[i].y,
+                    phase: (i * 1.37) % (Math.PI * 2),
+                    speed: 0.0018 + (i % 5) * 0.00045,
+                    flare: i % 2 === 0
+                };
+            }
+            const seed = (i * 9301 + 49297) % 233280;
+            const seed2 = (i * 4253 + 17389) % 233280;
+            return {
+                x: (seed / 233280) * 0.94 + 0.03,
+                y: (seed2 / 233280) * 0.92 + 0.04,
+                phase: (i * 2.13) % (Math.PI * 2),
+                speed: 0.0015 + (i % 7) * 0.0004,
+                flare: i % 3 === 0
+            };
+        });
+
+        function renderPopupFx(time) {
+            const rect = moduleSection.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) {
+                fxAnimId = requestAnimationFrame(renderPopupFx);
+                return;
+            }
+
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const targetW = Math.round(rect.width * dpr);
+            const targetH = Math.round(rect.height * dpr);
+            if (fxCanvas.width !== targetW || fxCanvas.height !== targetH) {
+                fxCanvas.width = targetW;
+                fxCanvas.height = targetH;
+            }
+
+            fxCtx.save();
+            fxCtx.scale(dpr, dpr);
+            const w = rect.width;
+            const h = rect.height;
+            fxCtx.clearRect(0, 0, w, h);
+
+            const styles = getComputedStyle(document.body);
+            const baseHex = styles.getPropertyValue('--body-base').trim() || '#ff4da6';
+            const lightHex = styles.getPropertyValue('--body-light').trim() || '#ff80bf';
+            const darkHex = styles.getPropertyValue('--body-dark').trim() || '#b30059';
+
+            const cBase = hexToRgb(baseHex);
+            const cLight = hexToRgb(lightHex);
+            const cDark = hexToRgb(darkHex);
+
+            // 1. Matriz fina de micro-píxeles circulares en degradé sincronizada al color del Discman
+            const step = 4.6;
+            const radius = 1.45;
+            const cols = Math.ceil(w / step);
+            const rows = Math.ceil(h / step);
+
+            for (let r = 0; r < rows; r++) {
+                const ny = r / Math.max(1, rows - 1);
+                for (let c = 0; c < cols; c++) {
+                    const nx = c / Math.max(1, cols - 1);
+                    // Degradé diagonal + centro luminoso tipo lentejuela / LED
+                    const diag = (nx * 0.6 + ny * 0.4);
+                    const distCenter = Math.hypot(nx - 0.52, ny - 0.45);
+                    const lum = Math.max(0, Math.min(1, 1 - distCenter * 1.15));
+
+                    // Brillo sutil por celda tipo mosaico
+                    const cellHash = ((r * 73 + c * 151) % 17) / 17;
+                    const shimmer = 0.78 + 0.22 * Math.sin(time * 0.0014 + cellHash * Math.PI * 2);
+
+                    let pr, pg, pb;
+                    if (lum > 0.55) {
+                        const t = (lum - 0.55) / 0.45;
+                        pr = Math.round(cBase.r + (cLight.r - cBase.r) * t);
+                        pg = Math.round(cBase.g + (cLight.g - cBase.g) * t);
+                        pb = Math.round(cBase.b + (cLight.b - cBase.b) * t);
+                    } else {
+                        const t = diag;
+                        pr = Math.round(cDark.r + (cBase.r - cDark.r) * t);
+                        pg = Math.round(cDark.g + (cBase.g - cDark.g) * t);
+                        pb = Math.round(cDark.b + (cBase.b - cDark.b) * t);
+                    }
+
+                    const alpha = (0.20 + lum * 0.28) * shimmer;
+                    fxCtx.fillStyle = `rgba(${pr}, ${pg}, ${pb}, ${alpha.toFixed(3)})`;
+                    fxCtx.beginPath();
+                    fxCtx.arc(c * step + step * 0.5, r * step + step * 0.5, radius, 0, Math.PI * 2);
+                    fxCtx.fill();
+                }
+            }
+
+            // 2. Líneas sutiles de constelación con desplazamiento mínimo
+            const driftX = Math.sin(time * 0.00035) * 4;
+            const driftY = Math.cos(time * 0.0003) * 3;
+
+            fxCtx.save();
+            fxCtx.strokeStyle = `rgba(${cLight.r}, ${cLight.g}, ${cLight.b}, 0.22)`;
+            fxCtx.lineWidth = 0.75;
+            fxCtx.setLineDash([2, 3]);
+            constellationGroups.forEach(group => {
+                fxCtx.beginPath();
+                group.forEach((pt, idx) => {
+                    const px = pt.x * w + driftX;
+                    const py = pt.y * h + driftY;
+                    if (idx === 0) fxCtx.moveTo(px, py);
+                    else fxCtx.lineTo(px, py);
+                });
+                fxCtx.stroke();
+            });
+            fxCtx.restore();
+
+            // 3. Estrellas muy pequeñas prendiendo y apagando (destellos sutiles)
+            starField.forEach(star => {
+                const wave = (Math.sin(time * star.speed + star.phase) + 1) * 0.5;
+                const intensity = Math.pow(wave, 2.4); // Encendido suave y puntual
+                if (intensity < 0.05) return;
+
+                const sx = star.x * w + driftX;
+                const sy = star.y * h + driftY;
+
+                // Halo suave del color claro del Discman
+                const glowR = star.flare ? 7.5 : 4;
+                const grad = fxCtx.createRadialGradient(sx, sy, 0, sx, sy, glowR);
+                grad.addColorStop(0, `rgba(255, 255, 255, ${(0.95 * intensity).toFixed(3)})`);
+                grad.addColorStop(0.45, `rgba(${cLight.r}, ${cLight.g}, ${cLight.b}, ${(0.55 * intensity).toFixed(3)})`);
+                grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                fxCtx.fillStyle = grad;
+                fxCtx.beginPath();
+                fxCtx.arc(sx, sy, glowR, 0, Math.PI * 2);
+                fxCtx.fill();
+
+                // Destello en cruz muy fino para las estrellas principales
+                if (star.flare && intensity > 0.35) {
+                    const arm = 4.2 * intensity;
+                    fxCtx.strokeStyle = `rgba(255, 255, 255, ${(0.85 * intensity).toFixed(3)})`;
+                    fxCtx.lineWidth = 0.9;
+                    fxCtx.beginPath();
+                    fxCtx.moveTo(sx - arm, sy);
+                    fxCtx.lineTo(sx + arm, sy);
+                    fxCtx.moveTo(sx, sy - arm);
+                    fxCtx.lineTo(sx, sy + arm);
+                    fxCtx.stroke();
+                }
+            });
+
+            fxCtx.restore();
+            fxAnimId = requestAnimationFrame(renderPopupFx);
+        }
+
+        function startPopupFx() {
+            if (!fxAnimId) {
+                fxAnimId = requestAnimationFrame(renderPopupFx);
+            }
+        }
+
+        function stopPopupFx() {
+            if (fxAnimId) {
+                cancelAnimationFrame(fxAnimId);
+                fxAnimId = null;
+            }
         }
 
         /* --- HERRAMIENTAS DE INTERACCIÓN --- */
@@ -977,7 +1431,7 @@
                     <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z" fill="rgba(255,255,255,0.06)" stroke="#121214" stroke-width="2.5" />
                 </g>` : '';
 
-            const exportSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="880" height="968" viewBox="0 0 440 484"><defs><radialGradient id="expBaseGrad" cx="50%" cy="32%" r="68%"><stop offset="0%" stop-color="${cLight}" /><stop offset="68%" stop-color="${cBase}" /><stop offset="100%" stop-color="${cShadow}" /></radialGradient><linearGradient id="expCdGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#dfe3ea" /><stop offset="28%" stop-color="#9be7ff" /><stop offset="50%" stop-color="#f5f7fa" /><stop offset="72%" stop-color="#f59be6" /><stop offset="100%" stop-color="#cfd4dc" /></linearGradient></defs><rect width="440" height="484" fill="#050505" /><path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z" fill="url(#expBaseGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" /><path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z" fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" /><circle cx="220" cy="215" r="174" fill="url(#expCdGrad)" stroke="#9ba0a8" stroke-width="2" /><circle cx="220" cy="215" r="49" fill="#e5e5e3" stroke="#8c9096" stroke-width="1.5" /><circle cx="220" cy="215" r="20" fill="#141416" stroke="#bec0c4" stroke-width="2.5" />${lidSectionSvg}<path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" /><path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" /><g transform="translate(116, 412) rotate(25)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">◀◀</text></g><g transform="translate(168, 434) rotate(11)"><rect x="-15" y="-11" width="30" height="22" rx="11" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><rect x="-3.5" y="-3.5" width="7" height="7" fill="#141416"/></g><g transform="translate(220, 444)"><circle cx="0" cy="0" r="21" fill="#d90404" stroke="#09090b" stroke-width="2.5"/><path d="M -18,7 A 21,21 0 0,0 18,7 Z" fill="#09090b"/><line x1="-8" y1="-13" x2="-8" y2="7" stroke="#09090b" stroke-width="2"/><circle cx="-8" cy="-13" r="4" fill="#09090b"/></g><g transform="translate(272, 434) rotate(-11)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">▶||</text></g><g transform="translate(324, 412) rotate(-25)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="#d4d4d8" stroke="#09090b" stroke-width="2.5"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">▶▶</text></g></svg>`;
+            const exportSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="880" height="968" viewBox="0 0 440 484"><defs><radialGradient id="expBaseGrad" cx="50%" cy="32%" r="68%"><stop offset="0%" stop-color="${cLight}" /><stop offset="68%" stop-color="${cBase}" /><stop offset="100%" stop-color="${cShadow}" /></radialGradient><linearGradient id="expCdGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#dfe3ea" /><stop offset="28%" stop-color="#9be7ff" /><stop offset="50%" stop-color="#f5f7fa" /><stop offset="72%" stop-color="#f59be6" /><stop offset="100%" stop-color="#cfd4dc" /></linearGradient></defs><rect width="440" height="484" fill="#050505" /><path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z" fill="url(#expBaseGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" /><path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z" fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" /><circle cx="220" cy="215" r="174" fill="url(#expCdGrad)" stroke="#9ba0a8" stroke-width="2" /><circle cx="220" cy="215" r="49" fill="#e5e5e3" stroke="#8c9096" stroke-width="1.5" /><circle cx="220" cy="215" r="20" fill="#141416" stroke="#bec0c4" stroke-width="2.5" />${lidSectionSvg}<path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" /><path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" /><g transform="translate(86, 401) rotate(35)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">1</text></g><g transform="translate(128, 426) rotate(22)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">2</text></g><g transform="translate(172, 440) rotate(10)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">3</text></g><g transform="translate(220, 444.5)"><rect x="-19" y="-10.5" width="38" height="21" rx="10.5" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">▲</text></g><g transform="translate(268, 440) rotate(-10)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">4</text></g><g transform="translate(312, 426) rotate(-22)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">5</text></g><g transform="translate(354, 401) rotate(-35)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">6</text></g></svg>`;
 
             const blob = new Blob([exportSvg], { type: 'image/svg+xml;charset=utf-8' });
             const url = URL.createObjectURL(blob);
