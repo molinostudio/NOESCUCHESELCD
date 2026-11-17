@@ -293,46 +293,75 @@
         #discman-lid.lid-closed .lid-sticker-item { pointer-events: all; cursor: grab; touch-action: none; }
         #discman-lid.lid-closed .lid-sticker-item:active { cursor: grabbing; }
 
-        /* --- BISEL INFERIOR: 1, 2, 3 (IZQ) | ▲ EJECT (CENTRO) | 4, 5, 6 (DER) --- */
+        /* --- BISEL INFERIOR: BOTONES HUNDIDOS CÓNCAVOS CON ÍCONOS MAXIMIZADOS --- */
         #control-deck { position: absolute; inset: 0; pointer-events: none; z-index: 25; transform: translateZ(5px); }
         #bezel-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
         .hw-btn {
             position: absolute; pointer-events: auto;
-            height: clamp(19px, 2.35vw, 26px);
-            min-width: clamp(25px, 3vw, 34px);
-            padding: 0 clamp(6px, 0.8vw, 10px);
+            height: clamp(22px, 2.9vw, 30px);
+            min-width: clamp(36px, 4.6vw, 46px);
+            padding: 0;
             border-radius: 999px;
-            background: radial-gradient(circle at 50% 25%, #f5f5f7 0%, #c4c4ca 62%, #8e8e95 100%);
-            border: 1px solid #161618; outline: none;
-            box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 3px 6px rgba(0, 0, 0, 0.95), 0 0 0 2.2px #09090b;
-            color: #141416; font-family: Arial, sans-serif; font-size: clamp(9px, 1vw, 12px); font-weight: 900; letter-spacing: 0.3px;
-            font-variant-emoji: text;
+            /* Acabado metálico satinado cóncavo / hundido en el plástico del bisel */
+            background: linear-gradient(180deg, #b8b9c0 0%, #dcdde2 48%, #f2f3f6 100%);
+            border: 1px solid #0c0c0e;
+            outline: none;
+            box-shadow:
+                inset 0 2.5px 4px rgba(0, 0, 0, 0.55),
+                inset 0 -1.5px 2px rgba(255, 255, 255, 0.9),
+                0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 0 1.2px #070709;
             display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.15s ease;
         }
-        .hw-btn:hover { filter: brightness(1.08); }
-        .hw-btn:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 0 2.2px #09090b; }
+        .hw-btn:hover {
+            filter: brightness(1.06);
+        }
+        .hw-btn:active {
+            background: linear-gradient(180deg, #a6a7ae 0%, #cfd0d6 55%, #e5e6eb 100%);
+            box-shadow:
+                inset 0 3.5px 6px rgba(0, 0, 0, 0.75),
+                inset 0 -1px 1.5px rgba(255, 255, 255, 0.7),
+                0 0 0 1.2px #070709;
+        }
         .hw-btn.active-track {
-            box-shadow: inset 0 1.5px 2px rgba(255, 255, 255, 0.95), 0 0 10px var(--body-light), 0 0 0 2.2px var(--body-base);
+            box-shadow:
+                inset 0 2.5px 4px rgba(0, 0, 0, 0.5),
+                inset 0 -1.5px 2px rgba(255, 255, 255, 0.9),
+                0 0 10px var(--body-light),
+                0 0 0 1.5px var(--body-base);
+        }
+
+        /* Ícono apaisado aprovechando todo el ancho interior del botón */
+        .hw-btn svg {
+            width: 86%;
+            height: 82%;
+            display: block;
+            pointer-events: none;
+        }
+
+        #btn-eject svg {
+            width: 58%;
+            height: 64%;
         }
 
         /* Izquierda: 1, 2, 3 */
-        #btn-track-1 { left: 19.5%; top: 82.9%; transform: translate(-50%, -50%) rotate(35deg); }
-        #btn-track-2 { left: 29.0%; top: 87.9%; transform: translate(-50%, -50%) rotate(22deg); }
+        #btn-track-1 { left: 19.2%; top: 82.6%; transform: translate(-50%, -50%) rotate(35deg); }
+        #btn-track-2 { left: 28.9%; top: 87.8%; transform: translate(-50%, -50%) rotate(22deg); }
         #btn-track-3 { left: 39.2%; top: 90.9%; transform: translate(-50%, -50%) rotate(10deg); }
 
         /* Centro: ▲ Eject */
         #btn-eject {
             left: 50.0%; top: 91.8%;
             transform: translate(-50%, -50%);
-            min-width: clamp(32px, 3.8vw, 44px);
-            padding: 0 clamp(10px, 1.2vw, 15px);
+            min-width: clamp(38px, 4.9vw, 50px);
         }
 
         /* Derecha: 4, 5, 6 */
         #btn-track-4 { left: 60.8%; top: 90.9%; transform: translate(-50%, -50%) rotate(-10deg); }
-        #btn-track-5 { left: 71.0%; top: 87.9%; transform: translate(-50%, -50%) rotate(-22deg); }
-        #btn-track-6 { left: 80.5%; top: 82.9%; transform: translate(-50%, -50%) rotate(-35deg); }
+        #btn-track-5 { left: 71.1%; top: 87.8%; transform: translate(-50%, -50%) rotate(-22deg); }
+        #btn-track-6 { left: 80.8%; top: 82.6%; transform: translate(-50%, -50%) rotate(-35deg); }
+
 
         /* --- POP-UP TRANSLÚCIDO CON MICRO-PÍXELES EN DEGRADÉ Y CONSTELACIÓN TITILANTE --- */
         #module-overlay {
@@ -365,7 +394,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            /* Base translúcida dejando ver el Discman girando detrás */
             background: rgba(10, 9, 16, 0.56);
             backdrop-filter: blur(12px) saturate(150%);
             -webkit-backdrop-filter: blur(12px) saturate(150%);
@@ -392,7 +420,7 @@
             z-index: 0;
         }
 
-        /* Velo sutil central para legibilidad nítida sin tapar los bordes de píxeles y estrellas */
+        /* Velo sutil central para legibilidad nítida */
         .popup-readability-veil {
             position: absolute;
             inset: 0;
@@ -400,8 +428,8 @@
             z-index: 1;
             background: radial-gradient(
                 ellipse at 50% 50%,
-                rgba(7, 7, 11, 0.54) 0%,
-                rgba(7, 7, 11, 0.34) 68%,
+                rgba(7, 7, 11, 0.65) 0%,
+                rgba(7, 7, 11, 0.45) 68%,
                 rgba(7, 7, 11, 0.12) 100%
             );
         }
@@ -423,6 +451,20 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
+            pointer-events: none;
+        }
+
+        /* Replicamos el ícono del track activo al lado del título */
+        .popup-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #module-title-icon {
+            width: 42px;
+            height: 22px;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 0 10px var(--body-base));
         }
 
         #module-track-label {
@@ -433,7 +475,7 @@
         }
 
         #module-title {
-            font-size: clamp(21px, 2.5vw, 34px);
+            font-size: clamp(21px, 2.5vw, 32px);
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 0 12px var(--body-base);
@@ -596,49 +638,21 @@
 
         /* --- ADAPTACIÓN PARA CELULARES Y TABLETS --- */
         @media (max-width: 900px) and (orientation: portrait) {
-            #app-layout {
-                padding: 16px 14px 16px 56px;
-            }
-            #player-section {
-                padding-top: clamp(56px, 11dvh, 105px);
-            }
-            #discman-device {
-                width: min(74vw, 350px);
-                max-height: 56dvh;
-                transform: rotateX(12deg);
-            }
-            #module-section {
-                width: 92vw;
-                max-height: 78dvh;
-                padding: 18px;
-            }
-            #module-title {
-                font-size: 21px;
-            }
-            #module-content {
-                font-size: 13px;
-            }
+            #app-layout { padding: 16px 14px 16px 56px; }
+            #player-section { padding-top: clamp(56px, 11dvh, 105px); }
+            #discman-device { width: min(74vw, 350px); max-height: 56dvh; transform: rotateX(12deg); }
+            #module-section { width: 92vw; max-height: 78dvh; padding: 18px; }
+            #module-title { font-size: 21px; }
+            #module-content { font-size: 13px; }
             .book-item { flex-direction: column; gap: 12px; }
             .book-cover { width: 110px; height: 162px; flex: 0 0 auto; }
         }
 
         @media (max-width: 900px) and (orientation: landscape) {
-            #app-layout {
-                padding: 12px 16px 12px 58px;
-            }
-            #player-section {
-                padding-top: 34px;
-            }
-            #discman-device {
-                width: min(38vw, 270px);
-                max-height: 76dvh;
-                transform: rotateX(12deg);
-            }
-            #module-section {
-                width: min(84vw, 620px);
-                max-height: 84dvh;
-                padding: 18px;
-            }
+            #app-layout { padding: 12px 16px 12px 58px; }
+            #player-section { padding-top: 34px; }
+            #discman-device { width: min(38vw, 270px); max-height: 76dvh; transform: rotateX(12deg); }
+            #module-section { width: min(84vw, 620px); max-height: 84dvh; padding: 18px; }
         }
     </style>
 </head>
@@ -811,22 +825,123 @@
                     </div>
                 </div>
 
-                <!-- Bisel Inferior: 1, 2, 3 | ▲ Eject | 4, 5, 6 -->
+                <!-- Bisel Inferior Vectorial: 1, 2, 3 | ▲ Eject | 4, 5, 6 -->
                 <div id="control-deck">
                     <svg id="bezel-svg" viewBox="0 0 440 484">
                         <path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" />
                         <path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" />
                     </svg>
 
-                    <button class="hw-btn" id="btn-track-1" data-track="0" onclick="selectTrack(0)" title="01. Peter Pank">1</button>
-                    <button class="hw-btn" id="btn-track-2" data-track="1" onclick="selectTrack(1)" title="02. Teaser">2</button>
-                    <button class="hw-btn" id="btn-track-3" data-track="2" onclick="selectTrack(2)" title="03. Literatura">3</button>
+                    <!-- TRACK 1: Alas (Peter Pank) -->
+                    <button class="hw-btn" id="btn-track-1" data-track="0" onclick="selectTrack(0)" title="01. Peter Pank">
+                        <svg viewBox="0 0 96 48">
+                            <!-- Ala izquierda -->
+                            <path d="M44 21 C41 8 33 4 27 8 C22 14 19 29 16 42 C21 43 24 40 26 39 C29 40 31 37 33 35 C36 35 38 32 40 29 C42 28 45 25 44 21 Z" fill="#f5f5f7" stroke="#141416" stroke-width="2.6" stroke-linejoin="round" />
+                            <path d="M16 42 C18 33 21 29 24 31 C27 33 30 30 33 35 C31 37 29 40 26 39 C24 40 21 43 16 42 Z" fill="#141416" />
+                            <path d="M35 12 C37 16 37 20 35 23 M30 16 C30 20 29 24 27 26 M25 22 C25 26 24 29 22 31" fill="none" stroke="#141416" stroke-width="2.1" stroke-linecap="round" />
+                            <!-- Ala derecha -->
+                            <path d="M52 21 C55 8 63 4 69 8 C74 14 77 29 80 42 C75 43 72 40 70 39 C67 40 65 37 63 35 C60 35 58 32 56 29 C54 28 51 25 52 21 Z" fill="#f5f5f7" stroke="#141416" stroke-width="2.6" stroke-linejoin="round" />
+                            <path d="M80 42 C78 33 75 29 72 31 C69 33 66 30 63 35 C65 37 67 40 70 39 C72 40 75 43 80 42 Z" fill="#141416" />
+                            <path d="M61 12 C59 16 59 20 61 23 M66 16 C66 20 67 24 69 26 M71 22 C71 26 72 29 74 31" fill="none" stroke="#141416" stroke-width="2.1" stroke-linecap="round" />
+                        </svg>
+                    </button>
 
-                    <button class="hw-btn" id="btn-eject" onclick="stopDisc()" title="Eject / Abrir tapa">▲</button>
+                    <!-- TRACK 2: Ojo con púas (Teaser) -->
+                    <button class="hw-btn" id="btn-track-2" data-track="1" onclick="selectTrack(1)" title="02. Teaser">
+                        <svg viewBox="0 0 96 48">
+                            <polygon points="10,36 25,24 18,17 31,18 28,8 40,14 48,4 54,14 66,9 61,20 88,16 69,28 84,41 62,35 58,44 48,37 38,45 33,36 21,41 24,34" fill="#141416" />
+                            <path d="M23 28 C34 15 56 15 67 28 C56 39 34 39 23 28 Z" fill="#f5f5f7" />
+                            <circle cx="45" cy="27" r="8.5" fill="#141416" />
+                            <path d="M43 22 A5 5 0 0 1 50 25" fill="none" stroke="#f5f5f7" stroke-width="2.2" stroke-linecap="round" />
+                        </svg>
+                    </button>
 
-                    <button class="hw-btn" id="btn-track-4" data-track="3" onclick="selectTrack(3)" title="04. Fanzines">4</button>
-                    <button class="hw-btn" id="btn-track-5" data-track="4" onclick="selectTrack(4)" title="05. Música">5</button>
-                    <button class="hw-btn" id="btn-track-6" data-track="5" onclick="selectTrack(5)" title="06. No escuches el CD">6</button>
+                    <!-- TRACK 3: Lentes con rayos y patillas (Literatura) -->
+                    <button class="hw-btn" id="btn-track-3" data-track="2" onclick="selectTrack(2)" title="03. Literatura">
+                        <svg viewBox="0 0 96 48">
+                            <!-- Patillas en perspectiva -->
+                            <path d="M31 23 L13 15 Q8 14 7 22" fill="none" stroke="#141416" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M75 21 L61 13 Q56 12 55 19" fill="none" stroke="#141416" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                            <!-- Marco izquierdo -->
+                            <polygon points="26,27 40,17 55,26 54,37 38,44" fill="#141416" stroke="#141416" stroke-width="2" stroke-linejoin="round" />
+                            <polygon points="29,27 40,20 52,27 51,35 38,41" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
+                            <polygon points="42,21 35,30 40,31 37,39 46,29 41,28" fill="#f5f5f7" />
+                            <!-- Puente -->
+                            <line x1="54" y1="29" x2="58" y2="29" stroke="#141416" stroke-width="3.5" />
+                            <!-- Marco derecho -->
+                            <polygon points="57,26 73,18 87,27 73,44 58,37" fill="#141416" stroke="#141416" stroke-width="2" stroke-linejoin="round" />
+                            <polygon points="60,27 73,21 84,27 73,41 61,35" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
+                            <polygon points="73,22 66,31 71,32 68,40 77,30 72,29" fill="#f5f5f7" />
+                        </svg>
+                    </button>
+
+                    <!-- BOTÓN EJECT CENTRAL -->
+                    <button class="hw-btn" id="btn-eject" onclick="stopDisc()" title="Eject / Abrir tapa">
+                        <svg viewBox="0 0 60 48">
+                            <polygon points="30,10 14,32 46,32" fill="#141416" stroke="#141416" stroke-width="3" stroke-linejoin="round" />
+                            <rect x="14" y="37" width="32" height="5.5" fill="#141416" rx="2" />
+                        </svg>
+                    </button>
+
+                    <!-- TRACK 4: Boca con lengua y piercing (Fanzines) -->
+                    <button class="hw-btn" id="btn-track-4" data-track="3" onclick="selectTrack(3)" title="04. Fanzines">
+                        <svg viewBox="0 0 96 48">
+                            <!-- Labio superior -->
+                            <path d="M15 22 C26 9 37 6 45 10 C52 7 61 11 66 20 C55 18 42 18 15 22 Z" fill="#141416" stroke="#141416" stroke-width="2" stroke-linejoin="round" />
+                            <path d="M25 16 C33 11 40 11 45 13" fill="none" stroke="#f5f5f7" stroke-width="2" stroke-linecap="round" />
+                            <!-- Labio inferior -->
+                            <path d="M15 22 C24 37 42 42 56 35 L46 25 Z" fill="#141416" stroke="#141416" stroke-width="2" stroke-linejoin="round" />
+                            <!-- Lengua saliendo hacia la derecha -->
+                            <path d="M32 21 C47 16 68 15 78 24 C83 30 76 38 63 38 C50 38 39 30 32 21 Z" fill="#f5f5f7" stroke="#141416" stroke-width="3.2" stroke-linejoin="round" />
+                            <!-- Piercing en la lengua -->
+                            <polygon points="62,23 68,26 63,31 59,27" fill="none" stroke="#141416" stroke-width="2.4" stroke-linejoin="round" />
+                            <polygon points="56,37 56,44 63,39" fill="#141416" />
+                        </svg>
+                    </button>
+
+                    <!-- TRACK 5: Corazón con púas caladas (Música) -->
+                    <button class="hw-btn" id="btn-track-5" data-track="4" onclick="selectTrack(4)" title="05. Música">
+                        <svg viewBox="0 0 96 48">
+                            <!-- Púas traseras -->
+                            <polygon points="48,2 45,14 51,14" fill="#141416" />
+                            <polygon points="24,7 34,17 30,20" fill="#141416" />
+                            <polygon points="72,7 62,17 66,20" fill="#141416" />
+                            <polygon points="14,26 30,23 30,29" fill="#141416" />
+                            <polygon points="82,26 66,23 66,29" fill="#141416" />
+                            <polygon points="25,42 36,33 32,30" fill="#141416" />
+                            <polygon points="71,42 60,33 64,30" fill="#141416" />
+                            <polygon points="48,46 45,35 51,35" fill="#141416" />
+                            <!-- Corazón central -->
+                            <path d="M48 41 C31 30 28 16 36 10 C42 6 46 10 48 14 C50 10 54 6 60 10 C68 16 65 30 48 41 Z" fill="#141416" />
+                            <!-- Púas atravesando el frente con borde calado -->
+                            <polygon points="48,5 46,23 50,23" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
+                            <polygon points="18,26 40,23 40,28" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
+                            <polygon points="78,26 56,23 56,28" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
+                            <polygon points="34,45 43,31 46,33" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
+                            <polygon points="62,45 53,31 50,33" fill="#141416" stroke="#f5f5f7" stroke-width="1.6" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+
+                    <!-- TRACK 6: Encendedor Zippo estilizado (No escuches el CD) -->
+                    <button class="hw-btn" id="btn-track-6" data-track="5" onclick="selectTrack(5)" title="06. No escuches el CD">
+                        <svg viewBox="0 0 96 48">
+                            <!-- Cuerpo esbelto del encendedor -->
+                            <rect x="33" y="23" width="16" height="22" rx="2.5" fill="#f5f5f7" stroke="#141416" stroke-width="2.8" />
+                            <line x1="37.5" y1="27" x2="37.5" y2="40" stroke="#141416" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="6 3.5" />
+                            <!-- Chimenea perforada -->
+                            <rect x="36" y="16.5" width="10" height="6.5" rx="1.2" fill="#f5f5f7" stroke="#141416" stroke-width="2.2" />
+                            <circle cx="39" cy="19.8" r="1.1" fill="#141416" />
+                            <circle cx="43" cy="19.8" r="1.1" fill="#141416" />
+                            <!-- Tapa abierta en ángulo -->
+                            <g transform="translate(50, 23) rotate(16)">
+                                <rect x="1" y="-14" width="12" height="14" rx="2" fill="#f5f5f7" stroke="#141416" stroke-width="2.6" />
+                                <line x1="4" y1="-10.5" x2="10" y2="-10.5" stroke="#141416" stroke-width="2" stroke-linecap="round" />
+                            </g>
+                            <!-- Llama estilizada -->
+                            <path d="M41 2.5 C46 7.5 46.5 13 41 15.5 C36 13 36.5 8 41 2.5 Z" fill="#141416" />
+                            <path d="M41 7.5 C43 10 43 12.5 41 13.8 C39 12.5 39 10 41 7.5 Z" fill="#f5f5f7" />
+                        </svg>
+                    </button>
                 </div>
 
             </div>
@@ -843,7 +958,10 @@
             <div class="popup-header">
                 <div class="popup-title-group">
                     <span id="module-track-label">TRACK 01</span>
-                    <h1 id="module-title"></h1>
+                    <div class="popup-title-wrap">
+                        <svg id="module-title-icon" viewBox="0 0 96 48"></svg>
+                        <h1 id="module-title"></h1>
+                    </div>
                 </div>
                 <button id="btn-close-popup" onclick="closePopup()" title="Volver al CD">×</button>
             </div>
@@ -918,6 +1036,9 @@
                     <a class="module-link-btn" href="https://open.spotify.com/artist/3emcK9QzKT6gVucamPjCl7" target="_blank" rel="noopener noreferrer">Spotify</a>
                     <a class="module-link-btn" href="https://music.apple.com/us/artist/peter-pank-y-los-chicos-perdidos/1511208640" target="_blank" rel="noopener noreferrer">Apple Music</a>
                 </div>
+            `,
+            5: `
+                <p>Contenido del último módulo "No escuches el CD" en construcción.</p>
             `
         };
 
@@ -929,6 +1050,7 @@
         const moduleOverlay = document.getElementById('module-overlay');
         const moduleSection = document.getElementById('module-section');
         const moduleTrackLabel = document.getElementById('module-track-label');
+        const moduleTitleIcon = document.getElementById('module-title-icon');
         const moduleTitle = document.getElementById('module-title');
         const moduleContent = document.getElementById('module-content');
         const colorPicker = document.getElementById('colorPicker');
@@ -940,11 +1062,7 @@
         function hexToRgb(hex) {
             const clean = hex.replace('#', '');
             const num = parseInt(clean, 16);
-            return {
-                r: (num >> 16) & 255,
-                g: (num >> 8) & 255,
-                b: num & 255
-            };
+            return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
         }
 
         colorPicker.addEventListener('input', (e) => {
@@ -961,6 +1079,25 @@
             });
         }
 
+        function copyIconToHeader(index) {
+            const btn = document.getElementById(`btn-track-${index + 1}`);
+            if (btn) {
+                const svg = btn.querySelector('svg');
+                if (svg) {
+                    moduleTitleIcon.setAttribute('viewBox', svg.getAttribute('viewBox') || '0 0 96 48');
+                    moduleTitleIcon.innerHTML = svg.innerHTML;
+                    moduleTitleIcon.querySelectorAll('path, polygon, circle, rect, line').forEach(el => {
+                        const f = el.getAttribute('fill');
+                        const s = el.getAttribute('stroke');
+                        if (f === '#141416') el.setAttribute('fill', '#ffffff');
+                        else if (f === '#f5f5f7') el.setAttribute('fill', '#100e18');
+                        if (s === '#141416') el.setAttribute('stroke', '#ffffff');
+                        else if (s === '#f5f5f7') el.setAttribute('stroke', '#100e18');
+                    });
+                }
+            }
+        }
+
         function selectTrack(index) {
             const wasOpenLid = !lid.classList.contains('lid-closed');
             currentTrackIndex = index;
@@ -970,6 +1107,7 @@
             cd.classList.add('spinning');
             lid.classList.add('lid-closed');
             updateActiveTrackButton(currentTrackIndex, true);
+            copyIconToHeader(currentTrackIndex);
 
             const trackName = tracks[currentTrackIndex];
             moduleTrackLabel.innerText = `TRACK 0${currentTrackIndex + 1}`;
@@ -1026,54 +1164,21 @@
         const fxCtx = fxCanvas.getContext('2d');
         let fxAnimId = null;
 
-        // Nodos de constelación (coordenadas normalizadas 0..1)
         const constellationGroups = [
-            [
-                { x: 0.08, y: 0.14 },
-                { x: 0.17, y: 0.08 },
-                { x: 0.25, y: 0.17 },
-                { x: 0.34, y: 0.10 }
-            ],
-            [
-                { x: 0.68, y: 0.11 },
-                { x: 0.79, y: 0.18 },
-                { x: 0.90, y: 0.12 },
-                { x: 0.85, y: 0.26 }
-            ],
-            [
-                { x: 0.10, y: 0.82 },
-                { x: 0.20, y: 0.90 },
-                { x: 0.31, y: 0.84 }
-            ],
-            [
-                { x: 0.67, y: 0.87 },
-                { x: 0.78, y: 0.81 },
-                { x: 0.91, y: 0.89 }
-            ]
+            [{ x: 0.08, y: 0.14 }, { x: 0.17, y: 0.08 }, { x: 0.25, y: 0.17 }, { x: 0.34, y: 0.10 }],
+            [{ x: 0.68, y: 0.11 }, { x: 0.79, y: 0.18 }, { x: 0.90, y: 0.12 }, { x: 0.85, y: 0.26 }],
+            [{ x: 0.10, y: 0.82 }, { x: 0.20, y: 0.90 }, { x: 0.31, y: 0.84 }],
+            [{ x: 0.67, y: 0.87 }, { x: 0.78, y: 0.81 }, { x: 0.91, y: 0.89 }]
         ];
 
-        // Estrellas muy pequeñas que titilan con fases y velocidades independientes
         const starField = Array.from({ length: 34 }, (_, i) => {
-            // Algunas coinciden con nodos de constelación y otras flotan alrededor
             const flatNodes = constellationGroups.flat();
             if (i < flatNodes.length) {
-                return {
-                    x: flatNodes[i].x,
-                    y: flatNodes[i].y,
-                    phase: (i * 1.37) % (Math.PI * 2),
-                    speed: 0.0018 + (i % 5) * 0.00045,
-                    flare: i % 2 === 0
-                };
+                return { x: flatNodes[i].x, y: flatNodes[i].y, phase: (i * 1.37) % (Math.PI * 2), speed: 0.0018 + (i % 5) * 0.00045, flare: i % 2 === 0 };
             }
             const seed = (i * 9301 + 49297) % 233280;
             const seed2 = (i * 4253 + 17389) % 233280;
-            return {
-                x: (seed / 233280) * 0.94 + 0.03,
-                y: (seed2 / 233280) * 0.92 + 0.04,
-                phase: (i * 2.13) % (Math.PI * 2),
-                speed: 0.0015 + (i % 7) * 0.0004,
-                flare: i % 3 === 0
-            };
+            return { x: (seed / 233280) * 0.94 + 0.03, y: (seed2 / 233280) * 0.92 + 0.04, phase: (i * 2.13) % (Math.PI * 2), speed: 0.0015 + (i % 7) * 0.0004, flare: i % 3 === 0 };
         });
 
         function renderPopupFx(time) {
@@ -1101,12 +1206,10 @@
             const baseHex = styles.getPropertyValue('--body-base').trim() || '#ff4da6';
             const lightHex = styles.getPropertyValue('--body-light').trim() || '#ff80bf';
             const darkHex = styles.getPropertyValue('--body-dark').trim() || '#b30059';
-
             const cBase = hexToRgb(baseHex);
             const cLight = hexToRgb(lightHex);
             const cDark = hexToRgb(darkHex);
 
-            // 1. Matriz fina de micro-píxeles circulares en degradé sincronizada al color del Discman
             const step = 4.6;
             const radius = 1.45;
             const cols = Math.ceil(w / step);
@@ -1116,12 +1219,9 @@
                 const ny = r / Math.max(1, rows - 1);
                 for (let c = 0; c < cols; c++) {
                     const nx = c / Math.max(1, cols - 1);
-                    // Degradé diagonal + centro luminoso tipo lentejuela / LED
                     const diag = (nx * 0.6 + ny * 0.4);
                     const distCenter = Math.hypot(nx - 0.52, ny - 0.45);
                     const lum = Math.max(0, Math.min(1, 1 - distCenter * 1.15));
-
-                    // Brillo sutil por celda tipo mosaico
                     const cellHash = ((r * 73 + c * 151) % 17) / 17;
                     const shimmer = 0.78 + 0.22 * Math.sin(time * 0.0014 + cellHash * Math.PI * 2);
 
@@ -1146,7 +1246,6 @@
                 }
             }
 
-            // 2. Líneas sutiles de constelación con desplazamiento mínimo
             const driftX = Math.sin(time * 0.00035) * 4;
             const driftY = Math.cos(time * 0.0003) * 3;
 
@@ -1166,36 +1265,32 @@
             });
             fxCtx.restore();
 
-            // 3. Estrellas muy pequeñas prendiendo y apagando (destellos sutiles)
             starField.forEach(star => {
                 const wave = (Math.sin(time * star.speed + star.phase) + 1) * 0.5;
-                const intensity = Math.pow(wave, 2.4); // Encendido suave y puntual
+                const intensity = Math.pow(wave, 2.4);
                 if (intensity < 0.05) return;
 
                 const sx = star.x * w + driftX;
                 const sy = star.y * h + driftY;
-
-                // Halo suave del color claro del Discman
                 const glowR = star.flare ? 7.5 : 4;
+                
                 const grad = fxCtx.createRadialGradient(sx, sy, 0, sx, sy, glowR);
                 grad.addColorStop(0, `rgba(255, 255, 255, ${(0.95 * intensity).toFixed(3)})`);
                 grad.addColorStop(0.45, `rgba(${cLight.r}, ${cLight.g}, ${cLight.b}, ${(0.55 * intensity).toFixed(3)})`);
                 grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                
                 fxCtx.fillStyle = grad;
                 fxCtx.beginPath();
                 fxCtx.arc(sx, sy, glowR, 0, Math.PI * 2);
                 fxCtx.fill();
 
-                // Destello en cruz muy fino para las estrellas principales
                 if (star.flare && intensity > 0.35) {
                     const arm = 4.2 * intensity;
                     fxCtx.strokeStyle = `rgba(255, 255, 255, ${(0.85 * intensity).toFixed(3)})`;
                     fxCtx.lineWidth = 0.9;
                     fxCtx.beginPath();
-                    fxCtx.moveTo(sx - arm, sy);
-                    fxCtx.lineTo(sx + arm, sy);
-                    fxCtx.moveTo(sx, sy - arm);
-                    fxCtx.lineTo(sx, sy + arm);
+                    fxCtx.moveTo(sx - arm, sy); fxCtx.lineTo(sx + arm, sy);
+                    fxCtx.moveTo(sx, sy - arm); fxCtx.lineTo(sx, sy + arm);
                     fxCtx.stroke();
                 }
             });
@@ -1331,7 +1426,7 @@
             peace: `<circle cx="0" cy="0" r="24" fill="#fff"/><circle cx="0" cy="0" r="20" fill="#34d399" stroke="#111" stroke-width="2"/><line x1="0" y1="-20" x2="0" y2="20" stroke="#111" stroke-width="2.6"/><line x1="0" y1="0" x2="-14.5" y2="13.5" stroke="#111" stroke-width="2.6"/><line x1="0" y1="0" x2="14.5" y2="13.5" stroke="#111" stroke-width="2.6"/>`,
             bolt: `<polygon points="4,-24 -16,2 -1,2 -6,24 17,-4 2,-4" fill="#fff" stroke="#fff" stroke-width="6.5" stroke-linejoin="round"/><polygon points="4,-24 -16,2 -1,2 -6,24 17,-4 2,-4" fill="#facc15" stroke="#111" stroke-width="2" stroke-linejoin="round"/>`,
             mushroom: `<path d="M-20 0 C-20 -18 20 -18 20 0 Z" fill="#fff" stroke="#fff" stroke-width="5.5" stroke-linejoin="round"/><rect x="-7" y="-1" width="14" height="21" rx="5.5" fill="#fff" stroke="#fff" stroke-width="5.5"/><rect x="-7" y="-1" width="14" height="21" rx="5.5" fill="#fde68a" stroke="#111" stroke-width="2"/><path d="M-20 0 C-20 -18 20 -18 20 0 Z" fill="#f97316" stroke="#111" stroke-width="2" stroke-linejoin="round"/><circle cx="-9" cy="-8" r="3.2" fill="#fff"/><circle cx="1" cy="-12" r="3.6" fill="#fff"/><circle cx="10" cy="-7" r="2.8" fill="#fff"/>`,
-            boom: `<path d="M-18 7 C-25 6 -26 -5 -18 -7 C-18 -16 -7 -18 -1 -12 C5 -19 17 -17 18 -8 C26 -6 26 6 18 8 C17 16 6 18 0 13 C-7 18 -18 16 -18 7 Z" fill="#fff" stroke="#fff" stroke-width="5"/><path d="M-18 7 C-25 6 -26 -5 -18 -7 C-18 -16 -7 -18 -1 -12 C5 -19 17 -17 18 -8 C26 -6 26 6 18 8 C17 16 6 18 0 13 C-7 18 -18 16 -18 7 Z" fill="#fde047" stroke="#111" stroke-width="1.8"/><text x="0" y="3.5" text-anchor="middle" fill="#ec4899" stroke="#111" stroke-width="0.6" font-family="sans-serif" font-size="10.5" font-weight="900">BOOM</text>`,
+            boom: `<path d="M-18 7 C-25 6 -26 -5 -18 -7 C-18 -16 -7 -18 -1 -12 C5 -19 17 -17 18 -8 C26 -6 26 6 18 8 C17 16 6 18 0 13 C-7 18 -18 16 -18 7 Z" fill="#fff" stroke="#fff" stroke-width="5"/><path d="M-18 7 C-25 6 -26 -5 -18 -7 C-18 -16 -7 -18 -1 -12 C5 -19 17 -17 18 -8 C26 -6 26 6 18 8 C17 16 6 18 0 13 C-7 18 -18 16 -18 7 Z" fill="#fde047" stroke="#111" stroke-width="1.8"/><text x="0" y="3.5" text-anchor="middle" fill="#ec4899" stroke="#111" stroke-width="0.6" font-family="sans-serif" font-size="9.5" font-weight="900">BOOM</text>`,
             tag: `<rect x="-26" y="-13" width="52" height="26" rx="4" fill="#fff"/><rect x="-23" y="-10" width="46" height="20" rx="2.5" fill="#111"/><text x="0" y="3.5" text-anchor="middle" fill="#fff" font-family="Space Mono, monospace" font-size="9" font-weight="bold">NO CD</text>`
         };
 
@@ -1431,7 +1526,14 @@
                     <path d="M 150,324 Q 220,332 290,324 L 282,362 Q 220,372 158,362 Z" fill="rgba(255,255,255,0.06)" stroke="#121214" stroke-width="2.5" />
                 </g>` : '';
 
-            const exportSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="880" height="968" viewBox="0 0 440 484"><defs><radialGradient id="expBaseGrad" cx="50%" cy="32%" r="68%"><stop offset="0%" stop-color="${cLight}" /><stop offset="68%" stop-color="${cBase}" /><stop offset="100%" stop-color="${cShadow}" /></radialGradient><linearGradient id="expCdGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#dfe3ea" /><stop offset="28%" stop-color="#9be7ff" /><stop offset="50%" stop-color="#f5f7fa" /><stop offset="72%" stop-color="#f59be6" /><stop offset="100%" stop-color="#cfd4dc" /></linearGradient></defs><rect width="440" height="484" fill="#050505" /><path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z" fill="url(#expBaseGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" /><path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z" fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" /><circle cx="220" cy="215" r="174" fill="url(#expCdGrad)" stroke="#9ba0a8" stroke-width="2" /><circle cx="220" cy="215" r="49" fill="#e5e5e3" stroke="#8c9096" stroke-width="1.5" /><circle cx="220" cy="215" r="20" fill="#141416" stroke="#bec0c4" stroke-width="2.5" />${lidSectionSvg}<path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" /><path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" /><g transform="translate(86, 401) rotate(35)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">1</text></g><g transform="translate(128, 426) rotate(22)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">2</text></g><g transform="translate(172, 440) rotate(10)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">3</text></g><g transform="translate(220, 444.5)"><rect x="-19" y="-10.5" width="38" height="21" rx="10.5" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">▲</text></g><g transform="translate(268, 440) rotate(-10)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">4</text></g><g transform="translate(312, 426) rotate(-22)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">5</text></g><g transform="translate(354, 401) rotate(-35)"><rect x="-14" y="-10" width="28" height="20" rx="10" fill="#d4d4d8" stroke="#09090b" stroke-width="2.2"/><text x="0" y="3.5" text-anchor="middle" fill="#141416" font-family="Arial, sans-serif" font-size="9.5" font-weight="900">6</text></g></svg>`;
+            const b1 = document.getElementById('btn-track-1').querySelector('svg').innerHTML;
+            const b2 = document.getElementById('btn-track-2').querySelector('svg').innerHTML;
+            const b3 = document.getElementById('btn-track-3').querySelector('svg').innerHTML;
+            const b4 = document.getElementById('btn-track-4').querySelector('svg').innerHTML;
+            const b5 = document.getElementById('btn-track-5').querySelector('svg').innerHTML;
+            const b6 = document.getElementById('btn-track-6').querySelector('svg').innerHTML;
+
+            const exportSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="880" height="968" viewBox="0 0 440 484"><defs><radialGradient id="expBaseGrad" cx="50%" cy="32%" r="68%"><stop offset="0%" stop-color="${cLight}" /><stop offset="68%" stop-color="${cBase}" /><stop offset="100%" stop-color="${cShadow}" /></radialGradient><linearGradient id="expCdGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#dfe3ea" /><stop offset="28%" stop-color="#9be7ff" /><stop offset="50%" stop-color="#f5f7fa" /><stop offset="72%" stop-color="#f59be6" /><stop offset="100%" stop-color="#cfd4dc" /></linearGradient><linearGradient id="expBtnGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#b8b9c0"/><stop offset="50%" stop-color="#dcdde2"/><stop offset="100%" stop-color="#f2f3f6"/></linearGradient></defs><rect width="440" height="484" fill="#050505" /><path d="M 95,8 Q 220,2 345,8 C 395,12 432,95 434,225 C 436,375 345,478 220,478 C 95,478 4,375 6,225 C 8,95 45,12 95,8 Z" fill="url(#expBaseGrad)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" /><path d="M 100,16 Q 220,11 340,16 C 386,20 421,98 423,225 C 424,242 423,255 421,267 C 380,368 302,407 220,407 C 138,407 60,368 19,267 C 17,255 16,242 17,225 C 19,98 54,20 100,16 Z" fill="#141416" stroke="rgba(255,255,255,0.08)" stroke-width="1" /><circle cx="220" cy="215" r="174" fill="url(#expCdGrad)" stroke="#9ba0a8" stroke-width="2" /><circle cx="220" cy="215" r="49" fill="#e5e5e3" stroke="#8c9096" stroke-width="1.5" /><circle cx="220" cy="215" r="20" fill="#141416" stroke="#bec0c4" stroke-width="2.5" />${lidSectionSvg}<path d="M 6,266 C 48,371 134,411 220,411 C 306,411 392,371 434,266 C 436,376 345,478 220,478 C 95,478 4,376 6,266 Z" fill="#1c1c1f" stroke="rgba(255,255,255,0.18)" stroke-width="1.2" /><path d="M 10,268 C 52,370 135,410 220,410 C 305,410 388,370 430,268" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5" /><g transform="translate(84.5, 400) rotate(35)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="url(#expBtnGrad)" stroke="#070709" stroke-width="1.4"/><svg x="-15.5" y="-9" width="31" height="18" viewBox="0 0 96 48">${b1}</svg></g><g transform="translate(127, 425) rotate(22)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="url(#expBtnGrad)" stroke="#070709" stroke-width="1.4"/><svg x="-15.5" y="-9" width="31" height="18" viewBox="0 0 96 48">${b2}</svg></g><g transform="translate(172.5, 440) rotate(10)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="url(#expBtnGrad)" stroke="#070709" stroke-width="1.4"/><svg x="-15.5" y="-9" width="31" height="18" viewBox="0 0 96 48">${b3}</svg></g><g transform="translate(220, 444.5)"><rect x="-20" y="-11" width="40" height="22" rx="11" fill="url(#expBtnGrad)" stroke="#070709" stroke-width="1.4"/><polygon points="0,-6.5 -7.5,4.5 7.5,4.5" fill="#141416"/><rect x="-7.5" y="6.8" width="15" height="2.6" fill="#141416" rx="1"/></g><g transform="translate(267.5, 440) rotate(-10)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="url(#expBtnGrad)" stroke="#070709" stroke-width="1.4"/><svg x="-15.5" y="-9" width="31" height="18" viewBox="0 0 96 48">${b4}</svg></g><g transform="translate(313, 425) rotate(-22)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="url(#expBtnGrad)" stroke="#070709" stroke-width="1.4"/><svg x="-15.5" y="-9" width="31" height="18" viewBox="0 0 96 48">${b5}</svg></g><g transform="translate(355.5, 400) rotate(-35)"><rect x="-18" y="-11" width="36" height="22" rx="11" fill="url(#expBtnGrad)" stroke="#070709" stroke-width="1.4"/><svg x="-15.5" y="-9" width="31" height="18" viewBox="0 0 96 48">${b6}</svg></g></svg>`;
 
             const blob = new Blob([exportSvg], { type: 'image/svg+xml;charset=utf-8' });
             const url = URL.createObjectURL(blob);
